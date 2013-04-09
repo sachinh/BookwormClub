@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="256" width="256" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs id="defs4">
+  <linearGradient id="linearGradient2449" y2="425.4" gradientUnits="userSpaceOnUse" x2="-395.85" gradientTransform="matrix(-.59146 0 0 .59146 210.02 142.23)" y1="274.71" x1="-344.15">
+   <stop id="stop2557" stop-color="#fff" offset="0"/>
+   <stop id="stop2559" stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+ </defs>
+ <metadata id="metadata7">
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title/>
+     </cc:Agent>
+    </dc:creator>
+    <dc:subject>
+     <rdf:Bag/>
+    </dc:subject>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+    <dc:description/>
+    <dc:contributor>
+     <cc:Agent>
+      <dc:title/>
+     </cc:Agent>
+    </dc:contributor>
+   </cc:Work>
+   <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+  </rdf:RDF>
+ </metadata>
+ <g id="layer1" transform="translate(-373.64 -318.34)">
+  <rect id="rect1942" ry="35.488" stroke="#bdbdbd" stroke-linecap="square" stroke-width="6" fill="#ececeb" fill-rule="evenodd" rx="35.488" transform="scale(-1,1)" width="235.01" height="234.99" y="328.85" x="-619.15"/>
+  <path id="path1950" d="m557.06 338.9h-110.83c-29.34 0-52.96 23.8-52.96 53.38v108.13c0.95 23.08 4.6 8.49 11.56-17.08 8.08-29.71 34.39-55.68 66.44-75.14 24.46-14.86 51.84-24.34 101.68-25.25 28.27-0.51 25.77-36.68-15.89-44.04z" fill-rule="evenodd" fill="url(#linearGradient2449)"/>
+  <path id="path4619" d="m11.429 56l107.14 112.14c6.96 3.2 13.28 2.51 19.29 0l107.14-115" transform="translate(373.64 318.34)" stroke="#bdbdbd" stroke-width="6" fill="none"/>
+  <path id="path4623" d="m84.286 170.29l-60 62.85" transform="translate(373.64 318.34)" stroke="#cdcece" stroke-width="6" fill="none"/>
+  <path id="path4625" d="m175.71 168.86l62.86 64.28" transform="translate(373.64 318.34)" stroke="#cdcece" stroke-width="6" fill="none"/>
+ </g>
+</svg>

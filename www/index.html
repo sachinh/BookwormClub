@@ -1,0 +1,291 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+	<title>Multi-page template</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+	
+    <script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
+
+    <style>
+        .ui-icon-barcode {
+            background-image: url("img/barcodetest.png");
+            background-size: 18px 18px;
+        }
+        .ui-icon-emailthis {
+            background-image: url("img/EmailThis.png");
+            background-size: 18px 18px;
+        }
+    </style>
+    
+</head>
+    
+<body>
+
+<!-- mostly used by the app.initialize , retaining for posterity target for refactoring -->
+<!--    <div class="application">
+        <h1>Apache Cordova</h1>
+        <div id="deviceready" class="blink">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Device is Ready</p>
+        </div>
+    </div>
+-->
+    
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header" data-position="inline" data-position="fixed">
+		<h1>Bookworm Club</h1>
+		<a id="createBookReport" href="#two" data-role="button" data-icon="plus" data-theme="a" class="ui-btn-right">New</a>
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="c">
+        <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <p ><span id="dummyfld"></span></p>
+            </div>
+        </div>
+		<ul id="lstReports" data-role="listview" data-inset="true" data-filter="true" data-theme="c">
+			<!--<li><a href="#">Book one</a></li>
+			<li><a href="#">Book two</a></li>
+			<li><a href="#">Book three</a></li>
+			<li><a href="#">Book four</a></li>
+			<li><a href="#">Book five</a></li>-->
+		</ul>				
+	</div> <!-- /content -->
+	
+	<div data-role="footer" data-theme="d" data-position="fixed">
+            <a id="lnkDialogOpen" href="#dialog" data-role="button" data-mini="true" data-inline="true" data-icon="info" data-rel="dialog" class="ui-btn-left" >Privacy</a>
+		<h4>Bookworm Club. Readers Rock!</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" data-theme="a" >
+
+	<div data-role="header" data-position="inline" data-position="fixed">
+		<a href="#one" data-role="button" data-icon="home" data-theme="a" class="ui-btn-left">Home</a>
+		<h1 id="hdrTitle2">Book Report</h1>
+        <a id="btnSave" href="#" data-role="button" data-icon="check" data-theme="a" class="save-btn ui-btn-right">Save</a>
+        
+	</div><!-- /header -->
+
+	<div data-role="content" data-theme="c">
+        <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
+        <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <p >Dummy<span id="dummyfld">Dummy</span></p>
+        </div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a" style="width: 120px; height: 150px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+                <img id="imgCapturedImage" src="img/placeholder.png" alt="image" >
+                <img id="imgSmallCapturedImage" src="img/smallplaceholder.png" alt="image" >
+            </div>
+            <div class="ui-block-b">
+                <a id="scan-button" href="#" data-role="button" data-mini="true" data-inline="true" data-theme="c" data-icon="barcode" data-iconpos="right" >Scan</a>
+            </div>
+            <div class="ui-block-b">
+                <p>&nbsp;<a onclick="cb.showWebPage('http://goodreads.com');"><img src="http://s.gr-assets.com/assets/icons/goodreads_icon_16x16-b88c89b35c417d1cc565ecdc203ae498.png"></img></a>&nbsp;<span>Book Covers provided by <a onclick="cb.showWebPage('http://goodreads.com');" >Good Reads</a>.</span>
+            </div>
+            <div class="ui-block-b">
+                <p>Average Rating:&nbsp;<label id="lblAvgRating">7.99</label>
+            </div>
+        </div>
+        <input name="" id="bkID" placeholder="" value="" style="display:none" >
+        <div class="ui-grid-a">
+            <div class="ui-block-a" >
+                <label for="bkName" > Book
+                </label>
+            </div>
+            <div class="ui-block-b" >
+                <input name="" id="bkName" placeholder="What is the Name of the Book" value="" class="required">
+            </div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <label for="auName">
+                    Author
+                </label>
+            </div>
+            <div class="ui-block-b">
+                <input name="" id="auName" placeholder="What is the name of the Author" value="" class="required">
+            </div>            
+        </div>
+        <div class="ui-grid-a" >
+            <div class="ui-block-a">
+                <label for="pages">
+                    Pages
+                </label>
+            </div>
+            <div class="ui-block-b">
+                <input type="number" pattern="[0-9]*" name="" id="pages" placeholder="How many pages ?" value="">
+            </div>
+        </div>
+    </div>
+	
+	<div data-role="footer" data-position="fixed">
+		<h4>Bookworm Club. Readers Rock!</h4>
+		<a id="btnEmailReport" href="#" data-role="button" data-icon="emailthis" data-theme="a" data-mini="true" data-inline="true" class="emailBkReport ui-btn-left">Email</a>
+        <a href="#" data-role="button" data-icon="delete" data-theme="a" class="deleteBkReport ui-btn-right" data-mini="true" data-inline="true" data-iconpos="right">Delete</a>
+        <!--<a href="#three" data-role="button" data-icon="arrow-r" data-theme="a" >Next</a>-->
+	</div><!-- /footer -->
+</div><!-- /page two -->
+
+<!-- Start of third page: #three -->
+<div data-role="page" id="three" data-theme="a">
+    
+    <div data-role="header" data-position="inline" data-position="fixed">
+        <a href="#one" data-role="button" data-icon="home" data-theme="a" class="ui-btn-left">Home</a>
+        <h1 id="hdrTitle3">Book Report (contd.)</h1>
+		<a id="btnSave2" href="#" data-role="button" data-icon="check" data-theme="a" class="save-btn ui-btn-right">Save</a>
+    </div><!-- /header -->
+
+    <div data-role="content" data-theme="b">
+        <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <p >Dummy<span id="dummyfld">Dummy</span></p>
+            </div>
+        </div>
+<!--        <div class="ui-grid-a">-->
+            <div style="width: 250px; height: 250px; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+                <img id="imgUserImage" src="img/placeholder.png" alt="image" class="user-image" style="width: 250px; height: 250px;">
+            </div>
+            <fieldset data-role="controlgroup" >
+                <div class="ui-block-b">
+                    <a id="btnUpload" onclick="captureImage();" data-role="button" data-mini="true" data-inline="true" data-theme="c" data-icon="plus" >Upload</a>
+                </div>
+            </fieldset>
+<!--        </div>-->
+        <fieldset data-role="controlgroup" >
+            <div >
+                <label for="mainCharacters">
+                    Main Characters
+                </label>
+            </div>
+            <div >
+                <textarea name="" id="mainCharacters" placeholder="Who are the main Characters ?" value=""></textarea>
+            </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" >
+            <div >
+                <label for="bkSetting">
+                    Setting
+                </label>
+            </div>
+            <div >
+                <textarea name="" id="bkSetting" placeholder="Where did this story take place? Name and describe the place where the story
+                    happened." value=""></textarea>
+            </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" >
+            <div >
+                <label for="bkConflict">
+                    Problem/Conflict
+                </label>
+            </div>
+            <div >
+                <textarea name="" id="bkConflict" placeholder="What was the action in the story? What gave the story a beginning, middle, and end? " value=""></textarea>
+            </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" >
+            <div >
+                <label for="bkConclusion">
+                    Conclusion
+                </label>
+            </div>
+            <div >
+                <textarea name="" id="bkConclusion" placeholder="How did the story end? Was it funny, sad, or something else? " value=""></textarea>
+            </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" class="ui-grid-a">
+            <div class="ui-block-a">
+                <label for="chkLike" >
+                    Like ?
+                </label>
+            </div>
+            <div class="ui-block-b" >
+                <select name="toggleswitch1" id="chkLike" data-theme="" data-role="slider">
+                    <option value="No">
+                        No
+                    </option>
+                    <option value="Yes">
+                        Yes
+                    </option>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset data-role="controlgroup" >
+            <!-- add a field to allow entry of reasomning on why the kid liked it -->
+            <div >
+                <textarea name="" id="bkReasonWhy" placeholder="Why did you like the book or why did you not like the book? " value=""></textarea>
+            </div>
+        </fieldset>
+        <!-- this is just a dummy section since some of the bottom content is getting chopped off due to the fixed footer -->
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <p >&nbsp;<span id="dummyfld">&nbsp;</span></p>
+            </div>
+        </div>
+
+    </div><!-- end of content -->
+
+    <div data-role="footer" data-position="fixed">
+		<h4>Bookworm Club. Readers Rock!</h4>
+		<a id="btnEmailReport" href="#" data-role="button" data-icon="emailthis" data-mini="true" data-inline="true" data-theme="a" class="emailBkReport ui-btn-left">Email</a>
+        <a href="#" data-role="button" data-icon="delete" data-theme="a" data-mini="true" data-inline="true" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
+    </div><!-- /footer -->
+    
+</div><!-- /page three -->
+    
+<div data-role="page" id="dialog">
+	
+		<div data-role="header" data-theme="d" data-position="inline">
+			<h1>Privacy Notice</h1>
+		</div>
+
+		<div data-role="content" data-theme="c">
+			
+                <h5>We value your data , no seriously, we mean it !</h5> <br />
+                <label>All your data is stored on your device. <br /> No transmission of your data will be done without your knowledge.</label>
+				<a href="mailto:nospamsachin@gmail.com" data-role="button" data-theme="c">Send Feedback</a>
+		</div>
+</div>
+
+<div data-role="page" id="four"> 
+    <!-- Code -->  
+    <div id = "dlgSaved" data-rel="dialog">
+        <div id = "errorText">Stuff</div>
+        <button id = "closeDialog">OK</button>
+    </div>
+</div>
+
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+    <div data-role="popup" id="mypopup">
+        <h2>Popup</h2>
+        <p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
+    </div>
+</div><!-- /page popup -->
+
+    <script type="text/javascript" src="cordova-2.5.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
+    <script src="js/source.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/EmailComposer.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+        </script>
+
+</body>
+</html>
