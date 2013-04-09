@@ -798,11 +798,11 @@ function emailBookReport(bkReportID) {
 // Called when capture operation is finished
 //
 function captureSuccess(mediaFiles) {
-    alert("in capture success");
+    //alert("in capture success");
     var i, len;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
         //uploadFile(mediaFiles[i]);
-        alert("captured image name: " + mediaFiles[i].name + ", full path is: " + mediaFiles[i].fullPath);
+        //alert("captured image name: " + mediaFiles[i].name + ", full path is: " + mediaFiles[i].fullPath);
         console.log(document.getElementById("imgUserImage").getAttribute("src"));
         //set the new value
         document.getElementById("imgUserImage").setAttribute("src",mediaFiles[i].fullPath);
