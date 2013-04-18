@@ -148,19 +148,32 @@ $('.deleteBkReport').click(function(event) {
                            $bookID = $('#bkID').val();
                            $rowCount = localStorage.rowCount;
                            console.log("ID: " + $bookID + ", rowCount= " + $rowCount);
-                           // remove the item
-                           localStorage.removeItem($bookID);
-                           //
-                           console.log("all done with the removal so now should eb able to go back to the first screen");
-                           //return to the main page with a refresh first
-                           getBookReports();
                            
-                           // change the actual page
-                           $.mobile.changePage( "#one", {
-                                               allowSamePageTransition : true,
-                                               transition: "slideup"
-                                               } );
-                           // all done here
+                           // now retrieve the bkreport from storage
+                           var bkReport = localStorage.getItem($bookID);
+                           console.log('deleteBkReport object: ', bkReport);
+                           
+                           //extract the actual values
+                           if (bkReport == null) {
+                                // this means there is no saved data for this ID
+                                navigator.notification.alert('To delete, pl. save Book Report first.', null, 'New Book Report');
+                                return ;
+                           }
+                           else {
+                               // remove the item
+                               localStorage.removeItem($bookID);
+                               //
+                               console.log("all done with the removal so now should eb able to go back to the first screen");
+                               //return to the main page with a refresh first
+                               getBookReports();
+                               
+                               // change the actual page
+                               $.mobile.changePage( "#one", {
+                                                   allowSamePageTransition : true,
+                                                   transition: "slideup"
+                                                   } );
+                               // all done here
+                               }
                            });
 
 $('.emailReport').live('click', function(event) {
@@ -294,7 +307,7 @@ $('.bookReportItem').live('click', function(event) {
 					$("#hdrTitle2").text("Book Report Detail");
 					// also disable/hide the Save report button
 					//$('#btnSave').closest('.ui-btn').hide();
-					
+					                          
                     console.log("just before changing the page");
                     console.log("bkID: " + $("#bkID").val());
                     //now navigate to the detail page
@@ -538,6 +551,10 @@ $("#createBookReport").click(function() {
 	$("#hdrTitle2").text("New Book Report");
 	// also disable the Save report button
 	//$('#btnSave').show().button('refresh');
+                             
+    // now disable the email button
+    //$("#btnEmailReport").hide();
+    $("#btnEmailReport").addClass("ui-disabled");
 
 });
 
@@ -726,7 +743,10 @@ $('.emailBkReport').click(function(event) {
     $strBookID= $("#bkID").val();
     
     if ($strBookID != "") {
+        //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
+        $strBookID = "bkReport" + $strBookID ;
         console.log("strBookID: " + $strBookID);
+        
         // now call the email routine
         emailBookReport($strBookID);
     }
@@ -748,7 +768,9 @@ function emailBookReport(bkReportID) {
 
     //extract the actual values
     if (emailBkReport == null) {
-        console.log('invalid object ' );
+        // this means there is no saved data for this ID
+        navigator.notification.alert('To email, pl. save Book Report first.', null, 'New Book Report');
+        return ;
     }
     else {
         console.log("this is valid object");

@@ -14,6 +14,12 @@
 		1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDC13BBADB100FB74C0 /* Localizable.strings */; };
 		1F766FE213BBADB100FB74C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F766FDF13BBADB100FB74C0 /* Localizable.strings */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+		2E51A0E0171F147D00BE543F /* BWApp-Icon-72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0DF171F147D00BE543F /* BWApp-Icon-72x72.png */; };
+		2E51A0E2171F149000BE543F /* BWApp-Icon-144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E1171F149000BE543F /* BWApp-Icon-144x144.png */; };
+		2E51A0E4171F195900BE543F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E3171F195900BE543F /* Default-Landscape~ipad.png */; };
+		2E51A0E6171F196200BE543F /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */; };
+		2E51A0E8171F196B00BE543F /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */; };
+		2E51A0EA171F197200BE543F /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */; };
 		2EA46F7E171409D900A147C6 /* barcodescanner.js in Sources */ = {isa = PBXBuildFile; fileRef = 2EA46F3B171409D900A147C6 /* barcodescanner.js */; };
 		2EA46F7F171409D900A147C6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2EA46F3D171409D900A147C6 /* .gitignore */; };
 		2EA46F80171409D900A147C6 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 2EA46F3E171409D900A147C6 /* Makefile */; };
@@ -87,10 +93,6 @@
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
 		3072F99713A8081B00425683 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3072F99613A8081B00425683 /* Capture.bundle */; };
-		3088BBBD154F3926009F9C59 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBB7154F3926009F9C59 /* Default-Landscape@2x~ipad.png */; };
-		3088BBBE154F3926009F9C59 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBB8154F3926009F9C59 /* Default-Landscape~ipad.png */; };
-		3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBB9154F3926009F9C59 /* Default-Portrait@2x~ipad.png */; };
-		3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBA154F3926009F9C59 /* Default-Portrait~ipad.png */; };
 		3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBB154F3926009F9C59 /* Default@2x~iphone.png */; };
 		3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBC154F3926009F9C59 /* Default~iphone.png */; };
 		308D05371370CCF300D202BF /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052E1370CCF300D202BF /* icon-72.png */; };
@@ -131,6 +133,12 @@
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E51A0DF171F147D00BE543F /* BWApp-Icon-72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BWApp-Icon-72x72.png"; sourceTree = "<group>"; };
+		2E51A0E1171F149000BE543F /* BWApp-Icon-144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BWApp-Icon-144x144.png"; sourceTree = "<group>"; };
+		2E51A0E3171F195900BE543F /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		2EA46F3B171409D900A147C6 /* barcodescanner.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = barcodescanner.js; sourceTree = "<group>"; };
 		2EA46F3D171409D900A147C6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2EA46F3E171409D900A147C6 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -299,6 +307,12 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */,
+				2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */,
+				2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */,
+				2E51A0E3171F195900BE543F /* Default-Landscape~ipad.png */,
+				2E51A0E1171F149000BE543F /* BWApp-Icon-144x144.png */,
+				2E51A0DF171F147D00BE543F /* BWApp-Icon-72x72.png */,
 				2EA46FBB1714256300A147C6 /* icon-72@2x.png */,
 				2EA46FB517140A1E00A147C6 /* CoreVideo.framework */,
 				2EA46FB617140A1E00A147C6 /* libiconv.dylib */,
@@ -636,10 +650,6 @@
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				30A0434814DC770100060A13 /* Localizable.strings in Resources */,
 				30A0434914DC770100060A13 /* Localizable.strings in Resources */,
-				3088BBBD154F3926009F9C59 /* Default-Landscape@2x~ipad.png in Resources */,
-				3088BBBE154F3926009F9C59 /* Default-Landscape~ipad.png in Resources */,
-				3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */,
-				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */,
@@ -686,6 +696,12 @@
 				2EA46FB1171409DA00A147C6 /* README.txt in Resources */,
 				2EA46FB2171409DA00A147C6 /* index.html in Resources */,
 				2EA46FB3171409DA00A147C6 /* README.md in Resources */,
+				2E51A0E0171F147D00BE543F /* BWApp-Icon-72x72.png in Resources */,
+				2E51A0E2171F149000BE543F /* BWApp-Icon-144x144.png in Resources */,
+				2E51A0E4171F195900BE543F /* Default-Landscape~ipad.png in Resources */,
+				2E51A0E6171F196200BE543F /* Default-Landscape@2x~ipad.png in Resources */,
+				2E51A0E8171F196B00BE543F /* Default-Portrait~ipad.png in Resources */,
+				2E51A0EA171F197200BE543F /* Default-Portrait@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,7 +808,7 @@
 				INFOPLIST_FILE = "BookwormClub/BookwormClub-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = BookwormClub;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -809,7 +825,7 @@
 				INFOPLIST_FILE = "BookwormClub/BookwormClub-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = BookwormClub;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
