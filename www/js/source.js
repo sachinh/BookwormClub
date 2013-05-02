@@ -459,7 +459,7 @@ function parseXml(xml) {
     console.log("in parseXML: " + xml);
     
     avgRatings = $(xml).find("average_rating").text();
-    //alert ("avg ratings: " + avgRatings);
+    console.log ("avg ratings: " + avgRatings);
     //now one last level to get to the actual best-book tag
     $('best_book',xml).each(function(l) {
                             //console.log("object this is: ", $(this));

@@ -20,6 +20,8 @@
 		2E51A0E6171F196200BE543F /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */; };
 		2E51A0E8171F196B00BE543F /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */; };
 		2E51A0EA171F197200BE543F /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */; };
+		2E6AF99C1729A1830076B0C3 /* BWApp-Icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AF99B1729A1830076B0C3 /* BWApp-Icon-57x57.png */; };
+		2E6AF99E1729A18E0076B0C3 /* BWApp-Icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6AF99D1729A18E0076B0C3 /* BWApp-Icon-114x114.png */; };
 		2EA46F7E171409D900A147C6 /* barcodescanner.js in Sources */ = {isa = PBXBuildFile; fileRef = 2EA46F3B171409D900A147C6 /* barcodescanner.js */; };
 		2EA46F7F171409D900A147C6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2EA46F3D171409D900A147C6 /* .gitignore */; };
 		2EA46F80171409D900A147C6 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 2EA46F3E171409D900A147C6 /* Makefile */; };
@@ -139,6 +141,8 @@
 		2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		2E6AF99B1729A1830076B0C3 /* BWApp-Icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BWApp-Icon-57x57.png"; sourceTree = "<group>"; };
+		2E6AF99D1729A18E0076B0C3 /* BWApp-Icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BWApp-Icon-114x114.png"; sourceTree = "<group>"; };
 		2EA46F3B171409D900A147C6 /* barcodescanner.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = barcodescanner.js; sourceTree = "<group>"; };
 		2EA46F3D171409D900A147C6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2EA46F3E171409D900A147C6 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -307,6 +311,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2E6AF99D1729A18E0076B0C3 /* BWApp-Icon-114x114.png */,
+				2E6AF99B1729A1830076B0C3 /* BWApp-Icon-57x57.png */,
 				2E51A0E9171F197200BE543F /* Default-Portrait@2x~ipad.png */,
 				2E51A0E7171F196B00BE543F /* Default-Portrait~ipad.png */,
 				2E51A0E5171F196200BE543F /* Default-Landscape@2x~ipad.png */,
@@ -702,6 +708,8 @@
 				2E51A0E6171F196200BE543F /* Default-Landscape@2x~ipad.png in Resources */,
 				2E51A0E8171F196B00BE543F /* Default-Portrait~ipad.png in Resources */,
 				2E51A0EA171F197200BE543F /* Default-Portrait@2x~ipad.png in Resources */,
+				2E6AF99C1729A1830076B0C3 /* BWApp-Icon-57x57.png in Resources */,
+				2E6AF99E1729A18E0076B0C3 /* BWApp-Icon-114x114.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -808,7 +816,7 @@
 				INFOPLIST_FILE = "BookwormClub/BookwormClub-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = BookwormClub;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -825,7 +833,7 @@
 				INFOPLIST_FILE = "BookwormClub/BookwormClub-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = BookwormClub;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
