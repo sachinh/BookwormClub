@@ -1,3 +1,119 @@
+$( '#two' ).live( 'pageinit',function(event){
+                       
+                       // to create the popup on page load
+                       console.log("just enterd the page load fn");
+                       setTimeout( function(){ $("#popupPanel").popup("open"); }, 1000 );
+                       console.log("finished the popup stuff");
+                       
+                       });
+
+$( '#three' ).live( 'pageinit',function(event){
+                 
+                 // to create the popup on page load
+                 console.log("just enterd the page load fn");
+                 setTimeout( function(){ $("#popupPanelR").popup("open"); }, 1000 );
+                 console.log("finished the popup stuff");
+                 
+                 });
+
+$( "#popupPanel" ).on({
+                      popupbeforeposition: function() {
+                      var h = $( window ).height();
+                      
+                      $( "#popupPanel" ).css( "height", h );
+                      }
+                      });
+
+$( "#popupPanelR" ).on({
+                      popupbeforeposition: function() {
+                      var h = $( window ).height();
+                      
+                      $( "#popupPanelR" ).css( "height", h );
+                      }
+                      });
+
+$( "#popupPanel" ).bind({
+                        popupafteropen: function(event, ui) {
+                        console.log("popupanel: after open");
+                        setTimeout( function(){ $("#popupPanel").popup("close"); }, 3000 );
+                        console.log("popuppanel: after setting timeout");
+                        }
+                        });
+
+$( "#popupPanelR" ).bind({
+                         popupafteropen: function(event, ui) {
+                         console.log("popupanel: after open");
+                         setTimeout( function(){ $("#popupPanelR").popup("close"); }, 3000 );
+                         console.log("popuppanel: after setting timeout");
+                         }
+                         });
+
+$('.helpPopup').click(function(event) {
+//                      alert("Help Button Clicked");
+                      //alert("id: " + $(this).attr('id'));
+                      var helpFieldID = $(this).attr('id') ;
+                      var helpMessage = "<p>Dynamic HTML!</p>";
+                      var pageHelp = "three";
+                      
+                      if (helpFieldID == "helpTextarea")
+                        helpMessage = "<p>Textarea help message which can go on and on and then some ...</p>";
+                      else if (helpFieldID == "helpMainCharacters")
+                        helpMessage = "<p>Who are the main characters in the book ?</p>";
+                      else if (helpFieldID == "helpSetting")
+                        helpMessage = "<p>Where did this story take place?<br/>Name and describe the place where the story happened.</p>";
+                      else if (helpFieldID == "helpConflict")
+                        helpMessage = "<p>What was the action in the story?<br/>What gave the story a beginning,middle, and end?</p>";
+                      else if (helpFieldID == "helpConclusion")
+                        helpMessage = "<p>How did the story end?<br/>Was it funny, sad, or something else?</p>";
+                      else if (helpFieldID == "helpReasonWhy")
+                        helpMessage = "<p>Why did you like the book or <br/>why did you not like the book?</p>";
+                      else if (helpFieldID == "helpBookName") {
+                        helpMessage = "<p>What is the name of the Book ?</p>";
+                        pageHelp = "two";
+                      }
+                      else if (helpFieldID == "helpAuthorName") {
+                      helpMessage = "<p>What is the name of the Author ?</p>";
+                      pageHelp = "two";
+                      }
+                      else if (helpFieldID == "helpNumPages") {
+                      helpMessage = "<p>How many Pages ?</p>";
+                      pageHelp = "two";
+                      }
+                      
+                      if (pageHelp == "two") {
+                          $("#msgHelpPg2").html(helpMessage);
+                          $("#helpPopupDialogPg2").popup("open");
+                      }
+                      else {
+                          $("#msgHelpPg3").html(helpMessage);
+                          $("#helpPopupDialogPg3").popup("open");
+                      }
+
+                      });
+
+function countWords(strInput){
+    s = strInput;
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");
+    s = s.replace(/[ ]{2,}/gi," ");
+    s = s.replace(/\n /,"\n");
+    wrdCount = s.split(' ').length ;
+    return wrdCount ;
+    //    alert( s.split('.').length );
+}
+
+$('.mlInput').blur(function() {
+                   //alert('Handler for .blur() called.');
+                   inputStr = $(this).val() ;
+                   //alert("input string is: " + inputStr );
+                   if (inputStr == "")
+                    return ;
+                   wordsCounted = countWords(inputStr) ;
+                   //alert ("Words counted: " + wordsCounted );
+                   if (wordsCounted<=10)
+                    navigator.notification.alert('Too short an answer. Pl. add to your answer.', null, 'Answer Length');
+                    //alert("Too short an answer. Pl. add to your answer.");
+                   });
+
 $(function () {
   //alert("jquery loaded");
 	// on ready, retrieve all book reports
@@ -51,11 +167,17 @@ function onOpenExternal() {
                      });
 */
 
-$("#two").swiperight(function() {
-                      $.mobile.changePage("#three");
+$("#two").swipeleft(function() {
+                    $.mobile.changePage("#three", {
+                                        allowSamePageTransition : true,
+                                        transition: "flip"
+                                        } );
                       });
-$("#three").swipeleft(function() {
-                     $.mobile.changePage("#two");
+$("#three").swiperight(function() {
+                       $.mobile.changePage("#two", {
+                                           allowSamePageTransition : true,
+                                           transition: "flip"
+                                           } );
                      });
 
 function getBookReports() {
@@ -170,7 +292,7 @@ $('.deleteBkReport').click(function(event) {
                                // change the actual page
                                $.mobile.changePage( "#one", {
                                                    allowSamePageTransition : true,
-                                                   transition: "slideup"
+                                                   transition: "flip"
                                                    } );
                                // all done here
                                }
@@ -307,13 +429,14 @@ $('.bookReportItem').live('click', function(event) {
 					$("#hdrTitle2").text("Book Report Detail");
 					// also disable/hide the Save report button
 					//$('#btnSave').closest('.ui-btn').hide();
+                    //$("#btnEmailReport").removeClass("ui-disabled");
 					                          
                     console.log("just before changing the page");
                     console.log("bkID: " + $("#bkID").val());
                     //now navigate to the detail page
 					$.mobile.changePage( "#two", { 
 						allowSamePageTransition : true,
-						transition: "slideup"
+						transition: "flip"
 						} );
 										
 					// done	
@@ -328,9 +451,47 @@ $('#three').live('pagecreate',function(event){
   //alert('the second page has been initialized');
 });
 
+var autoFocusSupported = -1;
+
+$( '#two' ).live( 'pageinit',function(event){
+                 // this is when the cordova piece should have loaded fine
+                 autoFocusSupported = isAutoFocusSupported() ;
+                       });
+
+function isAutoFocusSupported(){
+    console.log("entered the isAutoFocus supported fn");
+    
+    // info on iOS models @ http://theiphonewiki.com/wiki/Models
+    
+    var devModel = device.model ;
+    var iPad2String = "iPad2";
+    
+    if ( devModel.indexOf(iPad2String) >= 0) {
+        var iPadVersion = parseInt(devModel.substring(6)); // model is in the format ipad2,x
+        console.log("Device Model is: " + devModel);
+        console.log("iPad Version is: " + iPadVersion);
+        
+        if (iPadVersion >=5 ) {
+            //alert ("This is an iPad2 with an autofocus");
+            return 1;
+        }
+        else {
+            //alert ("This is an iPad2 with no autofocus");
+            return 0;
+        }
+    }
+    else {
+        console.log("no ipad2 found");
+    }
+    
+    return 0;
+}
+
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
                         //alert("in the barcode scanning fn");
+                        if (!autoFocusSupported)
+                            navigator.notification.alert("Barcode scanning may not work", null, "No Auto Focus Camera detected");
                         clickScan();
                         //alert("done the scan");
                         });
@@ -700,7 +861,7 @@ $('.save-btn').click(function(event) {
     // change the actual page
 	 $.mobile.changePage( "#one", { 
 			allowSamePageTransition : true,
-			transition: "slideup"
+			transition: "flip"
 			} );
 
 	// nothing more to do here
