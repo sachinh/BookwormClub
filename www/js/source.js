@@ -1,8 +1,18 @@
+$( '#one' ).live( 'pageinit',function(event){
+                 
+                 //alert("the first page has been created");
+                 // to create the popup on page load
+                 console.log("just enterd the page load fn");
+                 setTimeout( function(){ $.mobile.changePage("#dlgFirstTimeOnly", { role: "dialog" }); }, 3000);
+                 console.log("finished the popup stuff");
+                 
+                 });
+
 $( '#two' ).live( 'pageinit',function(event){
-                       
+                 
                        // to create the popup on page load
                        console.log("just enterd the page load fn");
-                       setTimeout( function(){ $("#popupPanel").popup("open"); }, 1000 );
+                       //setTimeout( function(){ $("#popupPanel").popup("open"); }, 1000 );
                        console.log("finished the popup stuff");
                        
                        });
@@ -11,7 +21,7 @@ $( '#three' ).live( 'pageinit',function(event){
                  
                  // to create the popup on page load
                  console.log("just enterd the page load fn");
-                 setTimeout( function(){ $("#popupPanelR").popup("open"); }, 1000 );
+                 //setTimeout( function(){ $("#popupPanelR").popup("open"); }, 1000 );
                  console.log("finished the popup stuff");
                  
                  });
@@ -183,6 +193,7 @@ $("#three").swiperight(function() {
 function getBookReports() {
 
 	console.log('in getbookreports: rowCount: ' + localStorage.rowCount);
+    var trueNumOfBkReports = 0 ;
 	if (!localStorage.rowCount) {
 		//alert("appindex: this means the data store is NOT populated");
         //do nothing in here
@@ -211,14 +222,15 @@ function getBookReports() {
 					}
 				else {
 						console.log('valid object for rowCount: ' + i );
+                        //increase the truebkreports count
+                        trueNumOfBkReports = trueNumOfBkReports + 1;
+                    
 						// now try and do a dump on the console
 						testObject = JSON.parse(testObject);
 						console.log('bkReport' + i + ': ', testObject);
 						console.log('book: '+ testObject.book);
 						console.log('author: '+ testObject.author);
 						console.log('pages: '+ testObject.pages);
-						
-						//var json = jQuery.parseJSON(data);
 
 						$bkReports += '\n<li><a class="bookReportItem" href="#" ' ;
 						//get the book name
@@ -233,10 +245,7 @@ function getBookReports() {
                         $imgBookCover = testObject.cover;
                         if ( ($imgBookCover=="") || ($imgBookCover==undefined) )
                             $imgBookCover = "img/placeholder.png" ;
-//                        $("#imgCapturedImage").attr("src", $imgBookCover);
-//                        alert("Book Cover: " + $imgBookCover);
                         $bkReports += '<img src="' + $imgBookCover + '" />';
-//                        $bkReports += '<img src="img/smallplaceholder.png" />';
 
                         //now add the book name as h3 tag and author as p font
                         $bkReports += "<h3>" + testObject.book + "</h3><p>" + testObject.author + "</p>" ;
@@ -251,6 +260,9 @@ function getBookReports() {
 				}
 			}//end for loop
 			
+            // now update the badge accordingly
+            updateAwards(trueNumOfBkReports);
+            
 			//alert("reports: " + $bkReports);
 			// now refresh the list
 			$("#lstReports").html($bkReports);
@@ -263,6 +275,47 @@ function getBookReports() {
 	
 }
 
+// update the badges and awards
+function updateAwards( numOfBkReports) {
+    if (numOfBkReports>0) {
+        console.log ("The true Number of book reports is: " + numOfBkReports);
+        
+        //update the number of points
+        factorPoints = 1000 ;
+        numPoints = factorPoints + (numOfBkReports*factorPoints);
+        $("#userPoints").html(numPoints);
+        
+        //dep on the range of book reports stored, change the badge accordingly
+        if (numOfBkReports < 5) {
+            // set it to starter badge
+            //                    alert("setting to sytarter");
+            $("#badge").buttonMarkup({ icon: 'leaf' });
+            // do we need to refresh the button ??
+            //                  $("#badge").button("refresh");
+            //$('#badge').attr('data-icon', 'check').find('.ui-icon').removeClass('ui-icon-delete').addClass('ui-icon-check');
+        }
+        else if (numOfBkReports < 10) {
+            // set it to expert
+            $("#badge").buttonMarkup({ icon: 'eye-open' });
+            
+        }
+        else if ( numOfBkReports < 15) {
+            // set it to rockstar
+            $("#badge").buttonMarkup({ icon: 'fire' });
+            
+        }
+        else if ( numOfBkReports < 20) {
+            // set it to rockstar
+            $("#badge").buttonMarkup({ icon: 'trophy' });
+            
+        }
+        else {
+            // set it to bookworm
+            $("#badge").buttonMarkup({ icon: 'book' });
+        }
+    }
+}
+
 $('.deleteBkReport').click(function(event) {
     // delete the report
                           console.log("in delete report click");
@@ -270,6 +323,11 @@ $('.deleteBkReport').click(function(event) {
                            $bookID = $('#bkID').val();
                            $rowCount = localStorage.rowCount;
                            console.log("ID: " + $bookID + ", rowCount= " + $rowCount);
+                           
+                           //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
+                           if ($bookID != "")
+                            $bookID = "bkReport" + $bookID ;
+                           console.log("bkReport ID: " + $bookID );
                            
                            // now retrieve the bkreport from storage
                            var bkReport = localStorage.getItem($bookID);
@@ -486,6 +544,30 @@ function isAutoFocusSupported(){
     
     return 0;
 }
+
+$(".badge").click(function() {
+                        //alert("in the badge click fn");
+                  var iconType = $(this).attr("data-icon");
+                  //alert("the data icon on the badge is: " + iconType);
+                  var userMessage = "";
+                  
+                  if (iconType == "leaf")
+                    userMessage = "<h2>Congratulations!</h2>You are ready to create your own Book Reports.";
+                  else if (iconType == "eye-open")
+                    userMessage = "<h2>Watch out, everyone, we have a reader here!</h2>You have created at least 5 Book Reports.";
+                  else if (iconType == "fire")
+                    userMessage = "<h2>You're on Fire!</h2>You have created at least 10 Book Reports.";
+                  else if (iconType == "trophy")
+                    userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
+                  else if (iconType == "book")
+                    userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
+                  
+                  //navigator.notification.alert(userMessage, null, "Badges Explained");
+                  $("#msgBadges").html(userMessage);
+                  $("#popupBadges").popup("open", { positionTo: "window", transition: "slidedown", tolerance: "0,0"});
+
+                  //alert("done the click processing");
+                        });
 
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
@@ -978,6 +1060,35 @@ function emailBookReport(bkReportID) {
                            
 }
 
+$('.sendFeedback').click(function(event) {
+                         // send an email to the developer
+                         feedbackSubject = "Feedback on Bookworm Club App";
+                         feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts:<br/>" +
+                                        "<b>Love:</b><br/><br/>" +
+                                        "<b>Hate:</b><br/><br/>" +
+                                        "<p>And here's what I would really really like:<br/><br/>" +
+                                        "Thanks" ;
+                         developerEmail = "nospamsachin" + "@" + "gmail.com" ;
+                         
+                         sendEmail(feedbackSubject, feedbackBody, developerEmail) ;
+                          });
+
+
+function sendEmail(subjectOfEmail, bodyOfEmail,emailAddress) {
+    // startup the email engine
+    
+    window.plugins.emailComposer.showEmailComposerWithCallback(
+                                                               function(result){
+                                                               console.log('value of return is: ',result);
+                                                               },
+                                                               subjectOfEmail,
+                                                               bodyOfEmail,
+                                                               [emailAddress],
+                                                               [],
+                                                               [],
+                                                               true);
+
+}
 // Called when capture operation is finished
 //
 function captureSuccess(mediaFiles) {
