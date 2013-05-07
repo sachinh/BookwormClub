@@ -27,7 +27,22 @@
     </style>
         
     <style>
-        
+
+        #popupFirstTime-popup {
+            right: 0 !important;
+            left: 0 !important;
+        }
+        #popupFirstTime {
+            width: 100%;
+            border: 1px solid #000;
+            border-right: none;
+            background: rgba(0,0,0,.5);
+            margin: -1px 0;
+        }
+        #popupFirstTime .ui-btn {
+            margin: 2em 15px;
+        }
+
         #popupPanel-popup {
             right: auto !important;
             left: 0 !important;
@@ -83,7 +98,7 @@
             <!--<a id="badge" href="#" data-role="button" data-icon="leaf" data-mini="true" data-inline="true" data-theme="b" data-iconpos="notext"></a></h3>-->
         </div>
         <div class="ui-title"><H1>Bookworm Club</h1></div>
-		<a id="createBookReport" href="#two" data-role="button" data-transition="flip" data-icon="plus" data-theme="b" class="ui-btn-right">New</a>
+		<a id="createBookReport" href="#two" data-role="button" data-transition="flip" data-icon="edit" data-theme="b" class="ui-btn-right">New</a>
 	</div><!-- /header -->
 
 <!--        <div class="ui-bar ui-bar-b" data-inline="true">
@@ -92,7 +107,7 @@
 -->
         
 <div class="ui-bar ui-bar-a" data-inline="true" >
-    <br/>Points:&nbsp;<span id="userPoints">XXXX</span><!--<div id="badge-expert" data-inline="true" class="ui-icon ui-icon-lightbulb badge" style="background: green; color: white;" ></div>-->
+    Points:&nbsp;<span id="userPoints">XXXX</span><!--<div id="badge-expert" data-inline="true" class="ui-icon ui-icon-lightbulb badge" style="background: green; color: white;" ></div>-->
     <a class="badge" id="badge" href="#" data-role="button" data-icon="leaf" data-mini="true" data-inline="true" data-theme="b" data-iconpos="notext"></a>
 </div>
         
@@ -109,6 +124,12 @@
                 <p ><span id="dummyfld"></span></p>
             </div>
         </div>
+        
+        <div data-role="popup" id="popupFirstTime" class="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <button data-theme="a" data-icon="arrow-l" data-iconpos="top">Swipe Left to Advance to Next Page</button>
+        </div>
+
 		<ul id="lstReports" data-role="listview" data-inset="true" data-filter="false" data-theme="c">
 			<!--<li><a href="#">Book one</a></li>
 			<li><a href="#">Book two</a></li>
@@ -149,7 +170,7 @@
         </div>
         
         <!-- popup stuff -->
-        <div data-role="popup" id="popupPanel" class="id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+        <div data-role="popup" id="popupPanel" class="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <button data-theme="a" data-icon="arrow-l" data-iconpos="top">Swipe Left to Advance to Next Page</button>            
         </div>
@@ -172,7 +193,7 @@
                 <p>&nbsp;<a onclick="cb.showWebPage('http://goodreads.com');"><img src="http://s.gr-assets.com/assets/icons/goodreads_icon_16x16-b88c89b35c417d1cc565ecdc203ae498.png"></img></a>&nbsp;<span>Book Covers provided by <a onclick="cb.showWebPage('http://goodreads.com');" >Good Reads</a>.</span>
             </div>
             <div class="ui-block-b">
-                <p>Average Rating:&nbsp;<label id="lblAvgRating">&nbsp;</label>
+                <p>Average Rating:&nbsp;<label id="lblAvgRating">Unknown</label>
             </div>
         </div>
         <input name="" id="bkID" placeholder="" value="" style="display:none" >
@@ -185,7 +206,7 @@
                 <input name="" id="bkName" placeholder="What is the Name of the Book" value="" class="required">
             </div>
             <div class="ui-block-c" >
-                <a data-theme="b" id="helpBookName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpBookName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
         </div>
         <div class="ui-grid-b">
@@ -198,7 +219,7 @@
                 <input name="" id="auName" placeholder="What is the name of the Author" value="" class="required">
             </div>   
             <div class="ui-block-c" >
-                <a data-theme="b" id="helpAuthorName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpAuthorName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
         </div>
         <div class="ui-grid-b" >
@@ -211,7 +232,7 @@
                 <input type="number" pattern="[0-9]*" name="" id="pages" placeholder="How many pages ?" value="">
             </div>
             <div class="ui-block-c" >
-                <a data-theme="b" id="helpNumPages" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpNumPages" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
         </div>
     </div>
@@ -227,9 +248,9 @@
 <div data-role="page" id="three" data-theme="a" style="background-image:url(img/background3.jpg)">
     
     <div data-role="header" data-position="inline"  data-theme="a" data-position="fixed">
-        <a href="#one" data-role="button" data-transition="flip" data-icon="home" data-theme="b" class="ui-btn-left">Home</a>
+        <a href="#one" data-role="button" data-transition="flip" data-icon="fahome" data-theme="b" class="ui-btn-left">Home</a>
         <div class="ui-title"><h1 id="hdrTitle3">Book Report (contd.)</h1></div>
-		<a id="btnSave2" href="#" data-role="button" data-icon="check" data-theme="b" class="save-btn ui-btn-right">Save</a>
+		<a id="btnSave2" href="#" data-role="button" data-icon="save" data-theme="b" class="save-btn ui-btn-right">Save</a>
         <div>&nbsp;</div><div style="position:absolute; width:300px; height:50px; z-index:15; top:70%; left:37%; ">Swipe right to go back to prev screen.</div>
     </div><!-- /header -->
 
@@ -244,14 +265,15 @@
                 <p >&nbsp;</p>
             </div>
         </div>
-            <div style="width: 250px; height: 250px; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
-                <img id="imgUserImage" src="img/placeholder.png" alt="image" class="user-image" style="width: 250px; height: 250px;">
+
+        <div class="ui-grid-a">
+            <div class="ui-block-a" style="width: 250px; height: 250px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+                    <img id="imgUserImage" src="img/placeholder.png" alt="image" class="user-image" style="width: 250px; height: 250px;">
             </div>
-            <fieldset data-role="controlgroup" >
-                <div class="ui-block-b">
-                    <a id="btnUpload" onclick="captureImage();" data-role="button" data-mini="true" data-inline="true" data-theme="b" data-icon="plus" >Upload</a>
-                </div>
-            </fieldset>
+            <div class="ui-block-b">
+                <a id="btnUpload" onclick="captureImage();" data-role="button" data-mini="true" data-inline="true" data-theme="b" data-icon="picture" >Save Sketch</a>
+            </div>
+        </div>
 
             <div data-role="popup" id="popupPanelR" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
@@ -266,25 +288,25 @@
             <label for="mainCharacters">Main Characters</label>
             <div data-role="fieldcontain" >
                 <textarea class="mlInput" id="mainCharacters" placeholder="Who are the main Characters ?" value=""></textarea>
-                <a data-theme="b" id="helpMainCharacters" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpMainCharacters" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
 
             <label for="bkSetting">Setting</label>
             <div data-role="fieldcontain" >
                 <textarea class="mlInput" id="bkSetting" placeholder="Where did this story take place? Name and describe the place where the story happened." value=""></textarea>
-                <a data-theme="b" id="helpSetting" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpSetting" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
 
             <label for="bkConflict">Problem/Conflict</label>
             <div data-role="fieldcontain" >
                 <textarea class="mlInput" id="bkConflict" placeholder="What was the action in the story? What gave the story a beginning,middle, and end? " value=""></textarea>
-                <a data-theme="b" id="helpConflict" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpConflict" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
 
             <label for="bkConclusion">Conclusion</label>
             <div data-role="fieldcontain" >
                 <textarea class="mlInput" id="bkConclusion" placeholder="How did the story end? Was it funny, sad, or something else? " value=""></textarea>
-                <a data-theme="b" id="helpConclusion" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+                <a data-theme="b" id="helpConclusion" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
             
         <fieldset data-role="controlgroup" class="ui-grid-a">
@@ -307,7 +329,7 @@
         
         <div data-role="fieldcontain" >
             <textarea class="mlInput" id="bkReasonWhy" placeholder="Why did you like the book or why did you not like the book? " value=""></textarea>
-            <a data-theme="b" id="helpReasonWhy" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="info" data-inline="true" data-iconpos="notext">Info</a>
+            <a data-theme="b" id="helpReasonWhy" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
         </div>
             
         <!-- this is just a dummy section since some of the bottom content is getting chopped off due to the fixed footer -->
@@ -321,8 +343,8 @@
 
     <div data-role="footer" data-position="fixed"  data-theme="a">
 		<h4>Bookworm Club. Readers Rock!</h4>
-		<a id="btnEmailReport" href="#" data-role="button" data-icon="emailthis" data-mini="true" data-inline="true" data-theme="b" class="emailBkReport ui-btn-left">Email</a>
-        <a href="#" data-role="button" data-icon="delete" data-theme="b" data-mini="true" data-inline="true" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
+		<a id="btnEmailReport" href="#" data-role="button" data-icon="envelope" data-mini="true" data-inline="true" data-theme="b" class="emailBkReport ui-btn-left">Email</a>
+        <a href="#" data-role="button" data-icon="trash" data-theme="b" data-mini="true" data-inline="true" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
     </div><!-- /footer -->
     
 </div><!-- /page three -->
@@ -334,14 +356,17 @@
 		</div>
 
 		<div data-role="content" data-theme="e">
-			
-                <h5>We value your data , no seriously, we mean it !</h5> <br />
-                <label>All your data is stored on your device. <br /> No transmission of your data will be done without your knowledge.</label>
-				<a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+            <div>
+                <a href="#" onclick="cb.showWebPage('http://www.privacychoice.org/policy/mobile?policy=a04b24bd8723ef0892edcc25d821630e')" target="_blank" >
+                <img src="http://privacychoice.org/images/policymaker/v1/0001005.png" width="450"/></a>
+			</div>
+            <iframe src="http://www.privacychoice.org/policy/mobile?policy=a04b24bd8723ef0892edcc25d821630e" width="450" height="500" seamless></iframe>
+            <a href="#" data-inline="true" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+            <a href="#one" data-inline="true" class="ui-btn-right" data-role="button" data-theme="b" data-rel="back">Close</a>
 		</div>
 </div>
 
-<div data-role="dialog" id="dlgFirstTimeOnly" data-theme="b">
+<div data-role="dialog" id="dlgFirstTimeOnly" data-theme="b" data-close-btn="right">
     
     <div data-role="header" data-theme="a" data-position="inline">
         <h1>Thank You!</h1>
@@ -349,28 +374,39 @@
     
     <div data-role="content" data-theme="e">
         
-        <h3>Thanks for staying with us and downloading the latest update!</h5> <br />
-        <label>Our highly under-paid minions have been hard at work and <br/>dare I say, finally, created loads of new features.<br/>We are really excited to share this with you.<p>You can always visit our <a onclick="cb.showWebPage('https://sites.google.com/site/mybookwormclub/home');">website</a> to keep in touch with our plans.<p>Pl. contact us if you have <u>any</u> questions.<br/>
-        </label>
+        <h2>Thanks for installing the app (or update) !</h2> <br />
+
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <img id="imgLogo" src="img/BWApp-Icon.png" alt="Bookworm Club logo"></img>
+            </div>
+            <div class="ui-block-b">
+                <p>Our highly under-paid minions have been hard at work on our <b>new features</b>.</p>
+                <p>We are really excited to share this with you.</p>
+            </div>
+        </div>
+        
+        <div>
+            <h3>Features of the Bookworm Club App:</h3>
+            <ol>
+                <li><b>Display a Welcome Message for users</b></li>
+                <li><b>Show the Points earned</b></li>
+                <li><b>Indicate Badge of Achievement </b></li>
+                <li><b>Navigational guide updated</b></li>
+                <li><b>Like It, Hate it - we have a Feedback button now.</b></li>
+                <li>Create Book Reports</li>
+                <li>Email created Book Reports</li>
+                <li>Allow BarCode scanning for faster entry of Book Report</li>
+                <li>Retrieve Book Covers based on scanned BarCode</li>
+                <li>Save sketch or drawing</li>
+            </ol>
+        </div>
+        <div>
+            <p>Pl. contact us if you have <u>any</u> questions.<br/>
+        </div>
         <a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
     </div>
 </div>
-
-<div data-role="page" id="four"> 
-    <!-- Code -->  
-    <div id = "dlgSaved" data-rel="dialog">
-        <div id = "errorText">Stuff</div>
-        <button id = "closeDialog">OK</button>
-    </div>
-</div>
-
-<!-- Start of third page: #popup -->
-<div data-role="page" id="popup">
-    <div data-role="popup" id="mypopup">
-        <h2>Popup</h2>
-        <p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>		
-    </div>
-</div><!-- /page popup -->
 
     <script type="text/javascript" src="cordova-2.5.0.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>

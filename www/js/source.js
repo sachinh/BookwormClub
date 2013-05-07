@@ -3,7 +3,29 @@ $( '#one' ).live( 'pageinit',function(event){
                  //alert("the first page has been created");
                  // to create the popup on page load
                  console.log("just enterd the page load fn");
-                 setTimeout( function(){ $.mobile.changePage("#dlgFirstTimeOnly", { role: "dialog" }); }, 3000);
+                 //now check if this is the first time EVER used
+                 var isFirstTime = 0;
+                 isFirstTime = localStorage.isFirstTime ;
+                 //alert("value of isFirstTime: " + isFirstTime);
+                 
+                 if (isFirstTime != undefined)
+                    return;
+                 
+                 // this means its the first time
+                 setTimeout( function(){
+                            localStorage.setItem('isFirstTime',"false");
+                            $.mobile.changePage("#dlgFirstTimeOnly", { role: "dialog", closeBtn: "none" });
+                            //$("#popupFirstTime").popup("open");
+                            }, 1000);
+                 console.log("finished the popup stuff");
+                 
+                 });
+
+$( '#dlgFirstTimeOnly' ).live( 'pageinit',function(event){
+                 
+                 // to create the popup on page load
+                 console.log("just enterd the page load fn");
+                 setTimeout( function(){ $("#dlgFirstTimeOnly").dialog("close"); }, 10000 );
                  console.log("finished the popup stuff");
                  
                  });
@@ -26,6 +48,14 @@ $( '#three' ).live( 'pageinit',function(event){
                  
                  });
 
+$( "#popupFirstTime" ).on({
+                      popupbeforeposition: function() {
+                      var h = $( window ).height();
+                      
+                      $( "#popupFirstTime" ).css( "height", h );
+                      }
+                      });
+
 $( "#popupPanel" ).on({
                       popupbeforeposition: function() {
                       var h = $( window ).height();
@@ -42,6 +72,14 @@ $( "#popupPanelR" ).on({
                       }
                       });
 
+$( "#popupFirstTime" ).bind({
+                        popupafteropen: function(event, ui) {
+                        console.log("popupFirstTime: after open");
+                        setTimeout( function(){ $("#popupFirstTime").popup("close"); }, 3000 );
+                        console.log("popupFirstTime: after setting timeout");
+                        }
+                        });
+
 $( "#popupPanel" ).bind({
                         popupafteropen: function(event, ui) {
                         console.log("popupanel: after open");
@@ -57,6 +95,11 @@ $( "#popupPanelR" ).bind({
                          console.log("popuppanel: after setting timeout");
                          }
                          });
+
+$('#bwclubWebsite').click(function(event) {
+                          alert("the website link was clicked");
+                          cb.showWebPage('http://www.google.com');
+                      });
 
 $('.helpPopup').click(function(event) {
 //                      alert("Help Button Clicked");
@@ -111,7 +154,7 @@ function countWords(strInput){
     //    alert( s.split('.').length );
 }
 
-$('.mlInput').blur(function() {
+$('.mlInput').blur(function(e) {
                    //alert('Handler for .blur() called.');
                    inputStr = $(this).val() ;
                    //alert("input string is: " + inputStr );
@@ -119,9 +162,13 @@ $('.mlInput').blur(function() {
                     return ;
                    wordsCounted = countWords(inputStr) ;
                    //alert ("Words counted: " + wordsCounted );
-                   if (wordsCounted<=10)
-                    navigator.notification.alert('Too short an answer. Pl. add to your answer.', null, 'Answer Length');
+                   if (wordsCounted<=10) {
+                    //e.preventDefault();
+                    navigator.notification.alert('You have entered 10 words or less. Pl. add to your answer.', null, 'Answer Length');
+                    //$(this).focus();
+                   return false;
                     //alert("Too short an answer. Pl. add to your answer.");
+                   }
                    });
 
 $(function () {
@@ -251,7 +298,7 @@ function getBookReports() {
                         $bkReports += "<h3>" + testObject.book + "</h3><p>" + testObject.author + "</p>" ;
                         // add another anchor to do the buttons stuff
                         $bkReports += '</a><a href="#" class="emailReport" ' + " id=bkReport" + $idValue +
-                                    ' data-rel="dialog" data-transition="slideup" data-icon="forward"' + " >";
+                                    ' data-rel="dialog" data-transition="slideup" data-icon="envelope"' + " >";
                         // close off the item
 						$bkReports += '</a></li>\n' ;
                         console.log("bkreports: " + $bkReports);
@@ -281,7 +328,7 @@ function updateAwards( numOfBkReports) {
         console.log ("The true Number of book reports is: " + numOfBkReports);
         
         //update the number of points
-        factorPoints = 1000 ;
+        factorPoints = 100 ;
         numPoints = factorPoints + (numOfBkReports*factorPoints);
         $("#userPoints").html(numPoints);
         
@@ -487,7 +534,7 @@ $('.bookReportItem').live('click', function(event) {
 					$("#hdrTitle2").text("Book Report Detail");
 					// also disable/hide the Save report button
 					//$('#btnSave').closest('.ui-btn').hide();
-                    //$("#btnEmailReport").removeClass("ui-disabled");
+                    $("#btnEmailReport").closest('.ui-btn').show();
 					                          
                     console.log("just before changing the page");
                     console.log("bkID: " + $("#bkID").val());
@@ -552,7 +599,7 @@ $(".badge").click(function() {
                   var userMessage = "";
                   
                   if (iconType == "leaf")
-                    userMessage = "<h2>Congratulations!</h2>You are ready to create your own Book Reports.";
+                    userMessage = "<h3>Congratulations on starting!</h3>Welcome to the fun of Book Reports.";
                   else if (iconType == "eye-open")
                     userMessage = "<h2>Watch out, everyone, we have a reader here!</h2>You have created at least 5 Book Reports.";
                   else if (iconType == "fire")
@@ -797,7 +844,8 @@ $("#createBookReport").click(function() {
                              
     // now disable the email button
     //$("#btnEmailReport").hide();
-    $("#btnEmailReport").addClass("ui-disabled");
+    //$("#btnEmailReport").addClass("ui-disabled");
+    $("#btnEmailReport").closest('.ui-btn').hide();
 
 });
 
