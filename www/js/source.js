@@ -3,11 +3,15 @@ $( '#one' ).live( 'pageinit',function(event){
                  //alert("the first page has been created");
                  // to create the popup on page load
                  console.log("just enterd the page load fn");
-                 //now check if this is the first time EVER used
-                 var isFirstTime = 0;
-                 isFirstTime = localStorage.isFirstTime ;
-                 //alert("value of isFirstTime: " + isFirstTime);
                  
+                 // Change by Sachin on 01.19.2014
+                 // Remove the section to do the popup dialog
+                 /*
+                 //now check if this is the first time EVER used
+                 
+                 var isFirstTime = "true";
+                 isFirstTime = localStorage.isFirstTime ;
+
                  if (isFirstTime != undefined)
                     return;
                  
@@ -18,6 +22,7 @@ $( '#one' ).live( 'pageinit',function(event){
                             //$("#popupFirstTime").popup("open");
                             }, 1000);
                  console.log("finished the popup stuff");
+                 */
                  
                  });
 
@@ -97,8 +102,11 @@ $( "#popupPanelR" ).bind({
                          });
 
 $('#bwclubWebsite').click(function(event) {
-                          alert("the website link was clicked");
-                          cb.showWebPage('http://www.google.com');
+                          //alert("the website link was clicked");
+                          //cb.showWebPage('http://www.google.com');
+                          // now start a browser session
+                          //var ref = window.open('https://sites.google.com/site/mybookwormclub/home', '_blank', 'location=yes';
+
                       });
 
 $('.helpPopup').click(function(event) {
@@ -172,34 +180,97 @@ $('.mlInput').blur(function(e) {
                    });
 
 $(function () {
-  //alert("jquery loaded");
+    //alert("jquery loaded");
+    // call fn to list out all the items in the localstorage
+    //processLocalStorage();
+    // now clear the storage
+    //localStorage.clear();
+    //now call the display fn to validate for sure
+    //processLocalStorage();
+  
+    //return;
+  
+    // setup for orintation change
+    window.addEventListener('orientationchange', doOnOrientationChange);
+    // Initial execution if needed
+    doOnOrientationChange();
+  
+    /*
+    //assuming the orientation mode has been detected, update the 'about BWClub' button text, if in portrait
+    if (orientationMode=='portrait'){
+        //alert($('#btnBWClubText').html());
+        $('#btnBWClubText').html('About App');
+        //alert($('#btnBWClubText').html());
+    }
+    else {
+        //alert($('#btnBWClubText').html());
+        $('#btnBWClubText').html('About Bookworm Club');
+        //alert($('#btnBWClubText').html());
+    }
+    */
+  
 	// on ready, retrieve all book reports
 	getBookReports();
-//  setupBarCodeEvents();
-  $("[data-role=header]").fixedtoolbar({ tapToggle: false });
-  $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
-//call the privacy notice the first time
-  //$("#lnkDialogOpen").click();
+    //  setupBarCodeEvents();
+    $("[data-role=header]").fixedtoolbar({ tapToggle: false });
+    $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
+    //call the privacy notice the first time
+    //$("#lnkDialogOpen").click();
+  
+    // call function to adjsut for spaces - HACK
+    //adjustSpacesForLandscape();
   
 });
+
+var orientationMode = "";
+
+function doOnOrientationChange()
+{
+    switch(window.orientation)
+    {
+        case -90:
+        case 90:
+            //alert('landscape mode');
+            orientationMode = 'landscape';
+            $('#btnBWClubText').html('About Bookworm Club');
+            break;
+        default:
+            //alert('portrait mode');
+            orientationMode = 'portrait';
+            $('#btnBWClubText').html('About App');
+            break;
+    }
+}
+
+function processLocalStorage() {
+        // in function
+    alert("in processlocalstorage");
+    for(var i = 0; i < localStorage.length; i++)
+    {
+        var key = localStorage.key(i);
+        var value = localStorage.getItem(key);
+        alert("Key= "+key+", Value= "+value);
+    }
+    alert ("done showing all storage");
+}
 
 var cb;
 
 function setupChildBrowser() {
     var root = this;
     
-    //alert("before childbrowser plugin");
+    alert("before childbrowser plugin");
     cb = window.plugins.childBrowser;
-    //alert("after childbrowser plugin: " + cb);
-    console.log("after childbrowser plugin: " , cb);
+    alert("after childbrowser plugin: " + cb);
+    //console.log("after childbrowser plugin: " , cb);
     
     if (cb != null) {
-        //alert(" there is a valid childbrowser plugin");
+        alert(" there is a valid childbrowser plugin");
         cb.onLocationChange = function(loc){ root.locChanged(loc); };
         cb.onClose = function(){root.onCloseBrowser()};
         cb.onOpenExternal = function(){root.onOpenExternal();};
         //cb.showWebPage("http://google.com");
-        //alert("all done with childbrowser plugin");
+        alert("all done with childbrowser plugin");
     }
 
 }
@@ -592,11 +663,16 @@ function isAutoFocusSupported(){
     return 0;
 }
 
-$(".badge").click(function() {
-                        //alert("in the badge click fn");
-                  var iconType = $(this).attr("data-icon");
-                  //alert("the data icon on the badge is: " + iconType);
-                  var userMessage = "";
+$(".badgeXXX").click(function() {
+                        alert("in the badge click fn");
+                  var userMessage = "Not detected";
+                  userMessage = retrieveBadgeDescription();
+                  alert("back in main badge click fn: " + userMessage);
+                  
+                  /*
+                   var iconType = $("#badge").attr("data-icon");
+                  //var iconType = $(this).attr("data-icon");
+                  alert("the data icon on the badge is: " + iconType);
                   
                   if (iconType == "leaf")
                     userMessage = "<h3>Congratulations on starting!</h3>Welcome to the fun of Book Reports.";
@@ -608,6 +684,7 @@ $(".badge").click(function() {
                     userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
                   else if (iconType == "book")
                     userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
+                  */
                   
                   //navigator.notification.alert(userMessage, null, "Badges Explained");
                   $("#msgBadges").html(userMessage);
@@ -615,6 +692,47 @@ $(".badge").click(function() {
 
                   //alert("done the click processing");
                         });
+
+$( "#popupBadges" ).bind({
+                         popupafteropen: function() {
+                         //alert("just after opening the badges popup");
+                         
+                         var userMessage = "Not detected";
+                         userMessage = retrieveBadgeDescription();
+                         //alert("back in after open listener: " + userMessage);
+                         $("#msgBadges").html(userMessage);
+                         
+                         //alert("all done in the badges retrieval")
+                         }
+                         
+                         });
+
+function retrieveBadgeDescription(){
+    // just arrived
+    //alert ("in retrieve badge description");
+    
+    var iconType = $("#badge").attr("data-icon");
+    //var iconType = $(this).attr("data-icon");
+    //alert("the data icon on the badge is: " + iconType);
+    
+    var userMessage = "None Yet" ;
+    
+    if (iconType == "leaf")
+        userMessage = "<h3>Congratulations on starting!</h3>Welcome to the fun of Book Reports.";
+    else if (iconType == "eye-open")
+        userMessage = "<h2>Watch out, everyone, we have a reader here!</h2>You have created at least 5 Book Reports.";
+    else if (iconType == "fire")
+        userMessage = "<h2>You're on Fire!</h2>You have created at least 10 Book Reports.";
+    else if (iconType == "trophy")
+        userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
+    else if (iconType == "book")
+        userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
+
+    //alert("in badgedescription fn: "+userMessage);
+    
+    return userMessage;
+    
+}
 
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
@@ -1109,9 +1227,11 @@ function emailBookReport(bkReportID) {
 }
 
 $('.sendFeedback').click(function(event) {
+                         //alert("in sendfeedback");
+                         
                          // send an email to the developer
                          feedbackSubject = "Feedback on Bookworm Club App";
-                         feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts:<br/>" +
+                         feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts on your Bookworm Club App:<br/>" +
                                         "<b>Love:</b><br/><br/>" +
                                         "<b>Hate:</b><br/><br/>" +
                                         "<p>And here's what I would really really like:<br/><br/>" +

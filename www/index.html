@@ -88,7 +88,8 @@
         </div>
     </div>
 -->
-    
+
+    <p>
 <!-- Start of first page: #one -->
     <div data-role="page" id="one" style="background-image:url(img/background3.jpg)">
 
@@ -97,21 +98,41 @@
             <h3>Welcome, <a href="#" data-inline="true" onclick="navigator.notification.alert('Feature Under Construction', null, 'Not Yet Completed');">Guest</a>
             <!--<a id="badge" href="#" data-role="button" data-icon="leaf" data-mini="true" data-inline="true" data-theme="b" data-iconpos="notext"></a></h3>-->
         </div>
-        <div class="ui-title"><H1>Bookworm Club</h1></div>
-		<a id="createBookReport" href="#two" data-role="button" data-transition="flip" data-icon="edit" data-theme="b" class="ui-btn-right">New</a>
-	</div><!-- /header -->
-
-<!--        <div class="ui-bar ui-bar-b" data-inline="true">
-            <h3>I'm just a div with bar classes and a mini inline <a href="#" data-role="button" data-mini="true" data-inline="true">Button</a></h3>
+        <div class="ui-title"><H1>Bookworm Club</h1>
         </div>
--->
-        
-<div class="ui-bar ui-bar-a" data-inline="true" >
-    Points:&nbsp;<span id="userPoints">XXXX</span><!--<div id="badge-expert" data-inline="true" class="ui-icon ui-icon-lightbulb badge" style="background: green; color: white;" ></div>-->
-    <a class="badge" id="badge" href="#" data-role="button" data-icon="leaf" data-mini="true" data-inline="true" data-theme="b" data-iconpos="notext"></a>
-</div>
-        
-        <div data-role="popup" id="popupBadges" class="ui-content" style="max-width:280px" data-theme="e">
+
+        <div class= "ui-btn ui-btn-right" >
+
+            <a id="createBookReport" href="#two" data-role="button" data-transition="flip" data-icon="edit" data-theme="b" class="ui-btn-right">New</a>
+
+        </div>
+
+	</div><!-- /header -->
+    
+    <div class="ui-bar ui-bar-a" data-position="inline" data-mini="true" >
+        <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <p ><span id="dummyfld"></span></p>
+            </div>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <span>Points:&nbsp;<span id="userPoints">000</span></span>
+                <a class="badge" id="badge" href="#popupBadges" data-rel="popup" data-role="button" data-icon="leaf" data-mini="true" data-inline="true" data-theme="b" data-iconpos="notext"></a>
+            </div>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">&nbsp;</div>
+                <div class="ui-block-b ui-btn ui-btn-right">
+                    <a data-theme="b" id="lnkDialogOpenFeatures" href="#dlgFeatures"
+                        data-role="button" data-inline="true" data-mini="true" data-icon="info"
+                        data-rel="dialog" class="ui-btn-right"><span id='btnBWClubText'>About Bookworm Club</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div data-role="popup" id="popupBadges" class="ui-content" data-position-to="window" data-theme="e">
             <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
             <div id="msgBadges"><p>Just something in here for now. Its just a test and thats it!</p></div>
         </div>
@@ -366,7 +387,7 @@
 		</div>
 </div>
 
-<div data-role="dialog" id="dlgFirstTimeOnly" data-theme="b" data-close-btn="right">
+<div data-role="dialog" id="dlgFeatures" data-theme="b" data-close-btn="right">
     
     <div data-role="header" data-theme="a" data-position="inline">
         <h1>Thank You!</h1>
@@ -374,37 +395,55 @@
     
     <div data-role="content" data-theme="e">
         
-        <h2>Thanks for installing the app (or update) !</h2> <br />
+        <h2>Thanks for installing the Bookworm Club app !</h2> <br />
 
         <div class="ui-grid-a">
             <div class="ui-block-a">
-                <img id="imgLogo" src="img/BWApp-Icon.png" alt="Bookworm Club logo"></img>
+                <a id="bwclubWebsite" href="javascript:window.open('https://sites.google.com/site/mybookwormclub/home', '_blank', 'location=yes');"><img id="imgLogo" src="img/BWApp-Icon.png" alt="Bookworm Club logo"></img></a>
             </div>
             <div class="ui-block-b">
-                <p>Our highly under-paid minions have been hard at work on our <b>new features</b>.</p>
-                <p>We are really excited to share this with you.</p>
+                <p>Our highly under-paid minions have been hard at work on our <b>new features</b> and/or <i>bug fixes</i>.</p>
+                <p>We are really excited to share this latest revision with you.</p>
             </div>
         </div>
         
         <div>
             <h3>Features of the Bookworm Club App:</h3>
             <ol>
-                <li><b>Display a Welcome Message for users</b></li>
-                <li><b>Show the Points earned</b></li>
-                <li><b>Indicate Badge of Achievement </b></li>
-                <li><b>Navigational guide updated</b></li>
-                <li><b>Like It, Hate it - we have a Feedback button now.</b></li>
+                <li><b>Include an About App button: Features, Bugfixes, Known Issues. Also, included a button to file a bug.</b></li>
+                <li>Show the Points earned</li>
+                <li>Indicate Badge of Achievement </li>
+                <li>Navigational guide updated</li>
+                <li>Like It, Hate it - we have a Feedback button now.</li>
                 <li>Create Book Reports</li>
                 <li>Email created Book Reports</li>
                 <li>Allow BarCode scanning for faster entry of Book Report</li>
                 <li>Retrieve Book Covers based on scanned BarCode</li>
                 <li>Save sketch or drawing</li>
             </ol>
+            <h3>Recent Bugfixes:</h3>
+            <ol>
+                <li><b>Splash Screen Popup on initial startup causes freeze: Fixed</b></li>
+                <li><b>App Freezes when trying to close subsequent popups in starting screen: Fixed</b></li>
+            </ol>
+            <h3>Known Issues:</h3>
+            <ol>
+                <li><b>No Known Issues</b></li>
+            </ol>
         </div>
         <div>
             <p>Pl. contact us if you have <u>any</u> questions.<br/>
         </div>
-        <a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+        
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="javascript:window.open('https://github.com/sachinh/BookwormClub/issues', '_blank', 'location=yes');" class="fileBug" data-role="button" data-theme="b">File a Bug</a>
+            </div>
+        </div>
+        
     </div>
 </div>
 
