@@ -670,13 +670,13 @@ function isAutoFocusSupported(){
     return 0;
 }
 
+/*
 $(".badgeXXX").click(function() {
                         alert("in the badge click fn");
                   var userMessage = "Not detected";
                   userMessage = retrieveBadgeDescription();
                   alert("back in main badge click fn: " + userMessage);
                   
-                  /*
                    var iconType = $("#badge").attr("data-icon");
                   //var iconType = $(this).attr("data-icon");
                   alert("the data icon on the badge is: " + iconType);
@@ -691,7 +691,7 @@ $(".badgeXXX").click(function() {
                     userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
                   else if (iconType == "book")
                     userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
-                  */
+ 
                   
                   //navigator.notification.alert(userMessage, null, "Badges Explained");
                   $("#msgBadges").html(userMessage);
@@ -699,6 +699,7 @@ $(".badgeXXX").click(function() {
 
                   //alert("done the click processing");
                         });
+*/
 
 $( "#popupBadges" ).bind({
                          popupafteropen: function() {
@@ -974,6 +975,29 @@ $("#createBookReport").click(function() {
 
 });
 
+
+/*
+ * 
+ * Coded: Sachin Holla 
+ * On: 01/23/2014
+ * Purpose: This enforces only numeric values in the pages field
+ * Fixes issue: https://github.com/sachinh/BookwormClub/issues/30
+ * Corner Case: How to prevent paste into the field ?
+ *
+ */
+
+$('#pages').keypress(function(e) {
+                    var a = [];
+                    var k = e.which;
+                    
+                    for (i = 48; i < 58; i++)
+                    a.push(i);
+                    
+                    if (!(a.indexOf(k)>=0))
+                    e.preventDefault();
+                    
+});
+
 // again for the Save button don't function id but class instead
 //$("#btnSave").click(function() {
 $('.save-btn').click(function(event) {
@@ -986,6 +1010,7 @@ $('.save-btn').click(function(event) {
 		}
 	
     console.log("past the empty fields check");
+                     
 	// setup info from fields
     var bookID=$("#bkID").val();
 	var bookName=$("#bkName").val();
