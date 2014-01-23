@@ -259,18 +259,18 @@ var cb;
 function setupChildBrowser() {
     var root = this;
     
-    alert("before childbrowser plugin");
+    //alert("before childbrowser plugin");
     cb = window.plugins.childBrowser;
-    alert("after childbrowser plugin: " + cb);
+    //alert("after childbrowser plugin: " + cb);
     //console.log("after childbrowser plugin: " , cb);
     
     if (cb != null) {
-        alert(" there is a valid childbrowser plugin");
+        //alert(" there is a valid childbrowser plugin");
         cb.onLocationChange = function(loc){ root.locChanged(loc); };
         cb.onClose = function(){root.onCloseBrowser()};
         cb.onOpenExternal = function(){root.onOpenExternal();};
         //cb.showWebPage("http://google.com");
-        alert("all done with childbrowser plugin");
+        //alert("all done with childbrowser plugin");
     }
 
 }
