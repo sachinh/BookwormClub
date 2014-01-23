@@ -101,6 +101,7 @@ $( "#popupPanelR" ).bind({
                          }
                          });
 
+/*
 $('#bwclubWebsite').click(function(event) {
                           //alert("the website link was clicked");
                           //cb.showWebPage('http://www.google.com');
@@ -108,6 +109,7 @@ $('#bwclubWebsite').click(function(event) {
                           //var ref = window.open('https://sites.google.com/site/mybookwormclub/home', '_blank', 'location=yes';
 
                       });
+*/
 
 $('.helpPopup').click(function(event) {
 //                      alert("Help Button Clicked");
@@ -254,6 +256,7 @@ function processLocalStorage() {
     alert ("done showing all storage");
 }
 
+/*
 var cb;
 
 function setupChildBrowser() {
@@ -285,6 +288,7 @@ function locChanged(loc) {
 function onOpenExternal() {
     console.log("onOpenExternal!");
 }
+*/
 
 /*
  $("#two").swipeleft(function() {
@@ -487,12 +491,15 @@ $('.emailReport').live('click', function(event) {
 var $isUpdate = "";
 
 $('.bookReportItem').live('click', function(event) {
+                          /*
                           //alert("in bookreportitem click: cb is " + cb);
                           if (cb == undefined) {
                           //alert("setting up the cb var");
                               // setup the childbrowse vars
                               setupChildBrowser();
                           }
+                          */
+                          
                           //alert("list item clicked");
             //event.preventDefault();
             // POA: extract the id and populate the fields and then change the page 
