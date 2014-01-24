@@ -41,12 +41,13 @@
     
     <div class="ui-bar ui-bar-a" data-position="inline" data-mini="true" >
         <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
-        <div class="ui-grid-a">
+<!--        <div class="ui-grid-a">
             <div class="ui-block-a">
                 <span id="dummyfld">&nbsp;</span>
             </div>
         </div>
-        
+-->
+
         <div class="ui-grid-a">
             <div class="ui-block-a">
                 <span>Points:&nbsp;<span id="userPoints">000</span></span>
@@ -99,7 +100,8 @@
             <h1 id="hdrTitle2">Book Report</h1>
         </div>
         <a id="btnSave" href="#" data-role="button" data-icon="save" data-theme="b" class="save-btn ui-btn-right">Save</a>
-        <div>&nbsp;</div><div style="position:absolute; width:300px; height:50px; z-index:15; top:70%; left:37%; ">Swipe Left to advance to next screen.</div>
+        <div>&nbsp;</div>
+        <div style="position:absolute; top:70%; left:33%; ">Swipe Left to advance to next screen.</div>
 	</div><!-- /header -->
     
     <div class="ui-bar ui-bar-b" data-inline="true">
@@ -210,7 +212,8 @@
             <h1 id="hdrTitle3">Book Report (contd.)</h1>
         </div>
 		<a id="btnSave2" href="#" data-role="button" data-icon="save" data-theme="b" class="save-btn ui-btn-right">Save</a>
-        <div>&nbsp;</div><div style="position:absolute; width:300px; height:50px; z-index:15; top:70%; left:37%; ">Swipe right to go back to prev screen.</div>
+        <div>&nbsp;</div>
+        <div style="position:absolute; top:70%; left:33%; ">Swipe right to go back to prev screen.</div>
     </div><!-- /header -->
 
     <div class="ui-bar ui-bar-b" data-inline="true">
@@ -331,22 +334,6 @@
 		</div>
 </div><!-- dialog for Privacy Notice -->
 
-<!--
- <div data-role="dialog" id="dlgUserNotification" data-theme="b">
-	
-    <div data-role="header" data-theme="a" data-position="inline">
-        <h1>Notification</h1>
-    </div>
-    
-    <div data-role="content" data-theme="e">
-        <div class="userMessage">
-                <P> this is just a dummy text for the dialog.
-        </div>
-        <a href="#" data-inline="true" class="ui-btn" data-role="button" data-theme="b" data-rel="back">Close</a>
-    </div>
-</div>
--->
-
 <div data-role="dialog" id="dlgFeatures" data-theme="b" data-close-btn="right" data-overlay-theme="b">
     
     <div data-role="header" data-theme="a" data-position="inline">
@@ -407,12 +394,14 @@
     </div><!-- end of content for features dialog -->
 </div><!-- end of features dialog -->
 
-<script type="text/javascript" src="cordova-2.5.0.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
-<script src="js/source.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/EmailComposer.js"></script>
-<script type="text/javascript">app.initialize();</script>
+    <script type="text/javascript" src="cordova-2.5.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
+    <script src="js/source.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/EmailComposer.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+        </script>
 
 </body>
 </html>

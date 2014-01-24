@@ -196,6 +196,15 @@ $(function () {
     $("[data-role=header]").fixedtoolbar({ tapToggle: false });
     $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
   
+    // Coded: Sachin Holla
+    // On: 01/23/2014
+    // Purpose: to fix the extra line in the non-header bar
+    // Fixes issue: https://github.com/sachinh/BookwormClub/issues/28
+  
+    // try and trigger a refresh to see if the header bar problem is resolved
+    $( '#badge' ).trigger( 'updatelayout' );
+    //Code change ends: on 01.23.2014
+  
 });
 
 var orientationMode = "";
