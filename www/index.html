@@ -122,7 +122,7 @@
         </div>
         <!-- end of popup stuff -->
             
-        <div data-role="popup" id="helpPopupDialogPg2" class="ui-content" style="max-width:280px">
+        <div data-role="popup" id="helpPopupDialogPg2" class="ui-content" data-position-to="origin">
             <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
             <div id="msgHelpPg2"><p>Just something in here for now. Its just a test and thats it!</p></div>
         </div>
@@ -222,8 +222,9 @@
             <div class="ui-block-a" style="width: 250px; height: 250px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
                     <img id="imgUserImage" src="img/placeholder.png" alt="image" class="user-image" style="width: 250px; height: 250px;">
             </div>
-            <div class="ui-block-b">
+            <div class="ui-block-b" data-role="fieldcontain">
                 <a id="btnUpload" onclick="captureImage();" data-role="button" data-mini="true" data-inline="true" data-theme="b" data-icon="picture" >Save Sketch</a>
+                <a data-theme="b" id="helpSaveSketch" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
         </div>
 

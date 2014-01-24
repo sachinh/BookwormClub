@@ -1,6 +1,5 @@
 $( '#one' ).live( 'pageinit',function(event){
                  
-                 //alert("the first page has been created");
                  // to create the popup on page load
                  console.log("just enterd the page load fn");
                  
@@ -101,19 +100,7 @@ $( "#popupPanelR" ).bind({
                          }
                          });
 
-/*
-$('#bwclubWebsite').click(function(event) {
-                          //alert("the website link was clicked");
-                          //cb.showWebPage('http://www.google.com');
-                          // now start a browser session
-                          //var ref = window.open('https://sites.google.com/site/mybookwormclub/home', '_blank', 'location=yes';
-
-                      });
-*/
-
 $('.helpPopup').click(function(event) {
-//                      alert("Help Button Clicked");
-                      //alert("id: " + $(this).attr('id'));
                       var helpFieldID = $(this).attr('id') ;
                       var helpMessage = "<p>Dynamic HTML!</p>";
                       var pageHelp = "three";
@@ -121,35 +108,47 @@ $('.helpPopup').click(function(event) {
                       if (helpFieldID == "helpTextarea")
                         helpMessage = "<p>Textarea help message which can go on and on and then some ...</p>";
                       else if (helpFieldID == "helpMainCharacters")
-                        helpMessage = "<p>Who are the main characters in the book ?</p>";
+                        helpMessage = "<b>Main Characters</b><p>Who are the main characters in the book ?</p>";
                       else if (helpFieldID == "helpSetting")
-                        helpMessage = "<p>Where did this story take place?<br/>Name and describe the place where the story happened.</p>";
+                        helpMessage = "<b>Setting</b><p>Where did this story take place?<br/>Name and describe the place where the story happened.</p>";
                       else if (helpFieldID == "helpConflict")
-                        helpMessage = "<p>What was the action in the story?<br/>What gave the story a beginning,middle, and end?</p>";
+                        helpMessage = "<b>Conflict</b><p>What was the action in the story?<br/>What gave the story a beginning,middle, and end?</p>";
                       else if (helpFieldID == "helpConclusion")
-                        helpMessage = "<p>How did the story end?<br/>Was it funny, sad, or something else?</p>";
+                        helpMessage = "<b>Conclusion</b><p>How did the story end?<br/>Was it funny, sad, or something else?</p>";
                       else if (helpFieldID == "helpReasonWhy")
-                        helpMessage = "<p>Why did you like the book or <br/>why did you not like the book?</p>";
+                        helpMessage = "<b>Reason to like/dislike book</b><p>Why did you like the book or <br/>why did you not like the book?</p>";
                       else if (helpFieldID == "helpBookName") {
-                        helpMessage = "<p>What is the name of the Book ?</p>";
+                        helpMessage = "<b>Book Name</b><p>What is the name of the Book ?</p>";
                         pageHelp = "two";
                       }
                       else if (helpFieldID == "helpAuthorName") {
-                      helpMessage = "<p>What is the name of the Author ?</p>";
+                      helpMessage = "<b>Author Name</b><p>What is the name of the Author ?</p>";
                       pageHelp = "two";
                       }
                       else if (helpFieldID == "helpNumPages") {
-                      helpMessage = "<p>How many Pages ?</p>";
+                      helpMessage = "<b>Pages</b><p>How many Pages ?</p>";
                       pageHelp = "two";
                       }
+                      // Coded: Sachin Holla
+                      // On: 01/23/2014
+                      // Purpose: to use consistent popups for user facing messages
+                      // Fixes issue: https://github.com/sachinh/BookwormClub/issues/39
+                      else if (helpFieldID == "helpSaveSketch") {
+                      helpMessage = "<b>Save Sketch</b><p>Use your iPad camera to capture your sketch. <br/><br/>Sketches can be your drawing of the book cover, plot or your favourite part in the book.</p>";
+                      }
+                      // Code Change end: on 01/23/2014
                       
                       if (pageHelp == "two") {
                           $("#msgHelpPg2").html(helpMessage);
-                          $("#helpPopupDialogPg2").popup("open");
+//                      alert('datapositionto: ' + $('#helpPopupDialogPg2').attr('data-position-to'));
+//                      alert(helpFieldID);
+//                          $('#helpPopupDialogPg2').attr('data-position-to','origin');
+//                      alert('datapositionto: ' + $('#helpPopupDialogPg2').attr('data-position-to'));
+                      $("#helpPopupDialogPg2").popup("open", { transition: 'pop', positionTo: 'origin' } );
                       }
                       else {
                           $("#msgHelpPg3").html(helpMessage);
-                          $("#helpPopupDialogPg3").popup("open");
+                          $("#helpPopupDialogPg3").popup("open", { transition: 'pop', positionTo: 'origin' } );
                       }
 
                       });
@@ -165,15 +164,11 @@ function countWords(strInput){
 }
 
 $('.mlInput').blur(function(e) {
-                   //alert('Handler for .blur() called.');
                    inputStr = $(this).val() ;
-                   //alert("input string is: " + inputStr );
                    if (inputStr == "")
                     return ;
                    wordsCounted = countWords(inputStr) ;
-                   //alert ("Words counted: " + wordsCounted );
                    if (wordsCounted<=10) {
-                    //e.preventDefault();
                    
                    // Coded: Sachin Holla
                    // On: 01/23/2014
@@ -181,7 +176,6 @@ $('.mlInput').blur(function(e) {
                    // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
                    
                    var fldID = $(this).attr('id');
-                   //alert (fldID);
                    if (fldID !=''){
                     $('#popupUserScreen3').attr('data-position-to',$(this).attr('id'));
                    }
@@ -191,52 +185,21 @@ $('.mlInput').blur(function(e) {
                    //navigator.notification.alert('You have entered 10 words or less. Pl. add to your answer.', null, 'Answer Length');
                    // Code Change end: on 01/23/2014
                    
-                    //$(this).focus();
                    return false;
-                    //alert("Too short an answer. Pl. add to your answer.");
                    }
                    });
 
 $(function () {
-    //alert("jquery loaded");
-    // call fn to list out all the items in the localstorage
-    //processLocalStorage();
-    // now clear the storage
-    //localStorage.clear();
-    //now call the display fn to validate for sure
-    //processLocalStorage();
-  
-    //return;
-  
     // setup for orintation change
     window.addEventListener('orientationchange', doOnOrientationChange);
     // Initial execution if needed
     doOnOrientationChange();
-  
-    /*
-    //assuming the orientation mode has been detected, update the 'about BWClub' button text, if in portrait
-    if (orientationMode=='portrait'){
-        //alert($('#btnBWClubText').html());
-        $('#btnBWClubText').html('About App');
-        //alert($('#btnBWClubText').html());
-    }
-    else {
-        //alert($('#btnBWClubText').html());
-        $('#btnBWClubText').html('About Bookworm Club');
-        //alert($('#btnBWClubText').html());
-    }
-    */
   
 	// on ready, retrieve all book reports
 	getBookReports();
     //  setupBarCodeEvents();
     $("[data-role=header]").fixedtoolbar({ tapToggle: false });
     $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
-    //call the privacy notice the first time
-    //$("#lnkDialogOpen").click();
-  
-    // call function to adjsut for spaces - HACK
-    //adjustSpacesForLandscape();
   
 });
 
@@ -248,31 +211,15 @@ function doOnOrientationChange()
     {
         case -90:
         case 90:
-            //alert('landscape mode');
             orientationMode = 'landscape';
             $('#btnBWClubText').html('About Bookworm Club');
             break;
         default:
-            //alert('portrait mode');
             orientationMode = 'portrait';
             $('#btnBWClubText').html('About App');
             break;
     }
 }
-
-/*
-function processLocalStorage() {
-        // in function
-    alert("in processlocalstorage");
-    for(var i = 0; i < localStorage.length; i++)
-    {
-        var key = localStorage.key(i);
-        var value = localStorage.getItem(key);
-        alert("Key= "+key+", Value= "+value);
-    }
-    alert ("done showing all storage");
-}
-*/
 
 /*
 var cb;
