@@ -1,3 +1,52 @@
+/*
+ * Global Variables
+ *
+ *
+ *
+ */
+
+var orientationMode = "";
+
+// to track if in new/update mode
+var $isUpdate = "";
+
+var $pgThreeInit = "";
+
+var autoFocusSupported = -1;
+
+var empty_flds ;
+
+/*
+ * Page Event Handlers
+ *
+ *
+ *
+ */
+
+
+$(function () {
+  // setup for orintation change
+  window.addEventListener('orientationchange', doOnOrientationChange);
+  // Initial execution if needed
+  doOnOrientationChange();
+  
+  // on ready, retrieve all book reports
+  getBookReports();
+  //  setupBarCodeEvents();
+  $("[data-role=header]").fixedtoolbar({ tapToggle: false });
+  $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
+  
+  // Coded: Sachin Holla
+  // On: 01/23/2014
+  // Purpose: to fix the extra line in the non-header bar
+  // Fixes issue: https://github.com/sachinh/BookwormClub/issues/28
+  
+  // try and trigger a refresh to see if the header bar problem is resolved
+  $( '#badge' ).trigger( 'updatelayout' );
+  //Code change ends: on 01.23.2014
+  
+  });
+
 $( '#one' ).live( 'pageinit',function(event){
                  
                  // to create the popup on page load
@@ -43,6 +92,25 @@ $( '#two' ).live( 'pageinit',function(event){
                        
                        });
 
+$( '#two' ).live( 'pageinit',function(event){
+                 // this is when the cordova piece should have loaded fine
+                 autoFocusSupported = isAutoFocusSupported() ;
+                 });
+
+
+$("#two").swipeleft(function() {
+                    $.mobile.changePage("#three", {
+                                        allowSamePageTransition : true,
+                                        transition: "flip"
+                                        } );
+                    });
+$("#three").swiperight(function() {
+                       $.mobile.changePage("#two", {
+                                           allowSamePageTransition : true,
+                                           transition: "flip"
+                                           } );
+                       });
+
 $( '#three' ).live( 'pageinit',function(event){
                  
                  // to create the popup on page load
@@ -51,6 +119,12 @@ $( '#three' ).live( 'pageinit',function(event){
                  console.log("finished the popup stuff");
                  
                  });
+
+// update the values accordingly
+$('#three').live('pagecreate',function(event){
+                 $pgThreeInit="complete";
+                 });
+
 
 $( "#popupFirstTime" ).on({
                       popupbeforeposition: function() {
@@ -99,6 +173,452 @@ $( "#popupPanelR" ).bind({
                          console.log("popuppanel: after setting timeout");
                          }
                          });
+
+
+$( "#popupBadges" ).bind({
+                         popupafteropen: function() {
+                         
+                         var userMessage = "Not detected";
+                         userMessage = retrieveBadgeDescription();
+                         $("#msgBadges").html(userMessage);
+                         
+                         }
+                         
+                         });
+
+/*
+ * Primary Button Event Handlers
+ *
+ */
+
+
+$("#createBookReport").click(function() {
+                             //now reset the values to the placeholders
+                             
+                             // check for the bookID
+                             rowCount=0;
+                             if (!isNaN(localStorage.rowCount)){
+                             // this means the data store is populated
+                             // only then try and parse the rowCount value
+                             rowCount=parseInt(localStorage.rowCount);
+                             }
+                             else {
+                             // this means there is no data store yet
+                             rowCount=0
+                             }
+                             
+                             //set the mode to be new
+                             $isUpdate = "false";
+                             
+                             $("#imgCapturedImage").attr("src","img/placeholder.png");
+                             $("#imgUserImage").attr("src","img/blankimage.png");
+                             $("#bkID").val(rowCount);
+                             
+                             $("#bkName").val("");
+                             $("#auName").val("");
+                             $("#pages").val("");
+                             $("#mainCharacters").val("");
+                             // removing the plot summary for now
+                             //reset the slider to off
+                             $('#chkLike').val('No').slider('refresh');
+                             // reset new fields too
+                             $("#bkSetting").val("");
+                             $("#bkConflict").val("");
+                             $("#bkConclusion").val("");
+                             $("#bkReasonWhy").val("");
+                             //reset the ratings field too.
+                             $("#lblAvgRating").html("");
+                             
+                             // change the header to be 'Book report Detail'
+                             $("#hdrTitle2").text("New Book Report");
+                             // also disable the Save report button
+                             
+                             // now disable the email button
+                             $(".emailBkReport").closest('.ui-btn').hide();
+                             $(".deleteBkReport").closest('.ui-btn').hide();
+                             
+                             });
+
+$('.deleteBkReport').click(function(event) {
+                           // delete the report
+                           console.log("in delete report click");
+                           
+                           // now look for the id and lets make sure its not the same as the last record
+                           $bookID = $('#bkID').val();
+                           $rowCount = localStorage.rowCount;
+                           console.log("ID: " + $bookID + ", rowCount= " + $rowCount);
+                           
+                           //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
+                           if ($bookID != "")
+                           $bookID = "bkReport" + $bookID ;
+                           console.log("bkReport ID: " + $bookID );
+                           
+                           // now retrieve the bkreport from storage
+                           var bkReport = localStorage.getItem($bookID);
+                           console.log('deleteBkReport object: ', bkReport);
+                           
+                           //extract the actual values
+                           if (bkReport == null) {
+                           // this means there is no saved data for this ID
+                           
+                           // Coded: Sachin Holla
+                           // On: 01/23/2014
+                           // Purpose: to use consistent popups for user facing messages
+                           // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+                           
+                           //navigator.notification.alert('To delete, pl. save Book Report first.', null, 'New Book Report');
+                           
+                           // now get the ID of the button click
+                           var delBtnID = $(this).attr("id");
+                           
+                           if (delBtnID == 'deleteScreen2'){
+                           // set the user message in the appropriate popup and display popup
+                           $('#popupUserScreen2').attr('data-position-to','window');
+                           $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
+                           $('#popupUserScreen2').popup( "open" );
+                           }
+                           else if (delBtnID == 'deleteScreen3'){
+                           // set the user message in the appropriate popup and display popup
+                           $('#popupUserScreen3').attr('data-position-to','window');
+                           $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
+                           $('#popupUserScreen3').popup( "open" );
+                           
+                           }
+                           else {
+                           alert('MSG-01: There is an error, pl. report this to the developer');
+                           }
+                           // Code Change end: on 01/23/2014
+                           
+                           return ;
+                           }
+                           else {
+                           // remove the item
+                           localStorage.removeItem($bookID);
+                           //
+                           console.log("all done with the removal so now should eb able to go back to the first screen");
+                           //return to the main page with a refresh first
+                           getBookReports();
+                           
+                           // change the actual page
+                           $.mobile.changePage( "#one", {
+                                               allowSamePageTransition : true,
+                                               transition: "flip"
+                                               } );
+                           // all done here
+                           }
+                           });
+
+$('.emailReport').live('click', function(event) {
+                       // email the report
+                       console.log("email report clicked");
+                       console.log("id= " + $(this).attr("id"));
+                       emailBookReport($(this).attr("id"));
+                       console.log("finished the email setup");
+                       
+                       });
+
+// again for the Save button don't function id but class instead
+$('.save-btn').click(function(event) {
+                     console.log ("in Save click");
+                     //check for empty fields
+                     checkForEmptyFields();
+                     if (empty_flds!=""){
+                     //alert("Required Fields Missing: Please fill in " + empty_flds);
+                     
+                     // now implement the popup
+                     $('#popupUserScreen2').attr('data-position-to','#auName');
+                     $('#userMessage2').html("<p><b>Required Fields Missing:</b><br/>Please fill in <i>" + empty_flds + "</i>");
+                     $('#popupUserScreen2').popup( "open" );
+                     
+                     return 0;
+                     }
+                     
+                     console.log("past the empty fields check");
+                     
+                     // setup info from fields
+                     var bookID=$("#bkID").val();
+                     var bookName=$("#bkName").val();
+                     var authorName=$("#auName").val();
+                     var noOfPages=$.trim($("#pages").val());
+                     if (isNaN(noOfPages))
+                     noOfPages=0;
+                     else
+                     {
+                     if (noOfPages<=0)
+                     noOfPages=0;
+                     }
+                     
+                     var mainCharactersinPlot=$("#mainCharacters").val();
+                     // removing the plot summary for now
+                     var boolLiked=$("#chkLike").val();
+                     // now get the new fields too
+                     var bookSetting=$("#bkSetting").val();
+                     var bookConflict=$("#bkConflict").val();
+                     var bookConclusion=$("#bkConclusion").val();
+                     var likedReason=$("#bkReasonWhy").val();
+                     // lets also store the book cover from the barcode scan, if available
+                     var capturedImage = $("#imgCapturedImage").attr("src");
+                     // lets store the user image too
+                     var userImage = $("#imgUserImage").attr("src");
+                     // lets store the avg ratings too - will be hepful for retrieval and such
+                     var bkRating = $("#lblAvgRating").html();
+                     // now we are going to set these values in the localstorage
+                     //lets check if there exists a data store or not
+                     console.log("no of pages: " + noOfPages);
+                     // now save the new 'record'
+                     
+                     //try and create the object dynamically
+                     var bkReport = new Object;
+                     bkReport.id = bookID;
+                     bkReport.book = bookName;
+                     bkReport.author = authorName;
+                     bkReport.pages = noOfPages;
+                     bkReport.characters = mainCharactersinPlot;
+                     // removing the plot summary for now
+                     bkReport.liked = boolLiked;
+                     //add new fields too
+                     bkReport.setting = bookSetting;
+                     bkReport.conflict = bookConflict;
+                     bkReport.conclusion = bookConclusion;
+                     bkReport.likedReason = likedReason;
+                     bkReport.cover = capturedImage;
+                     bkReport.userdrawing = userImage;
+                     //set the ratings too
+                     bkReport.rating = bkRating;
+                     
+                     console.log('In Save fn: bkReport: ' , bkReport);
+                     console.log("in Save fn: isSave= " + $isUpdate);
+                     if ($isUpdate=="true") {
+                     // remove the old item and then add the new one
+                     localStorage.removeItem('bkReport'+bookID);
+                     console.log("in save fn: finished removeing the old item: bkReport"+bookID);
+                     localStorage.setItem('bkReport'+bookID, JSON.stringify(bkReport));
+                     console.log("in save fn: finished adding the updated item: bkReport"+bookID);
+                     }
+                     else
+                     localStorage.setItem('bkReport'+bookID, JSON.stringify(bkReport));
+                     
+                     // dow the rowcount business only if a new record
+                     if ($isUpdate=="false") {
+                     //increment rowcount
+                     rowCount=parseInt(bookID)+1;
+                     localStorage.setItem('rowCount', rowCount);
+                     }
+                     
+                     // data store populated now
+                     console.log('bkReport' + bookID + ': ', JSON.parse(localStorage.getItem('bkReport'+bookID)));
+                     console.log('RowCount: ' + localStorage.rowCount);
+                     
+                     // now refresh and return
+                     
+                     //now reset the values to the placeholders
+                     // check for the bookID
+                     rowCount=0;
+                     if (localStorage.rowCount){
+                     // this means the data store is populated
+                     // only then try and parse the rowCount value
+                     rowCount=parseInt(localStorage.rowCount);
+                     }
+                     
+                     $("#imgCapturedImage").attr("src","img/placeholder.png");
+                     $("#imgUserImage").attr("src","img/blankimage.png");
+                     
+                     $("#bkID").val(rowCount);
+                     
+                     $("#bkName").val("");
+                     $("#auName").val("");
+                     $("#pages").val("");
+                     $("#mainCharacters").val("");
+                     // removing the plot summary for now
+                     //reset the slider to off with a check for the third page
+                     if ($pgThreeInit=="")
+                     $('#chkLike').val('No');
+                     else
+                     $('#chkLike').val('No').slider('refresh');
+                     
+                     // reset the new fields too
+                     $("#bkSetting").val("");
+                     $("#bkConflict").val("");
+                     $("#bkConclusion").val("");
+                     $("#bkReasonWhy").val("");
+                     // reset the ratings field too
+                     $("#lblAvgRating").html("");
+                     
+                     //return to the main page with a refresh first
+                     getBookReports();
+                     
+                     // change the actual page
+                     $.mobile.changePage( "#one", {
+                                         allowSamePageTransition : true,
+                                         transition: "flip"
+                                         } );
+                     
+                     // nothing more to do here
+                     
+                     });
+
+$('.emailBkReport').click(function(event) {
+                          console.log("in the email button click from the detail screen");
+                          $strBookID= $("#bkID").val();
+                          
+                          if ($strBookID != "") {
+                          //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
+                          $strBookID = "bkReport" + $strBookID ;
+                          console.log("strBookID: " + $strBookID);
+                          
+                          // Coded: Sachin Holla
+                          // On: 01/23/2014
+                          // Purpose: to use consistent popups for user facing messages
+                          // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+                          // retrieve the button ID here and pass on to helper function
+                          var emailBtnID = $(this).attr("id") ;
+                          //alert(emailBtnID);
+                          
+                          // now call the email routine
+                          emailBookReport($strBookID, emailBtnID);
+                          // Code change end: 01/23/2014
+                          }
+                          else
+                          alert("MSG-03: Invalid Book Report. This should never occur, pl. report this to the developer");
+                          });
+
+$('.sendFeedback').click(function(event) {
+                         // send an email to the developer
+                         feedbackSubject = "Feedback on Bookworm Club App";
+                         feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts on your Bookworm Club App:<br/>" +
+                         "<b>Love:</b><br/><br/>" +
+                         "<b>Hate:</b><br/><br/>" +
+                         "<p>And here's what I would really really like:<br/><br/>" +
+                         "Thanks" ;
+                         developerEmail = "nospamsachin" + "@" + "gmail.com" ;
+                         
+                         sendEmail(feedbackSubject, feedbackBody, developerEmail) ;
+                         });
+
+/*
+ * Other Input Event Handlers
+ *
+ */
+
+$('.bookReportItem').live('click', function(event) {
+                          // POA: extract the id and populate the fields and then change the page
+                          // first extract the id
+                          console.log('value of this id: ' + $(this).attr("id"));
+                          // now extract the values from the storage and set the values to the fields in page2
+                          // start finding the objects
+                          var bkReport = localStorage.getItem($(this).attr("id"));
+                          console.log('bkReport object: ', bkReport);
+                          //extract the actual values
+                          if (bkReport == null) {
+                          console.log('invalid object ' );
+                          }
+                          else {
+                          //set the mode to be update
+                          $isUpdate = "true";
+                          // now try and do a dump on the console
+                          bkReport = JSON.parse(bkReport);
+                          // get the id
+                          $idValue=bkReport.id;
+                          console.log("localstorage has ID: " + $idValue );
+                          if(isNaN($idValue)) {
+                          // never should really happen but its more of a legacy issue probably
+                          strIndexedBookID=$(this).attr("id");
+                          
+                          console.log("the stored ID in HTML is: " + strIndexedBookID);
+                          ipostBkReport = 8; // ID is stored as "bkReport"
+                          console.log(strIndexedBookID.substring(8))
+                          iIndexedBookID = parseInt(strIndexedBookID.substring(ipostBkReport));
+                          console.log("the new ID is: " + iIndexedBookID);
+                          // now set the value of the new ID
+                          $idValue = iIndexedBookID;
+                          }
+                          console.log('id: '+ $idValue);
+                          console.log('book: '+ bkReport.book);
+                          console.log('author: '+ bkReport.author);
+                          console.log('pages: '+ bkReport.pages);
+                          
+                          //now set the values in the detail page
+                          $("#bkID").val($idValue);// no putting in bkreport prefix
+                          $("#bkName").val(bkReport.book);
+                          $("#auName").val(bkReport.author);
+                          $("#pages").val(bkReport.pages);
+                          $("#mainCharacters").val(bkReport.characters);
+                          // removing the plot summary for now
+                          console.log("liked: " + bkReport.liked);
+                          console.log("pgThreeInit" + $pgThreeInit);
+                          
+                          if (bkReport.liked=="Yes"){
+                          console.log("in the yes block for liked");
+                          
+                          //set the value for the slider button to ON
+                          //check if page two has been launched
+                          if ($pgThreeInit=="") {
+                          console.log("pg3 has not been init");
+                          $('#chkLike').val('Yes');
+                          console.log("after setting the slider - yes");
+                          }
+                          else {
+                          console.log("pg3 has been init");
+                          $('#chkLike').val('Yes');
+                          $('#chkLike').slider('refresh');
+                          console.log("after setting the slider - yes");
+                          }
+                          }
+                          else {
+                          console.log("in the no block for liked");
+                          
+                          //set the value for the slider button to OFF
+                          //check if page two has been launched
+                          if ($pgThreeInit=="")
+                          $('#chkLike').val('No');
+                          else
+                          $('#chkLike').val('No').slider('refresh');
+                          }
+                          console.log("finished setting the liked slider");
+                          //now update the new fields too
+                          $("#bkSetting").val(bkReport.setting);
+                          $("#bkConflict").val(bkReport.conflict);
+                          $("#bkConclusion").val(bkReport.conclusion);
+                          $("#bkReasonWhy").val(bkReport.likedReason);
+                          // now set the cover-image too
+                          $imgBookCover = bkReport.cover;
+                          console.log("scanned image: " + $imgBookCover);
+                          
+                          if ($imgBookCover=="")
+                          $imgBookCover = "img/placeholder.png" ;
+                          $("#imgCapturedImage").attr("src", $imgBookCover);
+                          
+                          // now set the user-image too
+                          $imgUserImage = bkReport.userdrawing;
+                          console.log("scanned user image: " + $imgUserImage);
+                          
+                          if (($imgUserImage=="") || ($imgUserImage==undefined))
+                          $imgUserImage = "img/blankimage.png" ;
+                          $("#imgUserImage").attr("src", $imgUserImage);
+                          
+                          //now set the ratings value too
+                          $bookRating = bkReport.rating;
+                          if ($bookRating == undefined)
+                          $bookRating = "";
+                          $("#lblAvgRating").html($bookRating);
+                          
+                          // change the header to be 'Book report Detail'
+                          $("#hdrTitle2").text("Book Report Detail");
+                          // also disable/hide the Save report button
+                          $(".emailBkReport").closest('.ui-btn').show();
+                          $(".deleteBkReport").closest('.ui-btn').show();
+                          
+                          console.log("just before changing the page");
+                          console.log("bkID: " + $("#bkID").val());
+                          //now navigate to the detail page
+                          $.mobile.changePage( "#two", { 
+                                              allowSamePageTransition : true,
+                                              transition: "flip"
+                                              } );
+                          
+                          // done	
+                          }
+                          });
 
 $('.helpPopup').click(function(event) {
                       var helpFieldID = $(this).attr('id') ;
@@ -149,19 +669,11 @@ $('.helpPopup').click(function(event) {
 
                       });
 
-function countWords(strInput){
-    s = strInput;
-    s = s.replace(/(^\s*)|(\s*$)/gi,"");
-    s = s.replace(/[ ]{2,}/gi," ");
-    s = s.replace(/\n /,"\n");
-    wrdCount = s.split(' ').length ;
-    return wrdCount ;
-}
 
 $('.mlInput').blur(function(e) {
                    inputStr = $(this).val() ;
                    if (inputStr == "")
-                    return ;
+                   return ;
                    wordsCounted = countWords(inputStr) ;
                    if (wordsCounted<=10) {
                    
@@ -172,11 +684,11 @@ $('.mlInput').blur(function(e) {
                    
                    var fldID = $(this).attr('id');
                    if (fldID !=''){
-                    $('#popupUserScreen3').attr('data-position-to',$(this).attr('id'));
+                   $('#popupUserScreen3').attr('data-position-to',$(this).attr('id'));
                    }
                    $('#userMessage3').html("<p><b>Insufficient Input:</b><br/>You have entered 10 words or less. Pl. add to your answer.");
                    $('#popupUserScreen3').popup( "open" );
-
+                   
                    //navigator.notification.alert('You have entered 10 words or less. Pl. add to your answer.', null, 'Answer Length');
                    // Code Change end: on 01/23/2014
                    
@@ -184,30 +696,65 @@ $('.mlInput').blur(function(e) {
                    }
                    });
 
-$(function () {
-    // setup for orintation change
-    window.addEventListener('orientationchange', doOnOrientationChange);
-    // Initial execution if needed
-    doOnOrientationChange();
-  
-	// on ready, retrieve all book reports
-	getBookReports();
-    //  setupBarCodeEvents();
-    $("[data-role=header]").fixedtoolbar({ tapToggle: false });
-    $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
-  
-    // Coded: Sachin Holla
-    // On: 01/23/2014
-    // Purpose: to fix the extra line in the non-header bar
-    // Fixes issue: https://github.com/sachinh/BookwormClub/issues/28
-  
-    // try and trigger a refresh to see if the header bar problem is resolved
-    $( '#badge' ).trigger( 'updatelayout' );
-    //Code change ends: on 01.23.2014
-  
-});
+$("#scan-button").click(function() {
+                        // setup to handle the barcode scanning
+                        
+                        if (!autoFocusSupported) {
+                        
+                        // Coded: Sachin Holla
+                        // On: 01/23/2014
+                        // Purpose: to use consistent popups for user facing messages
+                        // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+                        $('#popupUserScreen2').attr('data-position-to','#scan-button');
+                        $('#userMessage2').html("<p><b>No Auto Focus Camera detected:</b><br/>Barcode scanning will not work");
+                        $('#popupUserScreen2').popup( "open" );
+                        return;
+                        
+                        //navigator.notification.alert("Barcode scanning may not work", null, "No Auto Focus Camera detected");
+                        
+                        // Code Change end: on 01/23/2014
+                        }
+                        clickScan();
+                        });
 
-var orientationMode = "";
+/*
+ *
+ * Coded: Sachin Holla
+ * On: 01/23/2014
+ * Purpose: This enforces only numeric values in the pages field
+ * Fixes issue: https://github.com/sachinh/BookwormClub/issues/30
+ * Corner Case: How to prevent paste into the field ?
+ *
+ */
+
+$('#pages').keypress(function(e) {
+                     var a = [];
+                     var k = e.which;
+                     
+                     for (i = 48; i < 58; i++)
+                     a.push(i);
+                     
+                     if (!(a.indexOf(k)>=0))
+                     e.preventDefault();
+                     
+                     });
+
+
+/*
+ * Helper Functions
+ *
+ */
+
+
+function countWords(strInput){
+    s = strInput;
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");
+    s = s.replace(/[ ]{2,}/gi," ");
+    s = s.replace(/\n /,"\n");
+    wrdCount = s.split(' ').length ;
+    return wrdCount ;
+}
+
 
 function doOnOrientationChange()
 {
@@ -225,18 +772,6 @@ function doOnOrientationChange()
     }
 }
 
-$("#two").swipeleft(function() {
-                    $.mobile.changePage("#three", {
-                                        allowSamePageTransition : true,
-                                        transition: "flip"
-                                        } );
-                      });
-$("#three").swiperight(function() {
-                       $.mobile.changePage("#two", {
-                                           allowSamePageTransition : true,
-                                           transition: "flip"
-                                           } );
-                     });
 
 function getBookReports() {
 
@@ -354,220 +889,6 @@ function updateAwards( numOfBkReports) {
     }
 }
 
-$('.deleteBkReport').click(function(event) {
-    // delete the report
-                          console.log("in delete report click");
-                           
-                           // now look for the id and lets make sure its not the same as the last record
-                           $bookID = $('#bkID').val();
-                           $rowCount = localStorage.rowCount;
-                           console.log("ID: " + $bookID + ", rowCount= " + $rowCount);
-                           
-                           //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
-                           if ($bookID != "")
-                            $bookID = "bkReport" + $bookID ;
-                           console.log("bkReport ID: " + $bookID );
-                           
-                           // now retrieve the bkreport from storage
-                           var bkReport = localStorage.getItem($bookID);
-                           console.log('deleteBkReport object: ', bkReport);
-                           
-                           //extract the actual values
-                           if (bkReport == null) {
-                                // this means there is no saved data for this ID
-                           
-                                // Coded: Sachin Holla
-                                // On: 01/23/2014
-                                // Purpose: to use consistent popups for user facing messages
-                                // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
-
-                                //navigator.notification.alert('To delete, pl. save Book Report first.', null, 'New Book Report');
-                           
-                                // now get the ID of the button click
-                                var delBtnID = $(this).attr("id");
-                           
-                                if (delBtnID == 'deleteScreen2'){
-                                    // set the user message in the appropriate popup and display popup
-                                    $('#popupUserScreen2').attr('data-position-to','window');
-                                    $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
-                                    $('#popupUserScreen2').popup( "open" );
-                                }
-                                else if (delBtnID == 'deleteScreen3'){
-                                    // set the user message in the appropriate popup and display popup
-                                    $('#popupUserScreen3').attr('data-position-to','window');
-                                    $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
-                                    $('#popupUserScreen3').popup( "open" );
-
-                                }
-                                else {
-                                    alert('MSG-01: There is an error, pl. report this to the developer');
-                                }
-                                // Code Change end: on 01/23/2014
-                           
-                                return ;
-                           }
-                           else {
-                               // remove the item
-                               localStorage.removeItem($bookID);
-                               //
-                               console.log("all done with the removal so now should eb able to go back to the first screen");
-                               //return to the main page with a refresh first
-                               getBookReports();
-                               
-                               // change the actual page
-                               $.mobile.changePage( "#one", {
-                                                   allowSamePageTransition : true,
-                                                   transition: "flip"
-                                                   } );
-                               // all done here
-                               }
-                           });
-
-$('.emailReport').live('click', function(event) {
-                          // email the report
-                          console.log("email report clicked");
-                          console.log("id= " + $(this).attr("id"));
-                          emailBookReport($(this).attr("id"));
-                          console.log("finished the email setup");
-                       
-                       });
-
-// to track if in new/update mode
-var $isUpdate = "";
-
-$('.bookReportItem').live('click', function(event) {
-            // POA: extract the id and populate the fields and then change the page
-            // first extract the id
-            console.log('value of this id: ' + $(this).attr("id"));
-            // now extract the values from the storage and set the values to the fields in page2
-			// start finding the objects
-			var bkReport = localStorage.getItem($(this).attr("id"));
-			console.log('bkReport object: ', bkReport);
- 			//extract the actual values           
-			if (bkReport == null) {
-					console.log('invalid object ' );
-				}
-			else {
-                    //set the mode to be update
-                    $isUpdate = "true";
-					// now try and do a dump on the console
-					bkReport = JSON.parse(bkReport);
-					// get the id
-					$idValue=bkReport.id;
-                          console.log("localstorage has ID: " + $idValue );
-                    if(isNaN($idValue)) {
-						// never should really happen but its more of a legacy issue probably
-                          strIndexedBookID=$(this).attr("id");
-                          
-                          console.log("the stored ID in HTML is: " + strIndexedBookID);
-                          ipostBkReport = 8; // ID is stored as "bkReport"
-                          console.log(strIndexedBookID.substring(8))
-                          iIndexedBookID = parseInt(strIndexedBookID.substring(ipostBkReport));
-                          console.log("the new ID is: " + iIndexedBookID);
-                          // now set the value of the new ID
-                          $idValue = iIndexedBookID;
-                    }
-					console.log('id: '+ $idValue);
-					console.log('book: '+ bkReport.book);
-					console.log('author: '+ bkReport.author);
-					console.log('pages: '+ bkReport.pages);
-					
-					//now set the values in the detail page
-                    $("#bkID").val($idValue);// no putting in bkreport prefix
-					$("#bkName").val(bkReport.book);
-					$("#auName").val(bkReport.author);
-					$("#pages").val(bkReport.pages);
-					$("#mainCharacters").val(bkReport.characters);
-					// removing the plot summary for now 
-                    console.log("liked: " + bkReport.liked);
-                    console.log("pgThreeInit" + $pgThreeInit);
-                          
-                    if (bkReport.liked=="Yes"){
-                          console.log("in the yes block for liked");
-                          
-						//set the value for the slider button to ON
-						//check if page two has been launched
-                          if ($pgThreeInit=="") {
-                            console.log("pg3 has not been init");
-                            $('#chkLike').val('Yes');
-                            console.log("after setting the slider - yes");
-                          }
-                          else {
-                          console.log("pg3 has been init");
-                            $('#chkLike').val('Yes');
-                            $('#chkLike').slider('refresh');
-                          console.log("after setting the slider - yes");
-                          }
-					}
-					else {
-                          console.log("in the no block for liked");
-
-						//set the value for the slider button to OFF
-						//check if page two has been launched
-						if ($pgThreeInit=="")
-							$('#chkLike').val('No');
-						else
-							$('#chkLike').val('No').slider('refresh');
-						}
-                          console.log("finished setting the liked slider");
-					//now update the new fields too
-					$("#bkSetting").val(bkReport.setting);
-					$("#bkConflict").val(bkReport.conflict);
-					$("#bkConclusion").val(bkReport.conclusion);
-					$("#bkReasonWhy").val(bkReport.likedReason);
-					// now set the cover-image too
-                    $imgBookCover = bkReport.cover;
-                    console.log("scanned image: " + $imgBookCover);
-                          
-                    if ($imgBookCover=="")
-                          $imgBookCover = "img/placeholder.png" ;
-                    $("#imgCapturedImage").attr("src", $imgBookCover);
-                          
-                    // now set the user-image too
-                    $imgUserImage = bkReport.userdrawing;
-                    console.log("scanned user image: " + $imgUserImage);
-
-                    if (($imgUserImage=="") || ($imgUserImage==undefined))
-                          $imgUserImage = "img/blankimage.png" ;
-                    $("#imgUserImage").attr("src", $imgUserImage);
-                    
-                    //now set the ratings value too
-                    $bookRating = bkReport.rating;
-                    if ($bookRating == undefined)
-                          $bookRating = "";
-                    $("#lblAvgRating").html($bookRating);
-                          
-					// change the header to be 'Book report Detail'
-					$("#hdrTitle2").text("Book Report Detail");
-					// also disable/hide the Save report button
-                    $(".emailBkReport").closest('.ui-btn').show();
-                    $(".deleteBkReport").closest('.ui-btn').show();
-                          
-                    console.log("just before changing the page");
-                    console.log("bkID: " + $("#bkID").val());
-                    //now navigate to the detail page
-					$.mobile.changePage( "#two", { 
-						allowSamePageTransition : true,
-						transition: "flip"
-						} );
-										
-					// done	
-            	}
-        });
-
-var $pgThreeInit = "";
-// update the values accordingly
-$('#three').live('pagecreate',function(event){
-  $pgThreeInit="complete";
-});
-
-var autoFocusSupported = -1;
-
-$( '#two' ).live( 'pageinit',function(event){
-                 // this is when the cordova piece should have loaded fine
-                 autoFocusSupported = isAutoFocusSupported() ;
-                       });
-
 function isAutoFocusSupported(){
     console.log("entered the isAutoFocus supported fn");
     
@@ -595,17 +916,6 @@ function isAutoFocusSupported(){
     return 0;
 }
 
-$( "#popupBadges" ).bind({
-                         popupafteropen: function() {
-                         
-                         var userMessage = "Not detected";
-                         userMessage = retrieveBadgeDescription();
-                         $("#msgBadges").html(userMessage);
-                         
-                         }
-                         
-                         });
-
 function retrieveBadgeDescription(){
     // just arrived
     
@@ -628,26 +938,29 @@ function retrieveBadgeDescription(){
     
 }
 
-$("#scan-button").click(function() {
-                        // setup to handle the barcode scanning
-                        
-                        if (!autoFocusSupported) {
-
-                            // Coded: Sachin Holla
-                            // On: 01/23/2014
-                            // Purpose: to use consistent popups for user facing messages
-                            // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
-                            $('#popupUserScreen2').attr('data-position-to','#scan-button');
-                            $('#userMessage2').html("<p><b>No Auto Focus Camera detected:</b><br/>Barcode scanning will not work");
-                            $('#popupUserScreen2').popup( "open" );
-                            return;
-
-                            //navigator.notification.alert("Barcode scanning may not work", null, "No Auto Focus Camera detected");
-                        
-                            // Code Change end: on 01/23/2014
+function checkForEmptyFields() {
+    empty_flds = "";
+    $(".required").each(function() {
+                        if(!$.trim($(this).val())) {
+                        // get the field description and it to the emptyflds value
+                        if ($(this).attr("id") == "bkName")
+                        empty_flds += "Book Name";
+                        else if ($(this).attr("id") == "auName") {
+                        if (empty_flds != "")
+                        empty_flds += ",";
+                        empty_flds += "Author Name";
                         }
-                        clickScan();
+                        //all done
+                        }
                         });
+    
+    return empty_flds;
+}
+
+/*
+ * BarCode Scanner related helper functions
+ *
+ */
 
 function clickScan() {
     window.plugins.barcodeScanner.scan(scannerSuccess, scannerFailure);
@@ -750,262 +1063,30 @@ function setBookBio(bkTitle, imgBookCover, imgSmallBookCover, auName, avgRatings
     console.log ("done setting the book bio");
 }
 
-$("#createBookReport").click(function() {
-	//now reset the values to the placeholders
-                             
-    // check for the bookID
-    rowCount=0;
-    if (!isNaN(localStorage.rowCount)){
-        // this means the data store is populated
-        // only then try and parse the rowCount value
-        rowCount=parseInt(localStorage.rowCount);		
-    }
-    else {
-        // this means there is no data store yet
-        rowCount=0
-    }
+function setupBarCodeVars()
+{
+    scanButton = document.getElementById("scan-button");
+    resultSpan = document.getElementById("scan-result");
+}
+
+
+/* When this function is called, PhoneGap has been initialized and is ready to roll */
+/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+ see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+ for more details -jm */
+function setupBarCodeEvents()
+{
+    // do your thing!
     
-    //set the mode to be new
-    $isUpdate = "false";
-
-    $("#imgCapturedImage").attr("src","img/placeholder.png");
-    $("#imgUserImage").attr("src","img/blankimage.png");
-    $("#bkID").val(rowCount);
-
-    $("#bkName").val("");
-	$("#auName").val("");
-	$("#pages").val("");
-	$("#mainCharacters").val("");
-	// removing the plot summary for now 
-	//reset the slider to off
-	$('#chkLike').val('No').slider('refresh');
-	// reset new fields too
-	$("#bkSetting").val("");
-	$("#bkConflict").val("");
-	$("#bkConclusion").val("");
-	$("#bkReasonWhy").val("");
-    //reset the ratings field too.
-    $("#lblAvgRating").html("");
-	
-	// change the header to be 'Book report Detail'
-	$("#hdrTitle2").text("New Book Report");
-	// also disable the Save report button
-                             
-    // now disable the email button
-    $(".emailBkReport").closest('.ui-btn').hide();
-    $(".deleteBkReport").closest('.ui-btn').hide();
-
-});
-
+    scanButton.addEventListener("click", clickScan, false);
+    createButton.addEventListener("click", clickCreate, false);
+}
 
 /*
- * 
- * Coded: Sachin Holla 
- * On: 01/23/2014
- * Purpose: This enforces only numeric values in the pages field
- * Fixes issue: https://github.com/sachinh/BookwormClub/issues/30
- * Corner Case: How to prevent paste into the field ?
+ * Email Helper Functions
  *
  */
 
-$('#pages').keypress(function(e) {
-                    var a = [];
-                    var k = e.which;
-                    
-                    for (i = 48; i < 58; i++)
-                    a.push(i);
-                    
-                    if (!(a.indexOf(k)>=0))
-                    e.preventDefault();
-                    
-});
-
-// again for the Save button don't function id but class instead
-$('.save-btn').click(function(event) {
-    console.log ("in Save click");
-	//check for empty fields
-	checkForEmptyFields();
-	if (empty_flds!=""){
-		//alert("Required Fields Missing: Please fill in " + empty_flds);
-                     
-        // now implement the popup
-        $('#popupUserScreen2').attr('data-position-to','#auName');
-        $('#userMessage2').html("<p><b>Required Fields Missing:</b><br/>Please fill in <i>" + empty_flds + "</i>");
-        $('#popupUserScreen2').popup( "open" );
-                     
-		return 0;
-		}
-	
-    console.log("past the empty fields check");
-                     
-	// setup info from fields
-    var bookID=$("#bkID").val();
-	var bookName=$("#bkName").val();
-	var authorName=$("#auName").val();
-	var noOfPages=$.trim($("#pages").val());
-	if (isNaN(noOfPages))
-		noOfPages=0;
-	else
-	{
-		if (noOfPages<=0)
-			noOfPages=0;
-	}			
-	
-	var mainCharactersinPlot=$("#mainCharacters").val();
-	// removing the plot summary for now 
-	var boolLiked=$("#chkLike").val();
-	// now get the new fields too
-	var bookSetting=$("#bkSetting").val();
-	var bookConflict=$("#bkConflict").val();
-	var bookConclusion=$("#bkConclusion").val();
-	var likedReason=$("#bkReasonWhy").val();
-    // lets also store the book cover from the barcode scan, if available
-    var capturedImage = $("#imgCapturedImage").attr("src");
-    // lets store the user image too
-    var userImage = $("#imgUserImage").attr("src");
-    // lets store the avg ratings too - will be hepful for retrieval and such
-    var bkRating = $("#lblAvgRating").html();
-	// now we are going to set these values in the localstorage
-	//lets check if there exists a data store or not
-                     console.log("no of pages: " + noOfPages);
-	// now save the new 'record'
-	
-	//try and create the object dynamically
-	var bkReport = new Object;
-    bkReport.id = bookID;
-	bkReport.book = bookName;
-	bkReport.author = authorName;
-	bkReport.pages = noOfPages;
-	bkReport.characters = mainCharactersinPlot;
-	// removing the plot summary for now 
-	bkReport.liked = boolLiked;
-	//add new fields too
-	bkReport.setting = bookSetting;
-	bkReport.conflict = bookConflict;
-	bkReport.conclusion = bookConclusion;
-	bkReport.likedReason = likedReason;
-    bkReport.cover = capturedImage;
-    bkReport.userdrawing = userImage;
-    //set the ratings too
-    bkReport.rating = bkRating;
-                     
-	console.log('In Save fn: bkReport: ' , bkReport);
-    console.log("in Save fn: isSave= " + $isUpdate);
-    if ($isUpdate=="true") {
-        // remove the old item and then add the new one
-        localStorage.removeItem('bkReport'+bookID);
-        console.log("in save fn: finished removeing the old item: bkReport"+bookID);
-        localStorage.setItem('bkReport'+bookID, JSON.stringify(bkReport));
-        console.log("in save fn: finished adding the updated item: bkReport"+bookID);
-    }
-    else
-        localStorage.setItem('bkReport'+bookID, JSON.stringify(bkReport));
-                     
-    // dow the rowcount business only if a new record
-    if ($isUpdate=="false") {
-        //increment rowcount
-        rowCount=parseInt(bookID)+1;
-        localStorage.setItem('rowCount', rowCount);
-    }
-
-    // data store populated now
-	console.log('bkReport' + bookID + ': ', JSON.parse(localStorage.getItem('bkReport'+bookID)));
-	console.log('RowCount: ' + localStorage.rowCount);
-                    
-	// now refresh and return
-	
-	//now reset the values to the placeholders
-    // check for the bookID
-    rowCount=0;
-    if (localStorage.rowCount){
-        // this means the data store is populated
-        // only then try and parse the rowCount value
-        rowCount=parseInt(localStorage.rowCount);
-    }
-                    
-    $("#imgCapturedImage").attr("src","img/placeholder.png");
-    $("#imgUserImage").attr("src","img/blankimage.png");
-    
-    $("#bkID").val(rowCount);
-
-    $("#bkName").val("");
-	$("#auName").val("");
-	$("#pages").val("");
-	$("#mainCharacters").val("");
-	// removing the plot summary for now 
-	//reset the slider to off with a check for the third page
-    if ($pgThreeInit=="")
-        $('#chkLike').val('No');
-    else
-        $('#chkLike').val('No').slider('refresh');
-
-    // reset the new fields too
-	$("#bkSetting").val("");
-	$("#bkConflict").val("");
-	$("#bkConclusion").val("");
-	$("#bkReasonWhy").val("");
-	// reset the ratings field too
-    $("#lblAvgRating").html("");
-                     
-	 //return to the main page with a refresh first
-	 getBookReports();
-
-    // change the actual page
-	 $.mobile.changePage( "#one", { 
-			allowSamePageTransition : true,
-			transition: "flip"
-			} );
-
-	// nothing more to do here
-						
-});
- 
-var empty_flds ;   
-
-function checkForEmptyFields() {
-    empty_flds = "";
-    $(".required").each(function() {
-        if(!$.trim($(this).val())) {
-            // get the field description and it to the emptyflds value
-            if ($(this).attr("id") == "bkName")
-                empty_flds += "Book Name";
-            else if ($(this).attr("id") == "auName") {
-                if (empty_flds != "")
-                    empty_flds += ",";
-                empty_flds += "Author Name";
-            }
-            //all done
-        }
-    });
-
-    return empty_flds;
-}
-
-// don't do this by id but class instead
-$('.emailBkReport').click(function(event) {
-    console.log("in the email button click from the detail screen");
-    $strBookID= $("#bkID").val();
-    
-    if ($strBookID != "") {
-        //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
-        $strBookID = "bkReport" + $strBookID ;
-        console.log("strBookID: " + $strBookID);
-
-        // Coded: Sachin Holla
-        // On: 01/23/2014
-        // Purpose: to use consistent popups for user facing messages
-        // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
-        // retrieve the button ID here and pass on to helper function
-        var emailBtnID = $(this).attr("id") ;
-        //alert(emailBtnID);
-                          
-        // now call the email routine
-        emailBookReport($strBookID, emailBtnID);
-        // Code change end: 01/23/2014
-    }
-    else
-        alert("MSG-03: Invalid Book Report. This should never occur, pl. report this to the developer");
-});
 
 function emailBookReport(bkReportID,btnID) {
     // setup the content for the email
@@ -1093,20 +1174,6 @@ function emailBookReport(bkReportID,btnID) {
     
 }
 
-$('.sendFeedback').click(function(event) {
-                         // send an email to the developer
-                         feedbackSubject = "Feedback on Bookworm Club App";
-                         feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts on your Bookworm Club App:<br/>" +
-                                        "<b>Love:</b><br/><br/>" +
-                                        "<b>Hate:</b><br/><br/>" +
-                                        "<p>And here's what I would really really like:<br/><br/>" +
-                                        "Thanks" ;
-                         developerEmail = "nospamsachin" + "@" + "gmail.com" ;
-                         
-                         sendEmail(feedbackSubject, feedbackBody, developerEmail) ;
-                          });
-
-
 function sendEmail(subjectOfEmail, bodyOfEmail,emailAddress) {
     // startup the email engine
     
@@ -1122,6 +1189,12 @@ function sendEmail(subjectOfEmail, bodyOfEmail,emailAddress) {
                                                                true);
 
 }
+
+/*
+ * Camera Capture Helper Functions
+ *
+ */
+
 // Called when capture operation is finished
 //
 function captureSuccess(mediaFiles) {
@@ -1177,24 +1250,5 @@ function uploadFile(mediaFile) {
               console.log('Error uploading file ' + path + ': ' + error.code);
               },
               { fileName: name });
-}
-
-function setupBarCodeVars()
-{
-    scanButton = document.getElementById("scan-button");
-    resultSpan = document.getElementById("scan-result");
-}
-
-
-/* When this function is called, PhoneGap has been initialized and is ready to roll */
-/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
- see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
- for more details -jm */
-function setupBarCodeEvents()
-{
-    // do your thing!
-    
-    scanButton.addEventListener("click", clickScan, false);
-    createButton.addEventListener("click", clickCreate, false);
 }
 

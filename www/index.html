@@ -40,14 +40,6 @@
 	</div><!-- /header -->
     
     <div class="ui-bar ui-bar-a" data-position="inline" data-mini="true" >
-        <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
-<!--        <div class="ui-grid-a">
-            <div class="ui-block-a">
-                <span id="dummyfld">&nbsp;</span>
-            </div>
-        </div>
--->
-
         <div class="ui-grid-a">
             <div class="ui-block-a">
                 <span>Points:&nbsp;<span id="userPoints">000</span></span>
@@ -104,9 +96,11 @@
         <div style="position:absolute; top:70%; left:33%; ">Swipe Left to advance to next screen.</div>
 	</div><!-- /header -->
     
-    <div class="ui-bar ui-bar-b" data-inline="true">
-        <h3>I'm just a div with bar classes and a mini inline <a href="#" data-role="button" data-mini="true" data-inline="true">Button</a></h3>
-    </div>
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <p >&nbsp;</p>
+        </div>
+    </div><!-- Dummy div tag for spacer needs only -->
     
 	<div data-role="content" data-theme="e">
         <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
@@ -114,15 +108,8 @@
             <div class="ui-block-a">
                 <p >&nbsp;</p>
             </div>
-        </div>><!-- Dummy div tag for spacer needs only -->
+        </div><!-- Dummy div tag for spacer needs only -->
         
-        <!-- popup stuff -->
-        <div data-role="popup" id="popupPanel" class="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <button data-theme="a" data-icon="arrow-l" data-iconpos="top">Swipe Left to Advance to Next Page</button>            
-        </div>
-        <!-- end of popup stuff -->
-            
         <div data-role="popup" id="helpPopupDialogPg2" class="ui-content" data-position-to="origin">
             <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
             <div id="msgHelpPg2"><p>Just something in here for now. Its just a test and thats it!</p></div>
@@ -216,10 +203,12 @@
         <div style="position:absolute; top:70%; left:33%; ">Swipe right to go back to prev screen.</div>
     </div><!-- /header -->
 
-    <div class="ui-bar ui-bar-b" data-inline="true">
-            <h3>I'm just a div with bar classes and a mini inline <a href="#" data-role="button" data-mini="true" data-inline="true">Button</a></h3>
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <p >&nbsp;</p>
+        </div>
     </div>
-        
+
     <div data-role="content" data-theme="e">
         <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
         <div class="ui-grid-a">
@@ -237,11 +226,6 @@
                 <a data-theme="b" id="helpSaveSketch" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
         </div><!-- Sketch fields -->
-
-        <div data-role="popup" id="popupPanelR" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <button data-theme="a" data-icon="arrow-r" data-iconpos="top">Swipe Right to Go Back to Prev. Page</button>            
-        </div>
 
         <div data-role="popup" id="helpPopupDialogPg3" class="ui-content" style="max-width:280px">
             <a  data-theme="a" href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
