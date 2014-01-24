@@ -20,23 +20,23 @@
     
 <body>
 
-    <p/>
+<p/>
+    
 <!-- Start of first page: #one -->
-    <div data-role="page" id="one" style="background-image:url(img/background3.jpg)">
+<div data-role="page" id="one" style="background-image:url(img/background3.jpg)">
 
-	<div data-role="header" data-position="inline" data-position="fixed">
+    <div data-role="header" data-position="inline" data-position="fixed">
         <div class= "ui-btn ui-btn-left" >
             <h3>Welcome, <a href="#" data-inline="true" onclick="navigator.notification.alert('Feature Under Construction', null, 'Not Yet Completed');">Guest</a>
         </div>
-        <div class="ui-title"><H1>Bookworm Club</h1>
+        
+        <div class="ui-title">
+            <H1>Bookworm Club</h1>
         </div>
-
+        
         <div class= "ui-btn ui-btn-right" >
-
             <a id="createBookReport" href="#two" data-role="button" data-transition="flip" data-icon="edit" data-theme="b" class="ui-btn-right">New</a>
-
         </div>
-
 	</div><!-- /header -->
     
     <div class="ui-bar ui-bar-a" data-position="inline" data-mini="true" >
@@ -46,6 +46,7 @@
                 <span id="dummyfld">&nbsp;</span>
             </div>
         </div>
+        
         <div class="ui-grid-a">
             <div class="ui-block-a">
                 <span>Points:&nbsp;<span id="userPoints">000</span></span>
@@ -60,12 +61,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- Non-header informational bar -->
 
-        <div data-role="popup" id="popupBadges" class="ui-content" data-position-to="window" data-theme="a">
-            <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-            <div id="msgBadges"><p>Just something in here for now. Its just a test and thats it!</p></div>
-        </div>
+    <div data-role="popup" id="popupBadges" class="ui-content" data-position-to="window" data-theme="a">
+        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <div id="msgBadges"><p>Just something in here for now. Its just a test and thats it!</p></div>
+    </div><!-- popup dialog for badges description -->
 
         
 	<div data-role="content" data-theme="c">
@@ -76,20 +77,16 @@
             </div>
         </div>
         
-<!--        <div data-role="popup" id="popupFirstTime" class="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <button data-theme="a" data-icon="arrow-l" data-iconpos="top">Swipe Left to Advance to Next Page</button>
-        </div>
--->
 		<ul id="lstReports" data-role="listview" data-inset="true" data-filter="false" data-theme="c">
 		</ul>
 	</div> <!-- /content -->
 	
 	<div data-role="footer" data-position="fixed">
-            <a data-theme="b" id="lnkDialogOpen" href="#dialog" data-transition="slideup" data-role="button" data-mini="true" data-inline="true" data-icon="legal" data-rel="dialog" class="ui-btn-left" >Privacy</a>
+        <a data-theme="b" id="lnkDialogOpen" href="#dialog" data-transition="slideup" data-role="button" data-mini="true" data-inline="true" data-icon="legal" data-rel="dialog" class="ui-btn-left" >Privacy</a>
 		<h4>Bookworm Club. Readers Rock!</h4>
         <a data-theme="b" href="#" data-role="button" data-mini="true" data-inline="true" data-icon="envelope" class="ui-btn-right sendFeedback" >Send Feedback</a>
 	</div><!-- /footer -->
+    
 </div><!-- /page one -->
 
 
@@ -98,7 +95,9 @@
 
 	<div data-role="header" data-position="inline" data-theme="a" data-position="fixed">
 		<a href="#one" data-role="button" data-transition="flip" data-icon="fahome" data-theme="b" class="ui-btn-left">Home</a>
-		<div class="ui-title"><h1 id="hdrTitle2">Book Report</h1></div>
+		<div class="ui-title">
+            <h1 id="hdrTitle2">Book Report</h1>
+        </div>
         <a id="btnSave" href="#" data-role="button" data-icon="save" data-theme="b" class="save-btn ui-btn-right">Save</a>
         <div>&nbsp;</div><div style="position:absolute; width:300px; height:50px; z-index:15; top:70%; left:37%; ">Swipe Left to advance to next screen.</div>
 	</div><!-- /header -->
@@ -110,10 +109,10 @@
 	<div data-role="content" data-theme="e">
         <!-- this is just a dummy section since some of the top content is getting chopped off due to the fixed header -->
         <div class="ui-grid-a">
-        <div class="ui-block-a">
-            <p >&nbsp;</p>
-        </div>
-        </div>
+            <div class="ui-block-a">
+                <p >&nbsp;</p>
+            </div>
+        </div>><!-- Dummy div tag for spacer needs only -->
         
         <!-- popup stuff -->
         <div data-role="popup" id="popupPanel" class="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
@@ -125,7 +124,7 @@
         <div data-role="popup" id="helpPopupDialogPg2" class="ui-content" data-position-to="origin">
             <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
             <div id="msgHelpPg2"><p>Just something in here for now. Its just a test and thats it!</p></div>
-        </div>
+        </div><!-- Popup dialog for all help prompts -->
 
         <div class="ui-grid-a">
             <div class="ui-block-a" style="width: 120px; height: 150px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
@@ -141,8 +140,10 @@
             <div class="ui-block-b">
                 <p>Average Rating:&nbsp;<label id="lblAvgRating">Unknown</label>
             </div>
-        </div>
+        </div><!-- Book Cover fields -->
+        
         <input name="" id="bkID" placeholder="" value="" style="display:none" >
+        
         <div class="ui-grid-b">
             <div class="ui-block-a" >
                 <label for="bkName" > Book
@@ -154,7 +155,8 @@
             <div class="ui-block-c" >
                 <a data-theme="b" id="helpBookName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
-        </div>
+        </div><!-- Book Name fields -->
+        
         <div class="ui-grid-b">
             <div class="ui-block-a">
                 <label for="auName">
@@ -167,7 +169,8 @@
             <div class="ui-block-c" >
                 <a data-theme="b" id="helpAuthorName" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
-        </div>
+        </div><!-- Author Name fields -->
+        
         <div class="ui-grid-b" >
             <div class="ui-block-a">
                 <label for="pages">
@@ -180,13 +183,14 @@
             <div class="ui-block-c" >
                 <a data-theme="b" id="helpNumPages" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
-        </div>
-    </div>
+        </div><!-- Pages Number fields -->
+        
+    </div><!-- End of content for page two -->
     
     <div data-role="popup" id="popupUserScreen2" class="ui-content" data-position-to="window" data-theme="a">
         <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
         <div id="userMessage2"><p>Just something in here for now. Its just a test and thats it!</p></div>
-    </div>
+    </div><!-- popup dialog for Screen 2 -->
 
 
 	<div data-role="footer" data-position="fixed">
@@ -194,6 +198,7 @@
 		<a id="btnEmailScreen2" data-role="button" data-icon="envelope" data-theme="b" data-mini="true" data-inline="true" class="emailBkReport ui-btn-left">Email</a>
         <a href="#" data-role="button" data-icon="trash" data-theme="b" id="deleteScreen2" class="deleteBkReport ui-btn-right" data-mini="true" data-inline="true" data-iconpos="right">Delete</a>
 	</div><!-- /footer -->
+    
 </div><!-- /page two -->
 
 <!-- Start of third page: #three -->
@@ -201,7 +206,9 @@
     
     <div data-role="header" data-position="inline"  data-theme="a" data-position="fixed">
         <a href="#one" data-role="button" data-transition="flip" data-icon="fahome" data-theme="b" class="ui-btn-left">Home</a>
-        <div class="ui-title"><h1 id="hdrTitle3">Book Report (contd.)</h1></div>
+        <div class="ui-title">
+            <h1 id="hdrTitle3">Book Report (contd.)</h1>
+        </div>
 		<a id="btnSave2" href="#" data-role="button" data-icon="save" data-theme="b" class="save-btn ui-btn-right">Save</a>
         <div>&nbsp;</div><div style="position:absolute; width:300px; height:50px; z-index:15; top:70%; left:37%; ">Swipe right to go back to prev screen.</div>
     </div><!-- /header -->
@@ -226,41 +233,41 @@
                 <a id="btnUpload" onclick="captureImage();" data-role="button" data-mini="true" data-inline="true" data-theme="b" data-icon="picture" >Save Sketch</a>
                 <a data-theme="b" id="helpSaveSketch" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
             </div>
+        </div><!-- Sketch fields -->
+
+        <div data-role="popup" id="popupPanelR" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <button data-theme="a" data-icon="arrow-r" data-iconpos="top">Swipe Right to Go Back to Prev. Page</button>            
         </div>
 
-            <div data-role="popup" id="popupPanelR" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
-                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                <button data-theme="a" data-icon="arrow-r" data-iconpos="top">Swipe Right to Go Back to Prev. Page</button>            
-            </div>
+        <div data-role="popup" id="helpPopupDialogPg3" class="ui-content" style="max-width:280px">
+            <a  data-theme="a" href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+            <div id="msgHelpPg3"><p>Just something in here for now. Its just a test and thats it!</p></div>
+        </div><!-- Popup for Help prompts on screen three -->
 
-            <div data-role="popup" id="helpPopupDialogPg3" class="ui-content" style="max-width:280px">
-                <a  data-theme="a" href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-                <div id="msgHelpPg3"><p>Just something in here for now. Its just a test and thats it!</p></div>
-            </div>
+        <label for="mainCharacters">Main Characters</label>
+        <div data-role="fieldcontain" >
+            <textarea class="mlInput" id="mainCharacters" placeholder="Who are the main Characters ?" value=""></textarea>
+            <a data-theme="b" id="helpMainCharacters" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
+        </div><!-- Main Characters fields -->
 
-            <label for="mainCharacters">Main Characters</label>
-            <div data-role="fieldcontain" >
-                <textarea class="mlInput" id="mainCharacters" placeholder="Who are the main Characters ?" value=""></textarea>
-                <a data-theme="b" id="helpMainCharacters" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
-            </div>
+        <label for="bkSetting">Setting</label>
+        <div data-role="fieldcontain" >
+            <textarea class="mlInput" id="bkSetting" placeholder="Where did this story take place? Name and describe the place where the story happened." value=""></textarea>
+            <a data-theme="b" id="helpSetting" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
+        </div><!-- Setting Fields -->
 
-            <label for="bkSetting">Setting</label>
-            <div data-role="fieldcontain" >
-                <textarea class="mlInput" id="bkSetting" placeholder="Where did this story take place? Name and describe the place where the story happened." value=""></textarea>
-                <a data-theme="b" id="helpSetting" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
-            </div>
+        <label for="bkConflict">Problem/Conflict</label>
+        <div data-role="fieldcontain" >
+            <textarea class="mlInput" id="bkConflict" placeholder="What was the action in the story? What gave the story a beginning,middle, and end? " value=""></textarea>
+            <a data-theme="b" id="helpConflict" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
+        </div><!-- Problem fields -->
 
-            <label for="bkConflict">Problem/Conflict</label>
-            <div data-role="fieldcontain" >
-                <textarea class="mlInput" id="bkConflict" placeholder="What was the action in the story? What gave the story a beginning,middle, and end? " value=""></textarea>
-                <a data-theme="b" id="helpConflict" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
-            </div>
-
-            <label for="bkConclusion">Conclusion</label>
-            <div data-role="fieldcontain" >
-                <textarea class="mlInput" id="bkConclusion" placeholder="How did the story end? Was it funny, sad, or something else? " value=""></textarea>
-                <a data-theme="b" id="helpConclusion" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
-            </div>
+        <label for="bkConclusion">Conclusion</label>
+        <div data-role="fieldcontain" >
+            <textarea class="mlInput" id="bkConclusion" placeholder="How did the story end? Was it funny, sad, or something else? " value=""></textarea>
+            <a data-theme="b" id="helpConclusion" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
+        </div><!-- Conclusion fields -->
             
         <fieldset data-role="controlgroup" class="ui-grid-a">
             <div class="ui-block-a">
@@ -278,32 +285,32 @@
                     </option>
                 </select>
             </div>
-        </fieldset>
+        </fieldset><!-- Like Choice fields -->
         
         <div data-role="fieldcontain" >
             <textarea class="mlInput" id="bkReasonWhy" placeholder="Why did you like the book or why did you not like the book? " value=""></textarea>
             <a data-theme="b" id="helpReasonWhy" class="helpPopup" href="#" data-rel="popup" data-transition="flip" data-role="button" data-icon="question-sign" data-inline="true" data-iconpos="notext">Info</a>
-        </div>
+        </div><!-- Reason Why Liked fields -->
             
         <!-- this is just a dummy section since some of the bottom content is getting chopped off due to the fixed footer -->
         <div class="ui-grid-a">
             <div class="ui-block-a">
                 <p >&nbsp;<span id="dummyfld">&nbsp;</span></p>
             </div>
-        </div>
+        </div><!-- Dummy Spacer rows -->
 
-    </div><!-- end of content -->
+    </div><!-- end of content for screen three-->
 
     <div data-role="popup" id="popupUserScreen3" class="ui-content" data-position-to="window" data-theme="a">
         <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
         <div id="userMessage3"><p>Just something in here for now. Its just a test and thats it!</p></div>
-    </div>
+    </div><!-- popup for user notifications in screen three -->
 
     <div data-role="footer" data-position="fixed"  data-theme="a">
 		<h4>Bookworm Club. Readers Rock!</h4>
 		<a id="btnEmailScreen3" href="#" data-role="button" data-icon="envelope" data-mini="true" data-inline="true" data-theme="b" class="emailBkReport ui-btn-left">Email</a>
         <a href="#" data-role="button" data-icon="trash" data-theme="b" data-mini="true" data-inline="true" id="deleteScreen3" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
-    </div><!-- /footer -->
+    </div><!-- /footer for page three -->
     
 </div><!-- /page three -->
     
@@ -322,9 +329,10 @@
             <a href="#" data-inline="true" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
             <a href="#one" data-inline="true" class="ui-btn-right" data-role="button" data-theme="b" data-rel="back">Close</a>
 		</div>
-</div>
+</div><!-- dialog for Privacy Notice -->
 
-<div data-role="dialog" id="dlgUserNotification" data-theme="b">
+<!--
+ <div data-role="dialog" id="dlgUserNotification" data-theme="b">
 	
     <div data-role="header" data-theme="a" data-position="inline">
         <h1>Notification</h1>
@@ -337,6 +345,7 @@
         <a href="#" data-inline="true" class="ui-btn" data-role="button" data-theme="b" data-rel="back">Close</a>
     </div>
 </div>
+-->
 
 <div data-role="dialog" id="dlgFeatures" data-theme="b" data-close-btn="right" data-overlay-theme="b">
     
@@ -395,17 +404,15 @@
             </div>
         </div>
         
-    </div>
-</div>
+    </div><!-- end of content for features dialog -->
+</div><!-- end of features dialog -->
 
-    <script type="text/javascript" src="cordova-2.5.0.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
-    <script src="js/source.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/EmailComposer.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-        </script>
+<script type="text/javascript" src="cordova-2.5.0.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
+<script src="js/source.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/EmailComposer.js"></script>
+<script type="text/javascript">app.initialize();</script>
 
 </body>
 </html>
