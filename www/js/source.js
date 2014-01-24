@@ -174,7 +174,23 @@ $('.mlInput').blur(function(e) {
                    //alert ("Words counted: " + wordsCounted );
                    if (wordsCounted<=10) {
                     //e.preventDefault();
-                    navigator.notification.alert('You have entered 10 words or less. Pl. add to your answer.', null, 'Answer Length');
+                   
+                   // Coded: Sachin Holla
+                   // On: 01/23/2014
+                   // Purpose: to use consistent popups for user facing messages
+                   // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+                   
+                   var fldID = $(this).attr('id');
+                   //alert (fldID);
+                   if (fldID !=''){
+                    $('#popupUserScreen3').attr('data-position-to',$(this).attr('id'));
+                   }
+                   $('#userMessage3').html("<p><b>Insufficient Input:</b><br/>You have entered 10 words or less. Pl. add to your answer.");
+                   $('#popupUserScreen3').popup( "open" );
+
+                   //navigator.notification.alert('You have entered 10 words or less. Pl. add to your answer.', null, 'Answer Length');
+                   // Code Change end: on 01/23/2014
+                   
                     //$(this).focus();
                    return false;
                     //alert("Too short an answer. Pl. add to your answer.");
@@ -244,6 +260,7 @@ function doOnOrientationChange()
     }
 }
 
+/*
 function processLocalStorage() {
         // in function
     alert("in processlocalstorage");
@@ -255,6 +272,7 @@ function processLocalStorage() {
     }
     alert ("done showing all storage");
 }
+*/
 
 /*
 var cb;
@@ -441,6 +459,7 @@ function updateAwards( numOfBkReports) {
 $('.deleteBkReport').click(function(event) {
     // delete the report
                           console.log("in delete report click");
+                           
                            // now look for the id and lets make sure its not the same as the last record
                            $bookID = $('#bkID').val();
                            $rowCount = localStorage.rowCount;
@@ -458,7 +477,38 @@ $('.deleteBkReport').click(function(event) {
                            //extract the actual values
                            if (bkReport == null) {
                                 // this means there is no saved data for this ID
-                                navigator.notification.alert('To delete, pl. save Book Report first.', null, 'New Book Report');
+                           
+                                // Coded: Sachin Holla
+                                // On: 01/23/2014
+                                // Purpose: to use consistent popups for user facing messages
+                                // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+
+                                //navigator.notification.alert('To delete, pl. save Book Report first.', null, 'New Book Report');
+                           
+                                // now get the ID of the button click
+                                var delBtnID = $(this).attr("id");
+                           
+                                //alert (delBtnID);
+                                if (delBtnID == 'deleteScreen2'){
+                                    //alert("Delete from screen one clicked");
+                                    // set the user message in the appropriate popup and display popup
+                                    $('#popupUserScreen2').attr('data-position-to','window');
+                                    $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
+                                    $('#popupUserScreen2').popup( "open" );
+                                }
+                                else if (delBtnID == 'deleteScreen3'){
+                                    //alert("Delete from screen two clicked");
+                                    // set the user message in the appropriate popup and display popup
+                                    $('#popupUserScreen3').attr('data-position-to','window');
+                                    $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
+                                    $('#popupUserScreen3').popup( "open" );
+
+                                }
+                                else {
+                                    alert('MSG-01: There is an error, pl. report this to the developer');
+                                }
+                                // Code Change end: on 01/23/2014
+                           
                                 return ;
                            }
                            else {
@@ -612,8 +662,9 @@ $('.bookReportItem').live('click', function(event) {
 					$("#hdrTitle2").text("Book Report Detail");
 					// also disable/hide the Save report button
 					//$('#btnSave').closest('.ui-btn').hide();
-                    $("#btnEmailReport").closest('.ui-btn').show();
-					                          
+                    $(".emailBkReport").closest('.ui-btn').show();
+                    $(".deleteBkReport").closest('.ui-btn').show();
+                          
                     console.log("just before changing the page");
                     console.log("bkID: " + $("#bkID").val());
                     //now navigate to the detail page
@@ -745,8 +796,22 @@ function retrieveBadgeDescription(){
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
                         //alert("in the barcode scanning fn");
-                        if (!autoFocusSupported)
-                            navigator.notification.alert("Barcode scanning may not work", null, "No Auto Focus Camera detected");
+                        
+                        if (!autoFocusSupported) {
+
+                            // Coded: Sachin Holla
+                            // On: 01/23/2014
+                            // Purpose: to use consistent popups for user facing messages
+                            // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+                            $('#popupUserScreen2').attr('data-position-to','#scan-button');
+                            $('#userMessage2').html("<p><b>No Auto Focus Camera detected:</b><br/>Barcode scanning will not work");
+                            $('#popupUserScreen2').popup( "open" );
+                            return;
+
+                            //navigator.notification.alert("Barcode scanning may not work", null, "No Auto Focus Camera detected");
+                        
+                            // Code Change end: on 01/23/2014
+                        }
                         clickScan();
                         //alert("done the scan");
                         });
@@ -825,10 +890,11 @@ function getBookCover($barCode) {
     
 }
 
-$("#btnExp").click(function() {
-                   alert("in experiment button click fn");
+/*
+ $("#btnExp").click(function() {
+                   //alert("in experiment button click fn");
                    getBookCover("");
-                   
+*/
 /*
  window.plugins.emailComposer.showEmailComposerWithCallback(function(result){console.log('value of return is: ',result);},"Look at this photo","Take a look at <b>this<b/>:",["example@email.com", "johndoe@email.org"],[],[],true);
  */
@@ -864,11 +930,11 @@ $("#btnExp").click(function() {
  success: parseXml
  });
  */
-                   
+  /*
                    console.log("all done");
                    
                    });
-
+*/
 
 function parseXml(xml) {
     console.log("parsexml: the XML object: ", xml);
@@ -971,7 +1037,9 @@ $("#createBookReport").click(function() {
     // now disable the email button
     //$("#btnEmailReport").hide();
     //$("#btnEmailReport").addClass("ui-disabled");
-    $("#btnEmailReport").closest('.ui-btn').hide();
+    //$("#btnEmailReport").closest('.ui-btn').hide();
+    $(".emailBkReport").closest('.ui-btn').hide();
+    $(".deleteBkReport").closest('.ui-btn').hide();
 
 });
 
@@ -1005,7 +1073,13 @@ $('.save-btn').click(function(event) {
 	//check for empty fields
 	checkForEmptyFields();
 	if (empty_flds!=""){
-		alert("Required Fields Missing: Please fill in " + empty_flds);
+		//alert("Required Fields Missing: Please fill in " + empty_flds);
+                     
+        // now implement the popup
+        $('#popupUserScreen2').attr('data-position-to','#auName');
+        $('#userMessage2').html("<p><b>Required Fields Missing:</b><br/>Please fill in <i>" + empty_flds + "</i>");
+        $('#popupUserScreen2').popup( "open" );
+                     
 		return 0;
 		}
 	
@@ -1187,15 +1261,24 @@ $('.emailBkReport').click(function(event) {
         //prefix 'bkReport' to the id value since that is how it is stored in the detail page-field
         $strBookID = "bkReport" + $strBookID ;
         console.log("strBookID: " + $strBookID);
-        
+
+        // Coded: Sachin Holla
+        // On: 01/23/2014
+        // Purpose: to use consistent popups for user facing messages
+        // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+        // retrieve the button ID here and pass on to helper function
+        var emailBtnID = $(this).attr("id") ;
+        //alert(emailBtnID);
+                          
         // now call the email routine
-        emailBookReport($strBookID);
+        emailBookReport($strBookID, emailBtnID);
+        // Code change end: 01/23/2014
     }
     else
-        alert("Invalid Book Report - should never occur");
+        alert("MSG-03: Invalid Book Report. This should never occur, pl. report this to the developer");
 });
 
-function emailBookReport(bkReportID) {
+function emailBookReport(bkReportID,btnID) {
     //alert("in email button click fn");
     // setup the content for the email
     // perhaps we want to popup a dialog that allows user to pick the email ID's --- TBD
@@ -1210,7 +1293,32 @@ function emailBookReport(bkReportID) {
     //extract the actual values
     if (emailBkReport == null) {
         // this means there is no saved data for this ID
-        navigator.notification.alert('To email, pl. save Book Report first.', null, 'New Book Report');
+
+        // Coded: Sachin Holla
+        // On: 01/23/2014
+        // Purpose: to use consistent popups for user facing messages
+        // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+
+        // navigator.notification.alert('To email, pl. save Book Report first.', null, 'New Book Report');
+        
+        if (btnID == 'btnEmailScreen2'){
+            // set the user message in the appropriate popup and display popup
+            $('#popupUserScreen2').attr('data-position-to','window');
+            $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only email a previously saved Book Report.");
+            $('#popupUserScreen2').popup( "open" );
+        }
+        else if (btnID == 'btnEmailScreen3'){
+            // set the user message in the appropriate popup and display popup
+            $('#popupUserScreen3').attr('data-position-to','window');
+            $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only email a previously saved Book Report.");
+            $('#popupUserScreen3').popup( "open" );
+            
+        }
+        else {
+            alert('MSG-02: There is an error, pl. report this to the developer');
+        }
+        // Code Change End: 01/23/2014
+        
         return ;
     }
     else {
@@ -1306,8 +1414,20 @@ function captureSuccess(mediaFiles) {
 // Called if something bad happens.
 //
 function captureError(error) {
-    var msg = 'An error occurred during capture: ' + error.code;
-    navigator.notification.alert(msg, null, 'Uh oh!');
+    var msg = 'An error occurred during capture. Error Code ' + error.code;
+
+    // Coded: Sachin Holla
+    // On: 01/23/2014
+    // Purpose: to use consistent popups for user facing messages
+    // Fixes issue: https://github.com/sachinh/BookwormClub/issues/33
+    // retrieve the button ID here and pass on to helper function
+
+    $('#popupUserScreen3').attr('data-position-to','window');
+    $('#userMessage3').html("<p><b>Camera Capture Error:</b><br/>" + msg);
+    $('#popupUserScreen3').popup( "open" );
+    
+    //navigator.notification.alert(msg, null, 'Uh oh!');
+    // Code Change end: on 01/23/2014
 }
 
 // A button will call this function
@@ -1340,7 +1460,7 @@ function uploadFile(mediaFile) {
 function setupBarCodeVars()
 {
     //document.addEventListener("deviceready", onDeviceReady, false);
-    alert("the setup vars was called");
+    //alert("the setup vars was called");
     
     scanButton = document.getElementById("scan-button");
     resultSpan = document.getElementById("scan-result");
@@ -1356,12 +1476,12 @@ function setupBarCodeVars()
  for more details -jm */
 function setupBarCodeEvents()
 {
-    alert("in setup of events");
+    //alert("in setup of events");
     // do your thing!
     //navigator.notification.alert("PhoneGap is working");
     
     scanButton.addEventListener("click", clickScan, false);
     createButton.addEventListener("click", clickCreate, false);
-    alert("after adding event listeners");
+    //alert("after adding event listeners");
 }
 

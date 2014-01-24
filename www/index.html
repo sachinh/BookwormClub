@@ -62,7 +62,7 @@
         </div>
     </div>
 
-        <div data-role="popup" id="popupBadges" class="ui-content" data-position-to="window" data-theme="e">
+        <div data-role="popup" id="popupBadges" class="ui-content" data-position-to="window" data-theme="a">
             <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
             <div id="msgBadges"><p>Just something in here for now. Its just a test and thats it!</p></div>
         </div>
@@ -81,7 +81,6 @@
             <button data-theme="a" data-icon="arrow-l" data-iconpos="top">Swipe Left to Advance to Next Page</button>
         </div>
 -->
-
 		<ul id="lstReports" data-role="listview" data-inset="true" data-filter="false" data-theme="c">
 		</ul>
 	</div> <!-- /content -->
@@ -183,11 +182,17 @@
             </div>
         </div>
     </div>
-	
+    
+    <div data-role="popup" id="popupUserScreen2" class="ui-content" data-position-to="window" data-theme="a">
+        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <div id="userMessage2"><p>Just something in here for now. Its just a test and thats it!</p></div>
+    </div>
+
+
 	<div data-role="footer" data-position="fixed">
 		<h4>Bookworm Club. Readers Rock!</h4>
-		<a id="btnEmailReport" data-role="button" data-icon="envelope" data-theme="b" data-mini="true" data-inline="true" class="emailBkReport ui-btn-left">Email</a>
-        <a href="#" data-role="button" data-icon="trash" data-theme="b" class="deleteBkReport ui-btn-right" data-mini="true" data-inline="true" data-iconpos="right">Delete</a>
+		<a id="btnEmailScreen2" data-role="button" data-icon="envelope" data-theme="b" data-mini="true" data-inline="true" class="emailBkReport ui-btn-left">Email</a>
+        <a href="#" data-role="button" data-icon="trash" data-theme="b" id="deleteScreen2" class="deleteBkReport ui-btn-right" data-mini="true" data-inline="true" data-iconpos="right">Delete</a>
 	</div><!-- /footer -->
 </div><!-- /page two -->
 
@@ -288,10 +293,15 @@
 
     </div><!-- end of content -->
 
+    <div data-role="popup" id="popupUserScreen3" class="ui-content" data-position-to="window" data-theme="a">
+        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <div id="userMessage3"><p>Just something in here for now. Its just a test and thats it!</p></div>
+    </div>
+
     <div data-role="footer" data-position="fixed"  data-theme="a">
 		<h4>Bookworm Club. Readers Rock!</h4>
-		<a id="btnEmailReport" href="#" data-role="button" data-icon="envelope" data-mini="true" data-inline="true" data-theme="b" class="emailBkReport ui-btn-left">Email</a>
-        <a href="#" data-role="button" data-icon="trash" data-theme="b" data-mini="true" data-inline="true" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
+		<a id="btnEmailScreen3" href="#" data-role="button" data-icon="envelope" data-mini="true" data-inline="true" data-theme="b" class="emailBkReport ui-btn-left">Email</a>
+        <a href="#" data-role="button" data-icon="trash" data-theme="b" data-mini="true" data-inline="true" id="deleteScreen3" class="deleteBkReport ui-btn-right" data-iconpos="right">Delete</a>
     </div><!-- /footer -->
     
 </div><!-- /page three -->
@@ -313,7 +323,21 @@
 		</div>
 </div>
 
-<div data-role="dialog" id="dlgFeatures" data-theme="b" data-close-btn="right">
+<div data-role="dialog" id="dlgUserNotification" data-theme="b">
+	
+    <div data-role="header" data-theme="a" data-position="inline">
+        <h1>Notification</h1>
+    </div>
+    
+    <div data-role="content" data-theme="e">
+        <div class="userMessage">
+                <P> this is just a dummy text for the dialog.
+        </div>
+        <a href="#" data-inline="true" class="ui-btn" data-role="button" data-theme="b" data-rel="back">Close</a>
+    </div>
+</div>
+
+<div data-role="dialog" id="dlgFeatures" data-theme="b" data-close-btn="right" data-overlay-theme="b">
     
     <div data-role="header" data-theme="a" data-position="inline">
         <h1>Thank You!</h1>
