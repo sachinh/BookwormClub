@@ -139,16 +139,12 @@ $('.helpPopup').click(function(event) {
                       // Code Change end: on 01/23/2014
                       
                       if (pageHelp == "two") {
-                          $("#msgHelpPg2").html(helpMessage);
-//                      alert('datapositionto: ' + $('#helpPopupDialogPg2').attr('data-position-to'));
-//                      alert(helpFieldID);
-//                          $('#helpPopupDialogPg2').attr('data-position-to','origin');
-//                      alert('datapositionto: ' + $('#helpPopupDialogPg2').attr('data-position-to'));
-                      $("#helpPopupDialogPg2").popup("open", { transition: 'pop', positionTo: 'origin' } );
+                        $("#msgHelpPg2").html(helpMessage);
+                        $("#helpPopupDialogPg2").popup("open", { transition: 'pop', positionTo: 'origin' } );
                       }
                       else {
-                          $("#msgHelpPg3").html(helpMessage);
-                          $("#helpPopupDialogPg3").popup("open", { transition: 'pop', positionTo: 'origin' } );
+                        $("#msgHelpPg3").html(helpMessage);
+                        $("#helpPopupDialogPg3").popup("open", { transition: 'pop', positionTo: 'origin' } );
                       }
 
                       });
@@ -160,7 +156,6 @@ function countWords(strInput){
     s = s.replace(/\n /,"\n");
     wrdCount = s.split(' ').length ;
     return wrdCount ;
-    //    alert( s.split('.').length );
 }
 
 $('.mlInput').blur(function(e) {
@@ -221,49 +216,6 @@ function doOnOrientationChange()
     }
 }
 
-/*
-var cb;
-
-function setupChildBrowser() {
-    var root = this;
-    
-    //alert("before childbrowser plugin");
-    cb = window.plugins.childBrowser;
-    //alert("after childbrowser plugin: " + cb);
-    //console.log("after childbrowser plugin: " , cb);
-    
-    if (cb != null) {
-        //alert(" there is a valid childbrowser plugin");
-        cb.onLocationChange = function(loc){ root.locChanged(loc); };
-        cb.onClose = function(){root.onCloseBrowser()};
-        cb.onOpenExternal = function(){root.onOpenExternal();};
-        //cb.showWebPage("http://google.com");
-        //alert("all done with childbrowser plugin");
-    }
-
-}
-function onCloseBrowser() {
-    console.log("onCloseBrowser!");
-}
-
-function locChanged(loc) {
-    console.log("locChanged!");
-}
-
-function onOpenExternal() {
-    console.log("onOpenExternal!");
-}
-*/
-
-/*
- $("#two").swipeleft(function() {
-                    alert("will trigger pipup now");
-                     //$.mobile.changePage("#three");
-                     // testing the dialog popup stuff for now
-                    $("#mypopup").popup();
-                     });
-*/
-
 $("#two").swipeleft(function() {
                     $.mobile.changePage("#three", {
                                         allowSamePageTransition : true,
@@ -283,15 +235,10 @@ function getBookReports() {
     var trueNumOfBkReports = 0 ;
 	if (!localStorage.rowCount) {
 		//alert("appindex: this means the data store is NOT populated");
-        //do nothing in here
-        //$dummy=0;
     }
 	else {
-        //alert("appindex: this means the data store IS populated");
-		
 		// now read the row count and process
 		rowCount=parseInt(localStorage.rowCount);
-        //alert("rowcount: " + rowCount);
         
 		if(rowCount){
 			$objName='bkReport';
@@ -350,13 +297,11 @@ function getBookReports() {
             // now update the badge accordingly
             updateAwards(trueNumOfBkReports);
             
-			//alert("reports: " + $bkReports);
 			// now refresh the list
 			$("#lstReports").html($bkReports);
 			$("#lstReports").listview("refresh");
 			
-			//alert("reviewed all reports");
-		}// end if check			
+		}// end if check
 
 	}	
 	
@@ -375,11 +320,8 @@ function updateAwards( numOfBkReports) {
         //dep on the range of book reports stored, change the badge accordingly
         if (numOfBkReports < 5) {
             // set it to starter badge
-            //                    alert("setting to sytarter");
             $("#badge").buttonMarkup({ icon: 'leaf' });
             // do we need to refresh the button ??
-            //                  $("#badge").button("refresh");
-            //$('#badge').attr('data-icon', 'check').find('.ui-icon').removeClass('ui-icon-delete').addClass('ui-icon-check');
         }
         else if (numOfBkReports < 10) {
             // set it to expert
@@ -435,16 +377,13 @@ $('.deleteBkReport').click(function(event) {
                                 // now get the ID of the button click
                                 var delBtnID = $(this).attr("id");
                            
-                                //alert (delBtnID);
                                 if (delBtnID == 'deleteScreen2'){
-                                    //alert("Delete from screen one clicked");
                                     // set the user message in the appropriate popup and display popup
                                     $('#popupUserScreen2').attr('data-position-to','window');
                                     $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
                                     $('#popupUserScreen2').popup( "open" );
                                 }
                                 else if (delBtnID == 'deleteScreen3'){
-                                    //alert("Delete from screen two clicked");
                                     // set the user message in the appropriate popup and display popup
                                     $('#popupUserScreen3').attr('data-position-to','window');
                                     $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only delete a previously saved Book Report.");
@@ -488,20 +427,8 @@ $('.emailReport').live('click', function(event) {
 var $isUpdate = "";
 
 $('.bookReportItem').live('click', function(event) {
-                          /*
-                          //alert("in bookreportitem click: cb is " + cb);
-                          if (cb == undefined) {
-                          //alert("setting up the cb var");
-                              // setup the childbrowse vars
-                              setupChildBrowser();
-                          }
-                          */
-                          
-                          //alert("list item clicked");
-            //event.preventDefault();
-            // POA: extract the id and populate the fields and then change the page 
+            // POA: extract the id and populate the fields and then change the page
             // first extract the id
-            //console.log('this object: ', $(this));
             console.log('value of this id: ' + $(this).attr("id"));
             // now extract the values from the storage and set the values to the fields in page2
 			// start finding the objects
@@ -530,8 +457,6 @@ $('.bookReportItem').live('click', function(event) {
                           console.log("the new ID is: " + iIndexedBookID);
                           // now set the value of the new ID
                           $idValue = iIndexedBookID;
-                          //if (parseInt(strIndexedBookID) > 0)
-                        //$idValue=0;
                     }
 					console.log('id: '+ $idValue);
 					console.log('book: '+ bkReport.book);
@@ -545,7 +470,6 @@ $('.bookReportItem').live('click', function(event) {
 					$("#pages").val(bkReport.pages);
 					$("#mainCharacters").val(bkReport.characters);
 					// removing the plot summary for now 
-					//$("#bkPlot").val(bkReport.summary);
                     console.log("liked: " + bkReport.liked);
                     console.log("pgThreeInit" + $pgThreeInit);
                           
@@ -596,7 +520,6 @@ $('.bookReportItem').live('click', function(event) {
 
                     if (($imgUserImage=="") || ($imgUserImage==undefined))
                           $imgUserImage = "img/blankimage.png" ;
-                    //alert("user drawing: " + $imgUserImage);
                     $("#imgUserImage").attr("src", $imgUserImage);
                     
                     //now set the ratings value too
@@ -608,7 +531,6 @@ $('.bookReportItem').live('click', function(event) {
 					// change the header to be 'Book report Detail'
 					$("#hdrTitle2").text("Book Report Detail");
 					// also disable/hide the Save report button
-					//$('#btnSave').closest('.ui-btn').hide();
                     $(".emailBkReport").closest('.ui-btn').show();
                     $(".deleteBkReport").closest('.ui-btn').show();
                           
@@ -622,14 +544,12 @@ $('.bookReportItem').live('click', function(event) {
 										
 					// done	
             	}
-            //alert("list item clicked");
         });
 
 var $pgThreeInit = "";
 // update the values accordingly
 $('#three').live('pagecreate',function(event){
   $pgThreeInit="complete";
-  //alert('the second page has been initialized');
 });
 
 var autoFocusSupported = -1;
@@ -653,11 +573,9 @@ function isAutoFocusSupported(){
         console.log("iPad Version is: " + iPadVersion);
         
         if (iPadVersion >=5 ) {
-            //alert ("This is an iPad2 with an autofocus");
             return 1;
         }
         else {
-            //alert ("This is an iPad2 with no autofocus");
             return 0;
         }
     }
@@ -668,58 +586,21 @@ function isAutoFocusSupported(){
     return 0;
 }
 
-/*
-$(".badgeXXX").click(function() {
-                        alert("in the badge click fn");
-                  var userMessage = "Not detected";
-                  userMessage = retrieveBadgeDescription();
-                  alert("back in main badge click fn: " + userMessage);
-                  
-                   var iconType = $("#badge").attr("data-icon");
-                  //var iconType = $(this).attr("data-icon");
-                  alert("the data icon on the badge is: " + iconType);
-                  
-                  if (iconType == "leaf")
-                    userMessage = "<h3>Congratulations on starting!</h3>Welcome to the fun of Book Reports.";
-                  else if (iconType == "eye-open")
-                    userMessage = "<h2>Watch out, everyone, we have a reader here!</h2>You have created at least 5 Book Reports.";
-                  else if (iconType == "fire")
-                    userMessage = "<h2>You're on Fire!</h2>You have created at least 10 Book Reports.";
-                  else if (iconType == "trophy")
-                    userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
-                  else if (iconType == "book")
-                    userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
- 
-                  
-                  //navigator.notification.alert(userMessage, null, "Badges Explained");
-                  $("#msgBadges").html(userMessage);
-                  $("#popupBadges").popup("open", { positionTo: "window", transition: "slidedown", tolerance: "0,0"});
-
-                  //alert("done the click processing");
-                        });
-*/
-
 $( "#popupBadges" ).bind({
                          popupafteropen: function() {
-                         //alert("just after opening the badges popup");
                          
                          var userMessage = "Not detected";
                          userMessage = retrieveBadgeDescription();
-                         //alert("back in after open listener: " + userMessage);
                          $("#msgBadges").html(userMessage);
                          
-                         //alert("all done in the badges retrieval")
                          }
                          
                          });
 
 function retrieveBadgeDescription(){
     // just arrived
-    //alert ("in retrieve badge description");
     
     var iconType = $("#badge").attr("data-icon");
-    //var iconType = $(this).attr("data-icon");
-    //alert("the data icon on the badge is: " + iconType);
     
     var userMessage = "None Yet" ;
     
@@ -733,8 +614,6 @@ function retrieveBadgeDescription(){
         userMessage = "<h2>You are a Champion!</h2>You have created at least 15 Book Reports.";
     else if (iconType == "book")
         userMessage = "<h2>Congratulations, You are an Official Bookworm!</h2>You have created at least 20 Book Reports.";
-
-    //alert("in badgedescription fn: "+userMessage);
     
     return userMessage;
     
@@ -742,7 +621,6 @@ function retrieveBadgeDescription(){
 
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
-                        //alert("in the barcode scanning fn");
                         
                         if (!autoFocusSupported) {
 
@@ -760,24 +638,18 @@ $("#scan-button").click(function() {
                             // Code Change end: on 01/23/2014
                         }
                         clickScan();
-                        //alert("done the scan");
                         });
 
 function clickScan() {
-//    alert("in scan click");
     window.plugins.barcodeScanner.scan(scannerSuccess, scannerFailure);
 }
 
 
 //------------------------------------------------------------------------------
 function scannerSuccess(result) {
-    //alert("scannerSuccess: result: " + result);
-    //var resultSpan = document.getElementById("scan-result");
     var strResult = "";
     strResult = JSON.stringify(result);
-    //resultSpan.innerText = "success: " + JSON.stringify(result);
     console.log("value: " + strResult);
-    //console.log("value2: " + resultSpan.innerText);
     // next the goal is to extract the barcode
     $barCode = "";
     $barCode = result.text;
@@ -790,34 +662,22 @@ function scannerSuccess(result) {
 //------------------------------------------------------------------------------
 function scannerFailure(message) {
     console.log("scannerFailure: message: " + message);
-    //var resultSpan = document.getElementById("scan-result");
-    //resultSpan.innerText = "failure: " + JSON.stringify(message);
     console.log("value: " + JSON.stringify(message));
 }
 
 // function to retrieve barcode and populate book cover , etc.
 function getBookCover($barCode) {
-    //alert ("in getbookcover");
     // now set a temp var with a default ISBN - later will convert the fn to accept this as a parameter
     if ($barCode=="")
-//        $barCode = "9781591842231";
         return;
     
     var $stemURL = "http://www.goodreads.com/search?q=";
     // ideally this should be built up individually and then url encoded
     var $otherVars = "&search%5Bfield%5D=all&format=xml&key=rkmLrBjpOaqiRtJpFt1Fg";
     var $completeURL = "";
-    //alert("stemURL: " + $stemURL);
-    //alert("barCode: " + $barCode);
-    //alert("otherVars: " + $otherVars);
-    //alert("before-completeURL: " + $completeURL);
     $completeURL = $stemURL + $barCode + $otherVars ;
-    //alert("after-completeURL: " + $completeURL);
 
     console.log("getbookcover: URL: " + $completeURL);
-
-    //$completeURL = "goodreads.xml";
-    //console.log("getbookcover: URL: " + $completeURL);
     
     $.ajax({
            type: "GET",
@@ -825,63 +685,8 @@ function getBookCover($barCode) {
            dataType: "xml",
            success: parseXml
            });
-
-/*
-    $.ajax({
-           type: "GET",
-           url: "http://www.goodreads.com/search?q=9781591842231&search%5Bfield%5D=all&format=xml&key=rkmLrBjpOaqiRtJpFt1Fg",
-           dataType: "xml",
-           success: parseXml
-           });
-*/
     
 }
-
-/*
- $("#btnExp").click(function() {
-                   //alert("in experiment button click fn");
-                   getBookCover("");
-*/
-/*
- window.plugins.emailComposer.showEmailComposerWithCallback(function(result){console.log('value of return is: ',result);},"Look at this photo","Take a look at <b>this<b/>:",["example@email.com", "johndoe@email.org"],[],[],true);
- */
-                   
-/*   $.ajax({
- type: "GET",
- url: "goodreads.xml",
- dataType: "xml",
- success: parseXml
- });
- */
-                   
-/*                   $.ajax({
-                          type: "GET",
-                          url: "http://www.goodreads.com/search?q=9781591842231&search%5Bfield%5D=all&format=xml&key=rkmLrBjpOaqiRtJpFt1Fg",
-                          dataType: "xml",
-                          success: parseXml
-                          });
-*/
-                   
-/*
- $.ajax({
- type: "GET",
- url: "http://isbndb.com/api/books.xml?access_key=YS6IG9F2&index1=isbn&value1=9781591842231",
- dataType: "xml",
- success: parseXml
- });
- 
- $.ajax({
- type: "GET",
- url: "students.xml",
- dataType: "xml",
- success: parseXml
- });
- */
-  /*
-                   console.log("all done");
-                   
-                   });
-*/
 
 function parseXml(xml) {
     console.log("parsexml: the XML object: ", xml);
@@ -891,7 +696,6 @@ function parseXml(xml) {
     console.log ("avg ratings: " + avgRatings);
     //now one last level to get to the actual best-book tag
     $('best_book',xml).each(function(l) {
-                            //console.log("object this is: ", $(this));
                             
                             title = $(this).find("title").text();
                             imageURL = $(this).find("image_url").text();
@@ -938,7 +742,6 @@ function setBookBio(bkTitle, imgBookCover, imgSmallBookCover, auName, avgRatings
 }
 
 $("#createBookReport").click(function() {
-	//alert("create button clicked");
 	//now reset the values to the placeholders
                              
     // check for the bookID
@@ -965,7 +768,6 @@ $("#createBookReport").click(function() {
 	$("#pages").val("");
 	$("#mainCharacters").val("");
 	// removing the plot summary for now 
-	//$("#bkPlot").val("");
 	//reset the slider to off
 	$('#chkLike').val('No').slider('refresh');
 	// reset new fields too
@@ -979,12 +781,8 @@ $("#createBookReport").click(function() {
 	// change the header to be 'Book report Detail'
 	$("#hdrTitle2").text("New Book Report");
 	// also disable the Save report button
-	//$('#btnSave').show().button('refresh');
                              
     // now disable the email button
-    //$("#btnEmailReport").hide();
-    //$("#btnEmailReport").addClass("ui-disabled");
-    //$("#btnEmailReport").closest('.ui-btn').hide();
     $(".emailBkReport").closest('.ui-btn').hide();
     $(".deleteBkReport").closest('.ui-btn').hide();
 
@@ -1014,7 +812,6 @@ $('#pages').keypress(function(e) {
 });
 
 // again for the Save button don't function id but class instead
-//$("#btnSave").click(function() {
 $('.save-btn').click(function(event) {
     console.log ("in Save click");
 	//check for empty fields
@@ -1047,7 +844,6 @@ $('.save-btn').click(function(event) {
 	
 	var mainCharactersinPlot=$("#mainCharacters").val();
 	// removing the plot summary for now 
-	//var plotSummary=$("#bkPlot").val();
 	var boolLiked=$("#chkLike").val();
 	// now get the new fields too
 	var bookSetting=$("#bkSetting").val();
@@ -1062,28 +858,17 @@ $('.save-btn').click(function(event) {
     var bkRating = $("#lblAvgRating").html();
 	// now we are going to set these values in the localstorage
 	//lets check if there exists a data store or not
-/*
-	rowCount=0;	
-	if (localStorage.rowCount){
-		// this means the data store is populated
-		// only then try and parse the rowCount value
-		rowCount=parseInt(localStorage.rowCount);		
-	}
-*/
-
                      console.log("no of pages: " + noOfPages);
 	// now save the new 'record'
 	
 	//try and create the object dynamically
 	var bkReport = new Object;
-	//bkReport.id = rowCount;
     bkReport.id = bookID;
 	bkReport.book = bookName;
 	bkReport.author = authorName;
 	bkReport.pages = noOfPages;
 	bkReport.characters = mainCharactersinPlot;
 	// removing the plot summary for now 
-	//bkReport.summary = plotSummary;
 	bkReport.liked = boolLiked;
 	//add new fields too
 	bkReport.setting = bookSetting;
@@ -1119,8 +904,6 @@ $('.save-btn').click(function(event) {
 	console.log('RowCount: ' + localStorage.rowCount);
                     
 	// now refresh and return
-	// alert("Book Report for " + bookName + " successfully saved.");
-	//$( "#clickpopup" ).click();
 	
 	//now reset the values to the placeholders
     // check for the bookID
@@ -1141,7 +924,6 @@ $('.save-btn').click(function(event) {
 	$("#pages").val("");
 	$("#mainCharacters").val("");
 	// removing the plot summary for now 
-	//$("#bkPlot").val("");
 	//reset the slider to off with a check for the third page
     if ($pgThreeInit=="")
         $('#chkLike').val('No');
@@ -1170,12 +952,11 @@ $('.save-btn').click(function(event) {
 });
  
 var empty_flds ;   
-//$('.required').blur(function() {
+
 function checkForEmptyFields() {
     empty_flds = "";
     $(".required").each(function() {
         if(!$.trim($(this).val())) {
-            //empty_flds++;
             // get the field description and it to the emptyflds value
             if ($(this).attr("id") == "bkName")
                 empty_flds += "Book Name";
@@ -1188,18 +969,10 @@ function checkForEmptyFields() {
         }
     });
 
-/*
-    if (empty_flds) {
-        alert("some empty fields");
-    } else {
-		//alert("no empty fields");
-    }
-*/
     return empty_flds;
 }
 
 // don't do this by id but class instead
-//$("#btnEmailReport").click(function() {
 $('.emailBkReport').click(function(event) {
     console.log("in the email button click from the detail screen");
     $strBookID= $("#bkID").val();
@@ -1226,7 +999,6 @@ $('.emailBkReport').click(function(event) {
 });
 
 function emailBookReport(bkReportID,btnID) {
-    //alert("in email button click fn");
     // setup the content for the email
     // perhaps we want to popup a dialog that allows user to pick the email ID's --- TBD
     console.log("in the emailbookreport fn: BkReportID: " + bkReportID);
@@ -1309,13 +1081,10 @@ function emailBookReport(bkReportID,btnID) {
                                 [],
                                 [],
                                 true);
-    //alert("all done");
-                           
+    
 }
 
 $('.sendFeedback').click(function(event) {
-                         //alert("in sendfeedback");
-                         
                          // send an email to the developer
                          feedbackSubject = "Feedback on Bookworm Club App";
                          feedbackBody = "Hi,<br/>I'm a current user of your app. Here are some thoughts on your Bookworm Club App:<br/>" +
@@ -1347,11 +1116,8 @@ function sendEmail(subjectOfEmail, bodyOfEmail,emailAddress) {
 // Called when capture operation is finished
 //
 function captureSuccess(mediaFiles) {
-    //alert("in capture success");
     var i, len;
     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-        //uploadFile(mediaFiles[i]);
-        //alert("captured image name: " + mediaFiles[i].name + ", full path is: " + mediaFiles[i].fullPath);
         console.log(document.getElementById("imgUserImage").getAttribute("src"));
         //set the new value
         document.getElementById("imgUserImage").setAttribute("src",mediaFiles[i].fullPath);
@@ -1406,14 +1172,8 @@ function uploadFile(mediaFile) {
 
 function setupBarCodeVars()
 {
-    //document.addEventListener("deviceready", onDeviceReady, false);
-    //alert("the setup vars was called");
-    
     scanButton = document.getElementById("scan-button");
     resultSpan = document.getElementById("scan-result");
-    
-    //alert("scan button is: " + scanButton);
-    //alert("scan result is: " + resultSpan);
 }
 
 
@@ -1423,12 +1183,9 @@ function setupBarCodeVars()
  for more details -jm */
 function setupBarCodeEvents()
 {
-    //alert("in setup of events");
     // do your thing!
-    //navigator.notification.alert("PhoneGap is working");
     
     scanButton.addEventListener("click", clickScan, false);
     createButton.addEventListener("click", clickCreate, false);
-    //alert("after adding event listeners");
 }
 
