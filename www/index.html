@@ -177,7 +177,7 @@
     </div><!-- End of content for page two -->
     
     <div data-role="popup" id="popupUserScreen2" class="ui-content" data-position-to="window" data-theme="a">
-        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-left">Close</a>
         <div id="userMessage2"><p>Just something in here for now. Its just a test and thats it!</p></div>
     </div><!-- popup dialog for Screen 2 -->
 
@@ -313,8 +313,15 @@
                 <img src="http://privacychoice.org/images/policymaker/v1/0001005.png" width="450"/></a>
 			</div>
             <iframe src="http://www.privacychoice.org/policy/mobile?policy=a04b24bd8723ef0892edcc25d821630e" width="450" height="500" seamless></iframe>
-            <a href="#" data-inline="true" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
-            <a href="#one" data-inline="true" class="ui-btn-right" data-role="button" data-theme="b" data-rel="back">Close</a>
+            
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#one" data-role="button" data-theme="b" data-rel="back">Close</a>
+                </div>
+            </div>
 		</div>
 </div><!-- dialog for Privacy Notice -->
 
@@ -366,12 +373,15 @@
             <p>Pl. contact us if you have <u>any</u> questions.<br/>
         </div>
         
-        <div class="ui-grid-a">
+        <div class="ui-grid-b">
             <div class="ui-block-a">
-                <a href="#" class="sendFeedback" data-role="button" data-theme="b">Send Feedback</a>
+                <a href="#" class="sendFeedback" data-role="button" data-theme="b">Feedback ?</a>
             </div>
             <div class="ui-block-b">
                 <a href="javascript:window.open('https://github.com/sachinh/BookwormClub/issues', '_blank', 'location=yes');" class="fileBug" data-role="button" data-theme="b">File a Bug</a>
+            </div>
+            <div class="ui-block-c">
+                <a href="#one" data-role="button" data-theme="b" data-rel="back">Close</a>
             </div>
         </div>
         
