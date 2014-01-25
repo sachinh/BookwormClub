@@ -891,6 +891,16 @@ function updateAwards( numOfBkReports) {
             $("#badge").buttonMarkup({ icon: 'book' });
         }
     }
+    // Coded: Sachin Holla On: 01/24/2014
+    // Purpose: to account for deletions and hence a value of 0 book reports
+    // Fixes issue: https://github.com/sachinh/BookwormClub/issues/49
+    else {
+        // needs to be set to 000 to account for deletes
+        $("#userPoints").html('000');
+        // set it to starter badge
+        $("#badge").buttonMarkup({ icon: 'leaf' });
+    }
+    // End of Code Change
 }
 
 function isAutoFocusSupported(){
