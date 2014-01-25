@@ -490,7 +490,11 @@ $('.sendFeedback').click(function(event) {
                          "<b>Hate:</b><br/><br/>" +
                          "<p>And here's what I would really really like:<br/><br/>" +
                          "Thanks" ;
-                         developerEmail = "nospamsachin" + "@" + "gmail.com" ;
+                         
+                         // Coded: Sachin Holla On: 01/23/2014
+                         // Purpose: to use a custom email account for app feedback
+                         // Fixes issue: https://github.com/sachinh/BookwormClub/issues/51
+                         developerEmail = "bookwormclubapp" + "@" + "gmail.com" ;
                          
                          sendEmail(feedbackSubject, feedbackBody, developerEmail) ;
                          });
