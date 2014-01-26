@@ -7,12 +7,12 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<link rel="stylesheet" href="css/lib/jquery.mobile-1.2.1.min.css" />
     <link rel="stylesheet" href="jqm-icon-pack-3.0.0-fa.css" />
     <link rel="stylesheet" type="text/css" href="css/bookworm.css" />
     
-	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+	<script src="js/lib/jquery-1.8.3.min.js"></script>
+	<script src="js/lib/jquery.mobile-1.2.1.min.js"></script>
 	
     <script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
     
@@ -124,7 +124,7 @@
                 <a id="scan-button" href="#" data-role="button" data-mini="true" data-inline="true" data-theme="b" data-icon="barcode" data-iconpos="right" >Scan</a>
             </div>
             <div class="ui-block-b">
-                <p>&nbsp;<a onclick="javascript:window.open('http://goodreads.com', '_blank', 'location=yes');"><img src="http://s.gr-assets.com/assets/icons/goodreads_icon_16x16-b88c89b35c417d1cc565ecdc203ae498.png"></img></a>&nbsp;<span>Book Covers provided by <a onclick="javascript:window.open('http://goodreads.com', '_blank', 'location=yes');" >Good Reads</a>.</span>
+                <p>&nbsp;<a onclick="javascript:startBrowser('http://goodreads.com');"><img src="http://s.gr-assets.com/assets/icons/goodreads_icon_16x16-b88c89b35c417d1cc565ecdc203ae498.png"></img></a>&nbsp;<span>Book Covers provided by <a onclick="javascript:startBrowser('http://goodreads.com');" >Good Reads</a>.</span>
             </div>
             <div class="ui-block-b">
                 <p>Average Rating:&nbsp;<label id="lblAvgRating">Unknown</label>
@@ -337,7 +337,7 @@
 
         <div class="ui-grid-a">
             <div class="ui-block-a">
-                <a id="bwclubWebsite" href="javascript:window.open('https://sites.google.com/site/mybookwormclub/home', '_blank', 'location=yes');"><img id="imgLogo" src="img/BWApp-Icon.png" alt="Bookworm Club logo"></img></a>
+                <a id="bwclubWebsite" href="javascript:startBrowser('https://sites.google.com/site/mybookwormclub/home');"><img id="imgLogo" src="img/BWApp-Icon.png" alt="Bookworm Club logo"></img></a>
             </div>
             <div class="ui-block-b">
                 <p>Our highly under-paid minions have been hard at work on our <b>new features</b> and/or <i>bug fixes</i>.</p>
@@ -378,7 +378,7 @@
                 <a href="#" class="sendFeedback" data-role="button" data-theme="b">Feedback ?</a>
             </div>
             <div class="ui-block-b">
-                <a href="javascript:window.open('https://github.com/sachinh/BookwormClub/issues', '_blank', 'location=yes');" class="fileBug" data-role="button" data-theme="b">File a Bug</a>
+                <a href="javascript:startBrowser('https://github.com/sachinh/BookwormClub/issues');" class="fileBug" data-role="button" data-theme="b">File a Bug</a>
             </div>
             <div class="ui-block-c">
                 <a href="#one" data-role="button" data-theme="b" data-rel="back">Close</a>
@@ -388,7 +388,7 @@
     </div><!-- end of content for features dialog -->
 </div><!-- end of features dialog -->
 
-    <script type="text/javascript" src="cordova-2.5.0.js"></script>
+    <script type="text/javascript" src="js/lib/cordova-2.5.0.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/ChildBrowser.js"></script>
     <script src="js/source.js"></script>
     <script type="text/javascript" src="js/index.js"></script>

@@ -16,6 +16,8 @@ var autoFocusSupported = -1;
 
 var empty_flds ;
 
+var connectionStatus = 'not_detected';
+
 /*
  * Page Event Handlers
  *
@@ -45,7 +47,11 @@ $(function () {
   $( '#badge' ).trigger( 'updatelayout' );
   //Code change ends: on 01.23.2014
   
-  });
+  //MYCHANGE
+  document.addEventListener("offline", onOffline, false);
+  document.addEventListener("online", onOnline, false);
+  
+});
 
 $( '#one' ).live( 'pageinit',function(event){
                  
@@ -700,6 +706,21 @@ $('.mlInput').blur(function(e) {
                    }
                    });
 
+/*
+$("#lnkDialogOpen").click(function() {
+                          alert('in privacyclick');
+                          if (connectionStatus == 'online'){
+                            //open dialog
+                          $("#dialog").dialog( "open");
+                          
+                          }
+                          else
+                            alert('No Network Connectivity. This feature is not available currently!');
+
+
+});
+*/
+
 $("#scan-button").click(function() {
                         // setup to handle the barcode scanning
                         
@@ -749,6 +770,33 @@ $('#pages').keypress(function(e) {
  *
  */
 
+// Launch the browser window
+function startBrowser(url){
+    //alert ('in browser with url: ' +url );
+    if (connectionStatus == 'online'){
+        //alert ('valid connectuon');
+        window.open(url, '_blank', 'location=yes');
+    }
+    else
+        alert('No Network Connectivity. This feature is not available currently!');
+
+}
+
+// Handle the offline event
+//
+function onOffline() {
+    //    alert('offline now');
+    connectionStatus = 'offline' ;
+    alert('No Network Connectivity. Some features may not work correctly!');
+}
+
+// Handle the offline event
+//
+function onOnline() {
+    //  alert('online now');
+    connectionStatus = 'online' ;
+    //alert('connection status: ' + connectionStatus);
+}
 
 function countWords(strInput){
     s = strInput;
