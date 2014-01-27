@@ -101,6 +101,7 @@ $( '#two' ).live( 'pageinit',function(event){
 $( '#two' ).live( 'pageinit',function(event){
                  // this is when the cordova piece should have loaded fine
                  autoFocusSupported = isAutoFocusSupported() ;
+                 //alert(autoFocusSupported);
                  });
 
 
@@ -291,7 +292,7 @@ $('.deleteBkReport').click(function(event) {
                            
                            }
                            else {
-                           alert('MSG-01: There is an error, pl. report this to the developer');
+                           navigator.notification.alert('MSG-01: There is an error, pl. report this to the developer');
                            }
                            // Code Change end: on 01/23/2014
                            
@@ -486,7 +487,7 @@ $('.emailBkReport').click(function(event) {
                           // Code change end: 01/23/2014
                           }
                           else
-                          alert("MSG-03: Invalid Book Report. This should never occur, pl. report this to the developer");
+                          navigator.notification.alert("MSG-03: Invalid Book Report. This should never occur, pl. report this to the developer");
                           });
 
 $('.sendFeedback').click(function(event) {
@@ -779,7 +780,7 @@ function startBrowser(url){
         window.open(url, '_blank', 'location=yes');
     }
     else
-        alert('MSG-04: No Network Connectivity. This feature is not available currently!');
+        navigator.notification.alert('MSG-04: No Network Connectivity. This feature is not available currently!');
 
 }
 
@@ -788,7 +789,7 @@ function startBrowser(url){
 function onOffline() {
     //    alert('offline now');
     connectionStatus = 'offline' ;
-    alert('MSG-05: No Network Connectivity. Some features may not work correctly!');
+    navigator.notification.alert('MSG-05: No Network Connectivity. Some features may not work correctly!');
 }
 
 // Handle the offline event
@@ -960,6 +961,8 @@ function isAutoFocusSupported(){
     var devModel = device.model ;
     var iPad2String = "iPad2";
     
+    console.log("Device Model is: " + devModel);
+    
     if ( devModel.indexOf(iPad2String) >= 0) {
         var iPadVersion = parseInt(devModel.substring(6)); // model is in the format ipad2,x
         console.log("Device Model is: " + devModel);
@@ -976,7 +979,8 @@ function isAutoFocusSupported(){
         console.log("no ipad2 found");
     }
     
-    return 0;
+    console.log('ipad autofocus must be supported');
+    return 1;
 }
 
 function retrieveBadgeDescription(){
@@ -1187,7 +1191,7 @@ function emailBookReport(bkReportID,btnID) {
             
         }
         else {
-            alert('MSG-02: There is an error, pl. report this to the developer');
+            navigator.notification.alert('MSG-02: There is an error, pl. report this to the developer');
         }
         // Code Change End: 01/23/2014
         
