@@ -318,6 +318,7 @@ $('.emailReport').live('click', function(event) {
                        // email the report
                        console.log("email report clicked");
                        console.log("id= " + $(this).attr("id"));
+                       
                        emailBookReport($(this).attr("id"));
                        console.log("finished the email setup");
                        
@@ -778,7 +779,7 @@ function startBrowser(url){
         window.open(url, '_blank', 'location=yes');
     }
     else
-        alert('No Network Connectivity. This feature is not available currently!');
+        alert('MSG-04: No Network Connectivity. This feature is not available currently!');
 
 }
 
@@ -787,7 +788,7 @@ function startBrowser(url){
 function onOffline() {
     //    alert('offline now');
     connectionStatus = 'offline' ;
-    alert('No Network Connectivity. Some features may not work correctly!');
+    alert('MSG-05: No Network Connectivity. Some features may not work correctly!');
 }
 
 // Handle the offline event
