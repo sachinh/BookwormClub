@@ -77,6 +77,20 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
+    /*
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+    
+        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+        
+        self.window.clipsToBounds =YES;
+        
+        //self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
+        self.window.frame = CGRectMake(20,0,screenBounds.size.width-20,screenBounds.size.height);
+    }
+    */
+    
     return YES;
 }
 
