@@ -19,6 +19,8 @@
 	<dict>
 		<key>0BBF2120-9A5A-47DE-ADC4-930B03F65419</key>
 		<string>../..</string>
+		<key>C6407255-2D95-42C4-971A-EC0BD8507572</key>
+		<string>../../www/jspdf/libs/FileSaver.js</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/sachinh/BookwormClub.git</string>
@@ -35,6 +37,14 @@
 			<string>0BBF2120-9A5A-47DE-ADC4-930B03F65419</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BookwormClub</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C6407255-2D95-42C4-971A-EC0BD8507572</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FileSaver</string>
 		</dict>
 	</array>
 </dict>

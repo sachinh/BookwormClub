@@ -16,12 +16,21 @@
 	
     <script type="text/javascript" charset="utf-8" src="barcodescanner.js"></script>
     
+    <!-- adds due to jspdf -->
+    <script type="text/javascript" src="jspdf/jspdf.js"></script>
+
+    <script type="text/javascript" src="jspdf/libs/FileSaver.js/FileSaver.js"></script>
+    <script type="text/javascript" src="jspdf/libs/Deflate/adler32cs.js"></script>
+    <script type="text/javascript" src="jspdf/libs/Blob.js/BlobBuilder.js"></script>
+    
+    <!-- end adds for jspdf -->
+    
 </head>
     
 <body>
 
 <p/>
-    
+
 <!-- Start of first page: #one -->
 <div data-role="page" id="one" style="background-image:url(img/background3.jpg)">
 
@@ -78,6 +87,8 @@
         <a data-theme="b" id="lnkDialogOpen" href="#dialog" data-transition="slideup" data-role="button" data-mini="true" data-inline="true" data-icon="legal" data-rel="dialog" class="ui-btn-left" >Privacy</a>
 		<h4>Bookworm Club. Readers Rock!</h4>
         <a data-theme="b" href="#" data-role="button" data-mini="true" data-inline="true" data-icon="envelope" class="ui-btn-right sendFeedback" >Send Feedback</a>
+        <!--<a href="javascript:createPDF();" class="button">Create test pdf</a>
+        <a href="javascript:displayPDF('/Users/sachinholla/Library/Application Support/iPhone Simulator/7.0.3/Applications/E1066E6D-BC08-47B9-A8C0-9F854C704731/Documents/test.pdf');" class="button">Display test pdf</a>-->
 	</div><!-- /footer -->
     
 </div><!-- /page one -->

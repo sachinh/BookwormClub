@@ -315,12 +315,42 @@ $('.deleteBkReport').click(function(event) {
                            }
                            });
 
+function showBookReportPDFAlertDismissed(){
+                           //alert('first');
+    // use the value stored in the global variable
+    // create the PDF
+    createPDF(emailBookReportID);
+
+}
+
 $('.emailReport').live('click', function(event) {
-                       // email the report
+                       // email the report from the list screen
                        console.log("email report clicked");
                        console.log("id= " + $(this).attr("id"));
                        
-                       emailBookReport($(this).attr("id"));
+                       /*
+                        * Change made by Sachin on 03/22/2014
+                        * Purpose: to add in PDF creation and display functions
+                        *
+                        */
+                       emailBookReportID = $(this).attr("id");
+                       
+                       navigator.notification.alert(
+                                                    'See The Book Report before sending the email out',  // message
+                                                    showBookReportPDFAlertDismissed,         // callback
+                                                    'Email your Book Report',            // title
+                                                    'View Book Report'                  // buttonName
+                                                    );
+                       // first create the PDF
+                       //createPDF($(this).attr("id"));
+                       
+                       //alert('second');
+                       // now display the PDF
+                       //displayPDF('/Users/sachinholla/Library/Application Support/iPhone Simulator/7.0.3/Applications/E1066E6D-BC08-47B9-A8C0-9F854C704731/Documents/test.pdf');
+                       /*
+                        * End Changes
+                        */
+                       //emailBookReport($(this).attr("id"));
                        console.log("finished the email setup");
                        
                        });
@@ -883,7 +913,8 @@ function getBookReports() {
                         $bkReports += "<h3>" + testObject.book + "</h3><p>" + testObject.author + "</p>" ;
                         // add another anchor to do the buttons stuff
                         $bkReports += '</a><a href="#" class="emailReport" ' + " id=bkReport" + $idValue +
-                                    ' data-rel="dialog" data-transition="slideup" data-icon="envelope"' + " >";
+                                  ' data-rel="dialog" data-transition="slideup" data-icon="envelope"' + " >";
+                    
                         // close off the item
 						$bkReports += '</a></li>\n' ;
                         console.log("bkreports: " + $bkReports);
@@ -1317,5 +1348,307 @@ function uploadFile(mediaFile) {
               console.log('Error uploading file ' + path + ': ' + error.code);
               },
               { fileName: name });
+}
+
+/*
+ *
+ * PDF Helper Functions
+ *
+ *
+ */
+
+// Coded: Sachin Holla
+// On: 03/22/2014
+// Purpose: to create a PDF of the Book Report
+// Implements feature: https://github.com/sachinh/BookwormClub/issues/63
+
+function generatePDFcontent(){
+    // this function will create the PDF of the book report
+    
+    //alert('in generatePDFcontent function');
+    // now get the bookreport content
+    var bookReport = getBookReportContent('bkReport13');
+    
+    //alert ('now back in generate pdf content fn');
+    //alert('book: '+ bookReport.book);
+    //alert('author: '+ bookReport.author);
+    //alert('pages: '+ bookReport.pages);
+
+    //FIRST GENERATE THE PDF DOCUMENT
+    //alert("Generating pdf content ...");
+    var doc = new jsPDF();
+    
+    //alert(timeStamp());
+    
+    doc.text(100, 10, 'My Book Report');
+    
+    doc.setFont("courier");
+    doc.setFontType("normal");
+    
+    // set just the book bio first
+    doc.text(20, 30, 'Book Name: ' + bookReport.book);
+    doc.text(20, 40, 'Authors Name: ' + bookReport.author);
+    doc.text(20, 50, 'No. Of Pages: ' + bookReport.pages);
+
+    doc.text(20, 70, 'Main Characters: ' + bookReport.characters);
+    doc.text(20, 90, 'Setting: ' + bookReport.setting);
+    doc.text(20, 110, 'Conflict: ' + bookReport.conflict);
+    doc.text(20, 130, 'Conclusion: ' + bookReport.conclusion);
+    doc.text(20, 150, 'Liked The Book: ' + bookReport.liked);
+    doc.text(100, 150, 'And Why: ' + bookReport.likedReason);
+    
+    doc.text(20, 250, 'Created: '+timeStamp());
+    doc.text(20, 257, 'By: The Greatest BookWorm ever!!');
+    
+/*
+    $strBody += "Main Characters: " +emailBkReport.characters + "<br />";
+    $strBody += "Setting: " +emailBkReport.setting + "<br />";
+    $strBody += "Conflict: " +emailBkReport.conflict + "<br />";
+    $strBody += "Conclusion: " +emailBkReport.conclusion + "<br />";
+    $strBody += "Liked the book: " +emailBkReport.liked + "<br />" ;
+    $strBody += " And Why: " +emailBkReport.likedReason + "<br />";
+
+    doc.text(20, 30, 'This is a PDF document generated using JSPDF.');
+    doc.text(20, 50, 'YES, Inside of PhoneGap!');
+    doc.text(20, 70, 'And YES, This is Version 2 to be sure its a new doc thats getting written!');
+    doc.text(20, 90, 'This is a test PDF within BWC app.');
+*/
+    
+    var pdfContent = doc.output();
+    //alert( 'Content Generated is: ' + pdfContent );
+    
+    return pdfContent ;
+
+}
+
+function createPDF(bkReportID) {
+    //alert('in createPDF function with ID: ' + bkReportID);
+    
+    var pdfOutput = generatePDFcontent();
+    //alert( pdfOutput );
+    
+    //NEXT SAVE IT TO THE DEVICE'S LOCAL FILE SYSTEM
+    console.log("Requesting the file system...");
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+                             
+                             //alert(fileSystem.name);
+                             //alert(fileSystem.root.name);
+                             console.log(fileSystem.root.fullPath);
+                             var fileName = "BWC.pdf";
+                             fileName = "BookReport-" + bkReportID + ".pdf";
+                             //alert('FileName: ' + fileName);
+                             
+                             fileSystem.root.getFile(fileName, {create: true}, function(entry) {
+                                                     var fileEntry = entry;
+                                                     
+                                                     entry.createWriter(function(writer) {
+                                                                        writer.onwrite = function(evt) {
+                                                                        console.log("Write Success");
+                                                                        //save the full path of file
+                                                                        var filePath = fileSystem.root.fullPath;
+                                                                        filePath = filePath + "/" + fileName;
+                                                                        console.log ('FullPath: ' + filePath);
+                                                                        
+                                                                        // now if the file was written, then display the PDF
+                                                                        if (filePath != ''){
+                                                                        console.log('Start showing the PDF: ' + filePath);
+                                                                        //a nonempty path, means a valid file was ewritten.
+                                                                        displayPDF(filePath);
+                                                                        }
+                                                                        else
+                                                                        alert('No valid file was written');
+                                                                        
+                                                                        };
+                                                                        
+                                                                        console.log("Writing to File");
+                                                                        writer.write( pdfOutput );
+                                                                        }, function(error) {
+                                                                        alert(error);
+                                                                        });
+                                                     
+                                                     }, function(error){
+                                                     alert(error);
+                                                     });
+                             },
+                             function(event){
+                             alert( 'Caught an error in the PDF writing: ' + evt.target.error.code );
+                             });
+}
+
+function getBookReportContent(bkReportID) {
+    console.log("in the getbookreport fn: BkReportID: " + bkReportID);
+    
+    // now retrieve the bkreport from storage
+    var bkReport = localStorage.getItem(bkReportID);
+    
+    //extract the actual values
+    if (bkReport != null) {
+        console.log("this is valid object");
+        // parse the sored content to decrypt content
+        bkReport = JSON.parse(bkReport);
+        // get the id
+        $idValue=bkReport.id;
+        if(isNaN($idValue))
+            $idValue=0;
+
+        return bkReport ;
+
+    }
+    
+}
+
+var emailBookReportID = -1;
+var bookReportPath = 'not set path';
+
+function displayPDF(docPath){
+    //var ref = window.open('http://apache.org', '_blank', 'location=yes');
+    //        var ref = window.open(encodeURI('/Users/sachinholla/Library/Application Support/iPhone Simulator/7.0.3/Applications/E1066E6D-BC08-47B9-A8C0-9F854C704731/Documents/test.pdf'), '_blank', 'location=yes');
+    //alert('document path: ' + docPath);
+    //alert('uriencoded document path: ' + encodeURI(docPath) );
+    
+    var iIndex1 =docPath.indexOf("bkReport");
+    var iIndex2 =docPath.indexOf(".pdf");
+    //alert("the index of bkreport is : "+iIndex1);
+    emailBookReportID = docPath.substring(iIndex1,iIndex2);
+    //alert('the bookreport id is: ' + emailBookReportID);
+    bookReportPath = docPath;
+    
+    var ref = window.open(encodeURI(docPath), '_blank', 'location=yes');
+    //var ref = window.open(encodeURI('Documents/test.pdf'), '_blank', 'location=yes');
+    
+    ref.addEventListener('loadstart', function(event) {
+                         //alert('start: ' + event.url);
+                         });
+    ref.addEventListener('loadstop', function(event) {
+                         //alert('stop: ' + event.url);
+                         });
+    ref.addEventListener('loaderror', function(event) { alert('error: ' + event.message); });
+    ref.addEventListener('exit', function(event) {
+                         //alert(event.type);
+                         //alert('Just got out of the display pdf screen - now launch email screen');
+                         //alert('bkreportid being passed is: ' + emailBookReportID);
+                         
+                         // now setup a confirm dialog for delay and also to validate email flow
+                         navigator.notification.confirm(
+                                                        'Would you like to go ahead and send the email now ?',  // message
+                                                        onConfirm,              // callback to invoke with index of button pressed
+                                                        'Email your Book Report',            // title
+                                                        'Cancel Email,Send Email Now'          // buttonLabels
+                                                        );
+                         
+                         //emailBookReportAsPDF(emailBookReportID);
+                         });
+}
+
+// process the confirmation dialog result
+function onConfirm(button) {
+    //alert('You selected button ' + button);
+    if (button==2){
+        // now do the actual email
+        emailBookReportAsPDF(emailBookReportID);
+    }
+    else {
+        // do nothing and control will return the start point - list or detail view
+    }
+}
+
+function emailBookReportAsPDF(bkReportID,btnID) {
+    // setup the content for the email
+    console.log("in the emailBookReportAsPDF fn: BkReportID: " + bkReportID);
+    var $strSubject = "My Book Report";
+    var $strBody = "";
+    
+    // now retrieve the bkreport from storage
+    var emailBkReport = localStorage.getItem(bkReportID);
+    emailBkReport = JSON.parse(emailBkReport);
+    
+    //extract the actual values
+    if (emailBkReport == null) {
+        // this means there is no saved data for this ID
+        
+        if (btnID == 'btnEmailScreen2'){
+            // set the user message in the appropriate popup and display popup
+            $('#popupUserScreen2').attr('data-position-to','window');
+            $('#userMessage2').html("<p><b>Invalid Action:</b><br/>You can only email a previously saved Book Report.");
+            $('#popupUserScreen2').popup( "open" );
+        }
+        else if (btnID == 'btnEmailScreen3'){
+            // set the user message in the appropriate popup and display popup
+            $('#popupUserScreen3').attr('data-position-to','window');
+            $('#userMessage3').html("<p><b>Invalid Action:</b><br/>You can only email a previously saved Book Report.");
+            $('#popupUserScreen3').popup( "open" );
+            
+        }
+        else {
+            navigator.notification.alert('MSG-XX: There is an error, pl. report this to the developer');
+        }
+        // Code Change End: 01/23/2014
+        
+        return ;
+    }
+    else {
+        console.log("this is a valid object");
+
+        $strBody += "Hi,<br/><br/>I have created and attached a Book Report on the book: <b>" +emailBkReport.book + "</b><br />" ;
+        $strBody += "<br/>I hope you enjoy reading.<br/><br/>";
+        $strSubject += " on " + emailBkReport.book;
+        // done
+    }
+    
+    //alert("Subject: "+ $strSubject);
+    //alert("Body: "+ $strBody);
+    // startup the email engine
+    
+    var $toEmailAddress = "someone@somewhere.com";
+    $toEmailAddress = "bookwormclubapp@gmail.com";
+    
+    window.plugins.emailComposer.showEmailComposerWithCallback(
+                                                               function(result){
+                                                               console.log('value of return is: ',result);
+                                                               },
+                                                               $strSubject,
+                                                               $strBody,
+                                                               [$toEmailAddress],
+                                                               [],
+                                                               [],
+                                                               true,
+                                                               [bookReportPath]);
+    
+}
+
+/**
+ * Return a timestamp with the format "m/d/yy h:MM:ss TT"
+ * @type {Date}
+ * Credit to: https://gist.github.com/hurjas/2660489
+ */
+
+function timeStamp() {
+    // Create a date object with the current time
+    var now = new Date();
+    
+    // Create an array with the current month, day and time
+    var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+    
+    // Create an array with the current hour, minute and second
+    var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+    
+    // Determine AM or PM suffix based on the hour
+    var suffix = ( time[0] < 12 ) ? "AM" : "PM";
+    
+    // Convert hour from military time
+    time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
+    
+    // If hour is 0, set it to 12
+    time[0] = time[0] || 12;
+    
+    // If seconds and minutes are less than 10, add a zero
+    for ( var i = 1; i < 3; i++ ) {
+        if ( time[i] < 10 ) {
+            time[i] = "0" + time[i];
+        }
+    }
+    
+    // Return the formatted string
+    return date.join("/") + " " + time.join(":") + " " + suffix;
 }
 
