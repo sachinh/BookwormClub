@@ -316,11 +316,13 @@ $('.deleteBkReport').click(function(event) {
                            });
 
 function showBookReportPDFAlertDismissed(){
-                           //alert('first');
+    
+    //alert('in callback fn');
     // use the value stored in the global variable
     // create the PDF
     createPDF(emailBookReportID);
-
+    //alert("after createpdf fn");
+    
 }
 
 $('.emailReport').live('click', function(event) {
@@ -1362,12 +1364,55 @@ function uploadFile(mediaFile) {
 // Purpose: to create a PDF of the Book Report
 // Implements feature: https://github.com/sachinh/BookwormClub/issues/63
 
-function generatePDFcontent(){
+var docPDF, offsetX, offsetY ;
+
+function writePDFText(strText){
+    //alert('in writepdf');
+    
+    var noLineWidth = 75;
+    var verticalIncrement = 7;
+    var pgLimit = 265;
+    // this function is to calculate the entire line length and wrap if needed
+    //wrap to next line if no. of characters is more than 80
+    do {
+        // chck if a new page needs to be added
+        if (offsetY >= pgLimit-5){
+            docPDF.text(offsetX,offsetY,'contd. on next page');
+            // add a new page
+            docPDF.addPage();
+            offsetY = 10;
+            
+        }
+        //alert('in the while loop: ' + strText);
+        //alert('offsetx : '+offsetX);
+        //alert('offsety : '+offsetY);
+        docPDF.text(offsetX,offsetY,strText.substring(0,noLineWidth-1));
+        //alert('after setting the text');
+        strText = strText.substring(noLineWidth-1);
+        offsetY = offsetY + verticalIncrement;
+        //alert('just exiting iteration: ' + strText);
+    } while (strText.length > noLineWidth);
+    
+    //now check if the text is more than 1 and if so blit it out the text too
+    if (strText.length >= 1){
+        docPDF.text(offsetX,offsetY,strText);
+    }
+    
+    //alert('all done with the writepdf text');
+    
+}
+
+function generatePDFcontent(bookReportID){
     // this function will create the PDF of the book report
     
     //alert('in generatePDFcontent function');
+    //demoStringSplitting();
+    //alert('done with demostringsplitting function');
+    
+    //return;
+    
     // now get the bookreport content
-    var bookReport = getBookReportContent('bkReport13');
+    var bookReport = getBookReportContent(bookReportID);
     
     //alert ('now back in generate pdf content fn');
     //alert('book: '+ bookReport.book);
@@ -1376,8 +1421,115 @@ function generatePDFcontent(){
 
     //FIRST GENERATE THE PDF DOCUMENT
     //alert("Generating pdf content ...");
-    var doc = new jsPDF();
     
+    //var doc = new jsPDF();
+    docPDF = new jsPDF();
+    
+    // Margins:
+	docPDF.setDrawColor(0, 255, 0)
+    .setLineWidth(150);
+    
+    var loremipsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id eros turpis. Vivamus tempor urna vitae sapien mollis molestie. Vestibulum in lectus non enim bibendum laoreet at at libero. Etiam malesuada erat sed sem blandit in varius orci porttitor. Sed at sapien urna. Fusce augue ipsum, molestie et adipiscing at, varius quis enim. Morbi sed magna est, vel vestibulum urna. Sed tempor ipsum vel mi pretium at elementum urna tempor. Nulla faucibus consectetur felis, elementum venenatis mi mollis gravida. Aliquam mi ante, accumsan eu tempus vitae, viverra quis justo. Proin feugiat augue in augue rhoncus eu cursus tellus laoreet. Pellentesque eu sapien at diam porttitor venenatis nec vitae velit. Donec ultrices volutpat lectus eget vehicula. Nam eu erat mi, in pulvinar eros. Mauris viverra porta orci, et vehicula lectus sagittis id. Nullam at magna vitae nunc fringilla posuere. Duis volutpat malesuada ornare. Nulla in eros metus. Vivamus a posuere libero.';
+
+    offsetX = 10;
+    offsetY = 20;
+    //docPDF.text(100, 10, 'My Book Report');
+    //docPDF = writePDFText('My Book Report');
+    offsetY = 30;
+    //writePDFText(loremipsum);
+    offsetY += 10;
+    //writePDFText(loremipsum);
+    offsetY += 10;
+    //writePDFText(loremipsum);
+
+    /*
+     * set up the book report layout by adding pages with some basic info
+     */
+
+    // add a new page
+    //docPDF.addPage();
+    // provide a simple header
+    docPDF.text(100, 10, 'My Book Report - Real Page #1');
+    
+    // draw a line after the image
+    docPDF.setLineWidth(0.5);
+    docPDF.line(5, 125, 205, 125);
+
+    // now lets create the book report name
+    var bkReportTitle, bkReportCreatedOn, bkReportCreatedBy;
+    if (bookReport.book != '')
+        bkReportTitle = 'Book Report on ' + bookReport.book;
+    else
+        bkReportTitle = 'Book Report on <Book Name>';
+    
+    // now gather the meta data for the created date and user too
+    if (bookReport.created != undefined)
+        bkReportCreatedOn = 'On: ' + bookReport.created;
+    else
+        bkReportCreatedOn = 'On: <today>';
+
+    if (bookReport.createdBy != undefined)
+        bkReportCreatedBy = 'Created By: ' + bookReport.createdBy;
+    else
+        bkReportCreatedBy = 'Created By: <BookWorm>';
+    
+    // now blit the title and meta data on the screen
+    docPDF.setFontSize(32);
+    docPDF.setFontType("bold");
+    docPDF.text(50, 135, bkReportTitle);
+    docPDF.setFontSize(16);
+    docPDF.setFontType("normal");
+
+    docPDF.text(10, 155, bkReportCreatedBy);
+    docPDF.text(10, 165, bkReportCreatedOn);
+    
+    //= 'Book Report on' + bookReport.book,
+      //   = 'Created On: ' + bookReport.created
+    
+    addFooter(1);
+    
+    // add a new page
+    docPDF.addPage();
+    // provide a simple header
+    docPDF.text(100, 10, 'My Book Report - Real Page #2');
+
+    // draw a line after the image
+    docPDF.setLineWidth(0.5);
+    docPDF.line(5, 125, 205, 125);
+    // now create fields for book bio
+    docPDF.text(10, 135, 'Book: ');
+    docPDF.text(10, 145, 'Author: ');
+    docPDF.text(10, 155, 'No. of Pages: ');
+    docPDF.text(10, 165, 'For more info: ');
+    // now draw another line
+    docPDF.line(5, 170, 205, 170);
+    //add in the other fields
+    offsetX = 10;
+    offsetY = 180;
+    writePDFText('Main Characters: ' + bookReport.characters);
+    //writePDFText('Main Characters: ' + loremipsum);
+    //offsetY += 10;
+    //docPDF.text(10, 180, 'Main Characters: ' + bookReport.characters);
+    writePDFText('Setting: ' + bookReport.setting);
+    writePDFText('Conflict: ' + bookReport.conflict);
+    writePDFText('Conclusion: ' + bookReport.conclusion);
+    writePDFText('Liked The Book: ' + bookReport.liked);
+    offsetX = 100;
+    offsetY -= 7;
+    writePDFText('And Why: ' + bookReport.likedReason);
+
+    addFooter(2);
+
+    // now don't add a new page unless its needed
+    /*
+    // add a new page
+    docPDF.addPage();
+    // provide a simple header
+    docPDF.text(100, 10, 'My Book Report - Real Page #3');
+    addFooter(3);
+    */
+    
+    /*
     //alert(timeStamp());
     
     doc.text(100, 10, 'My Book Report');
@@ -1399,6 +1551,7 @@ function generatePDFcontent(){
     
     doc.text(20, 250, 'Created: '+timeStamp());
     doc.text(20, 257, 'By: The Greatest BookWorm ever!!');
+    */
     
 /*
     $strBody += "Main Characters: " +emailBkReport.characters + "<br />";
@@ -1414,21 +1567,41 @@ function generatePDFcontent(){
     doc.text(20, 90, 'This is a test PDF within BWC app.');
 */
     
-    var pdfContent = doc.output();
+    var pdfContent = docPDF.output();
     //alert( 'Content Generated is: ' + pdfContent );
     
     return pdfContent ;
 
 }
 
+// generic function to add a footer
+function addFooter(page){
+    // create a footer line
+    docPDF.setLineWidth(0.05);
+    docPDF.setDrawColor(128,128,128);
+    docPDF.line(5, 285, 205, 285);
+    
+    // now add the footer text
+    docPDF.setFontType("italic");
+    docPDF.setFontSize(10);
+    docPDF.text(5, 290, '(c) Bookworm Club App 2014');
+    docPDF.text(100, 290, '<Book Report Title>');
+    docPDF.text(190, 290, 'Page '+page);
+    
+    //reset for other text
+    docPDF.setFontType("normal");
+    docPDF.setFontSize(16);
+    
+}
+
 function createPDF(bkReportID) {
     //alert('in createPDF function with ID: ' + bkReportID);
     
-    var pdfOutput = generatePDFcontent();
+    var pdfOutput = generatePDFcontent(bkReportID);
     //alert( pdfOutput );
     
     //NEXT SAVE IT TO THE DEVICE'S LOCAL FILE SYSTEM
-    console.log("Requesting the file system...");
+    //alert("Requesting the file system...");
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
                              
                              //alert(fileSystem.name);
