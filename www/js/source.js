@@ -1415,11 +1415,11 @@ function writePDFTitle(strText){
                 totalLength = strOutput.length + lengthWord + 1 ;
                 
                 if ( totalLength > noLineWidth){
-                    console.log ('limited title: ' + strOutput);
+                    console.log ('In WritePDFTitle: limited title: ' + strOutput);
                     docPDF.text(10,offsetY,strOutput);
                     offsetY = offsetY + verticalIncrement;
                     strOutput = strWords[iWords];
-                    console.log ('output: ' + strOutput);
+                    console.log ('In WritePDFTitle: output: ' + strOutput);
                 }
                 else
                     strOutput += " " + strWords[iWords];
@@ -1434,10 +1434,14 @@ function writePDFTitle(strText){
             
         }
         //alert ('final limited sentence: ' + strOutput);
-        console.log ('final limited title: ' + strOutput);
+        console.log ('In WritePDFTitle: final limited title: ' + strOutput);
+        console.log ('In WritePDFTitle: length of title: ' + strOutput.length);
+        console.log ('In WritePDFTitle: half of linewidth: ' + noLineWidth/2);
         if (strOutput.length < noLineWidth/2)
-            docPDF.text(noLineWidth-strOutput.length/2,offsetY,strOutput);
+            //docPDF.text(noLineWidth-strOutput.length/2,offsetY,strOutput);
+            docPDF.text(noLineWidth*2,offsetY,strOutput);
         else
+            //docPDF.text(2,offsetY,strOutput);
             docPDF.text(10,offsetY,strOutput);
         offsetY = offsetY + verticalIncrement;
         
@@ -1559,17 +1563,15 @@ function generatePDFcontent(bookReportID){
     docPDF = new jsPDF();
     
     // Margins:
-	//docPDF.setDrawColor(0, 255, 0)
-    //.setLineWidth(150);
+	docPDF.setDrawColor(0, 255, 0)
+    .setLineWidth(150);
     
     /*
      * set up the book report layout by adding pages with some basic info
      */
 
-    // provide a simple header
-    //addHeader(); --- no header for title page
-
-    //docPDF.setDrawColor(255,0,0);
+    docPDF.setDrawColor(255,0,0);
+    
     docPDF.setFillColor(128,0,128);
     docPDF.rect(5, 5, 200, 275,'F'); // filled red square with black borders
     
@@ -1738,7 +1740,9 @@ function addFooter(page){
     docPDF.setFontType("italic");
     docPDF.setFontSize(10);
     docPDF.text(5, 290, '(c) Bookworm Club App 2014');
-    //docPDF.text(100, 290, '<Book Report Title>');
+    docPDF.setTextColor(0, 0, 255);
+    docPDF.text(100, 290, "http://goo.gl/0vG8Qv");
+    docPDF.setTextColor(0, 0, 0);
     docPDF.text(190, 290, 'Page '+page);
     
     //reset for other text
@@ -1799,6 +1803,98 @@ function createPDF(bkReportID) {
                              function(event){
                              alert( 'Caught an error in the PDF writing: ' + evt.target.error.code );
                              });
+}
+
+function savePDF(bkReportID, pdfOutput) {
+    
+    //var pdfOutput = generatePDFcontent(bkReportID);
+    
+    console.log('in the Savepdf function');
+    
+    //NEXT SAVE IT TO THE DEVICE'S LOCAL FILE SYSTEM
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+                             
+                             console.log('Full Path: ' + fileSystem.root.fullPath);
+                             var fileName = "BWC.pdf";
+                             fileName = "BookReport-" + bkReportID + ".pdf";
+                             //fileName = "BookReport-" + bkReportID + ".txt";
+                             
+                             fileSystem.root.getFile(fileName, {create: true}, function(entry) {
+                                                     var fileEntry = entry;
+                                                     
+                                                     entry.createWriter(function(writer) {
+                                                                        writer.onwrite = function(evt) {
+                                                                        console.log("Write Success");
+                                                                        //save the full path of file
+                                                                        var filePath = fileSystem.root.fullPath;
+                                                                        filePath = filePath + "/" + fileName;
+                                                                        console.log ('FullPath: ' + filePath);
+                                                                        
+                                                                        // now if the file was written, then display the PDF
+                                                                        if (filePath != ''){
+                                                                        console.log('Start showing the PDF: ' + filePath);
+                                                                        //a nonempty path, means a valid file was ewritten.
+                                                                        //displayPDF(filePath);
+                                                                        }
+                                                                        else
+                                                                        alert('No valid file was written');
+                                                                        
+                                                                        };
+                                                                        
+                                                                        console.log("Writing to File: " + pdfOutput);
+                                                                        
+                                                                        /*
+                                                                        var len = pdfOutput.bytelength;
+                                                                        var ab = new ArrayBuffer(len);
+                                                                        var u8 = new Uint8Array(ab);
+                                                                        
+                                                                        while(len--){
+                                                                            console.log('character being put: ' + pdfOutput.charCodeAt(len));
+                                                                            u8[len] = pdfOutput.charCodeAt(len);
+                                                                        }
+                                                                        console.log("ArrayBuffer is: " + ab);
+                                                                        */
+                                                                        
+                                                                        //var strPdf = doc.output();
+                                                                        
+                                                                         var buffer = new ArrayBuffer(pdfOutput.length);
+                                                                        var array = new Uint8Array(buffer);
+                                                                        
+                                                                        for (var i = 0; i < pdfOutput.length; i++) {
+                                                                            array[i] = pdfOutput.charCodeAt(i);
+                                                                        }
+                                                                        
+                                                                         console.log("New ArrayBuffer is: " + buffer);
+                                                                        console.log("New Array is: " + array);
+                                                                        
+                                                                        
+                                                                        try
+                                                                        {
+                                                                            writer.write( pdfOutput );
+                                                                            //writer.write( array );
+                                                                        }
+                                                                        catch (e)
+                                                                        {
+                                                                            console.log('Exception name: ' + e.name + ' Detailed exception caught: ' + e);
+                                                                        }
+                                                                        
+                                                                        //var blob = new Blob(['Lorem Ipsum'], {type: 'text/plain'});
+                                                                        //writer.write(blob);
+                                                                        
+                                                                        }, function(error) {
+                                                                        alert(error);
+                                                                        });
+                                                     
+                                                     }, function(error){
+                                                     alert(error);
+                                                     });
+                             },
+                             function(event){
+                             alert( 'Caught an error in the PDF writing: ' + evt.target.error.code );
+                             });
+    
+    console.log('in the Savepdf function: just before getting done');
+
 }
 
 function getBookReportContent(bkReportID) {
@@ -1976,5 +2072,168 @@ function timeStamp() {
     
     // Return the formatted string
     return date.join("/") + " " + time.join(":") + " " + suffix;
+}
+
+function demoMyImages() {
+	// Because of security restrictions, getImageFromUrl will
+	// not load images from other domains.  Chrome has added
+	// security restrictions that prevent it from loading images
+	// when running local files.  Run with: chromium --allow-file-access-from-files --allow-file-access
+	// to temporarily get around this issue.
+    
+    console.log ('in demomyimages');
+    
+     var getImageFromUrl = function(url, callback) {
+		var img = new Image(), data, ret = {
+        data: null,
+        pending: true
+		};
+		
+		img.onError = function() {
+			throw new Error('Cannot load image: "'+url+'"');
+		};
+		img.onload = function() {
+            console.log ('in onload of getimagefromurl function');
+
+			var canvas = document.createElement('canvas');
+			document.body.appendChild(canvas);
+			canvas.width = img.width;
+			canvas.height = img.height;
+            console.log ('in onload function: initial canvas settings');
+
+			var ctx = canvas.getContext('2d');
+			ctx.drawImage(img, 0, 0);
+			// Grab the image as a jpeg encoded in base64, but only the data
+			//data = canvas.toDataURL('image/jpeg').slice('data:image/jpeg;base64,'.length);
+            //data = canvas.toDataURL('image/jpeg');
+            data = canvas.toDataURL('image/png').slice('data:image/png;base64,'.length);;
+            //data = canvas.toDataURL('image/png');
+            
+            console.log ('in onload function: base64 data is: ' + data);
+            
+			// Convert the data to binary form
+			//data = atob(data);
+			
+            document.body.removeChild(canvas);
+            console.log ('in onload function: data is retrieved');
+
+			ret['data'] = data;
+			ret['pending'] = false;
+            console.log ('in onload function: ret is set: data ' + data);
+            
+			if (typeof callback === 'function') {
+				//callback(data);
+                callback(img);
+			}
+            console.log ('in onload function: all done');
+		};
+         console.log ('in getimagefromurl function but just before setting the image source: img.src=' + img.src);
+
+		img.src = url;
+         console.log ('in getimagefromurl function: after img.src is set: ' + img.src);
+
+		return ret;
+	};
+    
+    
+	// Since images are loaded asyncronously, we must wait to create
+	// the pdf until we actually have the image data.
+	// If we already had the jpeg image binary data loaded into
+	// a string, we create the pdf without delay.
+	var createPDF = function(imgData) {
+        console.log ('in createpdf function');
+
+		var doc = new jsPDF();
+
+        console.log ('in createpdf function: after jspdf object creation');
+
+        doc.setFontSize(40);
+        doc.text(35, 25, "Octonyan loves jsPDF & images");
+
+        console.log ('in createpdf function: imgData is: ' + imgData);
+		//doc.addImage(imgData, 'JPEG', 10, 10, 100, 100);
+        doc.addImage(imgData, 'PNG', 10, 10, 150, 150);
+        
+        console.log ('in createpdf function: after first call');
+
+        //doc.addImage(secondImgData, 'JPEG', 150, 150, 250, 250);
+        
+
+		//doc.addImage(imgData, 'JPEG', 70, 10, 100, 120);
+        console.log ('in createpdf function:after second call');
+
+        //        console.log ('in createpdf function: value of output is: ' + doc.output());
+        
+		//doc.save('output.pdf');
+        //var pdfOutput = doc.output('blob');
+        var pdfOutput = doc.output();
+        
+        /*
+        var strPdf = doc.output();
+        var buffer = new ArrayBuffer(strPdf.length);
+        var array = new Uint8Array(buffer);
+        for (var i = 0; i < strPdf.length; i++) {
+            array[i] = strPdf.charCodeAt(i);
+        }
+        */
+        
+        /*
+        var len = pdfOutput.length,
+        ab = new ArrayBuffer(len), u8 = new Uint8Array(ab);
+        
+        while(len--) u8[len] = pdfOutput.charCodeAt(len);
+        //return ab;
+        */
+        
+        console.log ('in createpdf function: value of output is: ' + pdfOutput);
+        //console.log ('in createpdf function: value of output is: ' + strPdf);
+        //console.log ('in createpdf function: value of buffer is: ' + ab);
+        
+        savePDF('TESTPDF-buffer', pdfOutput);
+        //savePDF('TESTPDF-image', ab2str(ab));
+        
+        console.log ('in createpdf function: after doc save');
+
+	};
+
+    console.log ('before calling loading function');
+    
+//	getImageFromUrl('thinking-monkey.jpg', createPDF);
+	getImageFromUrl('thinking-monkey.png', createPDF);
+	//getImageFromUrl('Orange.png', createPDF);
+    
+    // Somewhere in your code
+    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+
+}
+
+function str2ab(str) {
+    var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    var bufView = new Uint16Array(buf);
+    for (var i=0, strLen=str.length; i<strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+}
+
+function ab2str(buf) {
+    console.log('in ab2str function');
+    return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+function gotFS(fileSystem) {
+    fileSystem.root.getFile("test.pdf", {create: true, exclusive: false}, gotFileEntry, fail);
+}
+
+function gotFileEntry(fileEntry) {
+    fileEntry.createWriter(gotFileWriter, fail);
+}
+
+function gotFileWriter(writer) {
+    var doc = new jsPDF();
+    doc.setFontSize(14);
+    
+    doc.text(20, 20, 'Hello world!');
+    writer.write(doc.output());
 }
 
